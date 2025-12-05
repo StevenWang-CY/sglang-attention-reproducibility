@@ -112,7 +112,7 @@ def send_request_to_sglang(
 
 def main():
     # Default request file location
-    DEFAULT_REQUEST_FILE = '/vast/projects/liuv/pennnetworks/jiaheng/BrowserUseScript/agent_logs/hello_world/vllm_requests/request_002_20251126_155624/request.json'
+    DEFAULT_REQUEST_FILE = '/vast/projects/liuv/pennnetworks/jiaheng/BrowserUseScript/agent_logs/hello_world/vllm_requests/request_002/request.json'
 
     parser = argparse.ArgumentParser(
         description='Send JSON request files to sglang server',

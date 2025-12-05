@@ -11,6 +11,8 @@ export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 # Skip FlashInfer JIT compilation if it fails (use pre-compiled kernels)
 export FLASHINFER_ALLOW_JIT_FAILURE=1
 export SGLANG_SAVE_ATTN=1
+export SGLANG_SAVE_ATTN_LAYERS=0,1,9,16,23
+export SGLANG_SAVE_ATTN_HEADS=0,1
 rm -f server.log
 
 echo "=================================================="
@@ -30,4 +32,5 @@ python -m sglang.launch_server \
   --log-requests \
   --enable-multimodal \
   --attention-backend torch_native \
-  --mm-attention-backend sdpa
+  --mm-attention-backend sdpa \
+  --watchdog-timeout 600  # Set to 10 minutes

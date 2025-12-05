@@ -1,0 +1,3 @@
+# python visualize_attention_heatmap.py attention_weights/attn_weights_request_000007_layer_00_head_00.csv --no-tokenizer
+# python visualize_attention_heatmap.py attention_weights/archive_20251204_173002/attn_weights_request_000001_layer_00_head_00.csv --no-tokenizer --format pdf --start-row 0 --start-col 0
+python visualize_attention_heatmap.py attention_weights/archive_20251204_214346/attn_weights_request_000007_layer_00_head_00.csv --no-tokenizer --start-row 0 --end-row 100 --start-col 0 --end-col 100 --compress-level 0
