@@ -20,6 +20,7 @@ echo "Starting SGLang with torch_native attention backend"
 echo "=================================================="
 
 # Start SGLang server with logging
+# --disable-radix-cache \ this argument avoid it forgets to record the previous cached tokens
 python -m sglang.launch_server \
   --model-path $HF_MODELS/Qwen/Qwen3-VL-30B-A3B-Instruct \
   --served-model-name Qwen3-VL-30B-A3B-Instruct \
@@ -32,5 +33,6 @@ python -m sglang.launch_server \
   --log-requests \
   --enable-multimodal \
   --attention-backend torch_native \
+  --disable-radix-cache \
   --mm-attention-backend sdpa \
-  --watchdog-timeout 600  # Set to 10 minutes
+  --watchdog-timeout 600  > runtime.log 2>&1

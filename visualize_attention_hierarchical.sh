@@ -1,0 +1,1 @@
+python visualize_attention_hierarchical.py     --csv attention_weights/archive_20251207_230914/attn_weights_request_000001_layer_00_head_00.csv     --tokens attention_weights/archive_20251215_112126/attn_weights_request_000001_layer_00_head_00_tokens.csv     --show-all  --layer 0     --head 0 --focus-token 7346 

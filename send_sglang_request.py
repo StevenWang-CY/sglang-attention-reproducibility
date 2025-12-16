@@ -11,7 +11,7 @@ from pathlib import Path
 def send_request_to_sglang(
     request_file: str,
     sglang_url: str = "http://localhost:8000",
-    output_file: str = None,
+    output_file: str = "send_sglang_request_py_response.txt",
     verbose: bool = False
 ):
     """
@@ -112,7 +112,7 @@ def send_request_to_sglang(
 
 def main():
     # Default request file location
-    DEFAULT_REQUEST_FILE = '/vast/projects/liuv/pennnetworks/jiaheng/BrowserUseScript/agent_logs/hello_world/vllm_requests/request_002/request.json'
+    DEFAULT_REQUEST_FILE = '/vast/projects/liuv/pennnetworks/jiaheng/BrowserUseScript/agent_logs/hello_world_2/vllm_requests/request_005/request.json'
 
     parser = argparse.ArgumentParser(
         description='Send JSON request files to sglang server',
@@ -154,7 +154,8 @@ Examples:
     parser.add_argument(
         '--output', '-o',
         type=str,
-        help='Path to save the response JSON'
+        default='send_sglang_request_py_response.txt',
+        help='Path to save the response JSON (default: send_sglang_request_py_response.txt)'
     )
 
     parser.add_argument(

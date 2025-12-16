@@ -150,17 +150,30 @@ def plot_heatmap(attention_matrix, token_labels, output_path=None,
         else:
             # Scale figure size proportionally based on data dimensions
             # Use a base size per cell, with reasonable min/max limits
-            cell_width = max(0.1, min(0.1, 100.0 / num_cols))  # 0.02 to 0.1 inches per column
-            cell_height = max(0.1, min(0.1, 100.0 / num_rows))  # 0.02 to 0.1 inches per row
+            # Use larger cells when showing labels (tokenizer mode) to accommodate text
+            if show_labels:
+                # For tokenizer mode: each cell should be at least 0.15 inches (to fit text), but cap at 0.3 inches
+                cell_width = min(0.3, max(0.15, 50.0 / num_cols))
+                cell_height = min(0.3, max(0.15, 50.0 / num_rows))
+            else:
+                # For no-tokenizer mode: each cell should be at least 0.01 inches, but cap at 0.1 inches
+                cell_width = min(0.1, max(0.01, 20.0 / num_cols))
+                cell_height = min(0.1, max(0.01, 20.0 / num_rows))
 
             width = num_cols * cell_width
             height = num_rows * cell_height
 
-            # Apply reasonable limits
-            # width = max(10, min(600, width))
-            # height = max(8, min(600, height))
+            # Apply hard limits to prevent excessive memory usage
+            max_width = 100  # Max 100 inches width
+            max_height = 100  # Max 100 inches height
 
-            print(f"Auto-calculated figure size: ({width:.1f}, {height:.1f}) for {num_rows}×{num_cols} matrix")
+            if width > max_width or height > max_height:
+                # Scale down proportionally
+                scale = min(max_width / width, max_height / height)
+                width *= scale
+                height *= scale
+
+            print(f"Auto-calculated figure size: ({width:.1f}, {height:.1f}) for {num_rows}×{num_cols} matrix (show_labels={show_labels})")
         figsize = (width, height)
 
     print(f"Creating heatmap with figure size: {figsize}")
@@ -176,22 +189,42 @@ def plot_heatmap(attention_matrix, token_labels, output_path=None,
     im = ax.imshow(
         attention_matrix,
         cmap='YlOrRd',
-        aspect='auto',
+        aspect='equal',  # Equal aspect ratio - makes cells square
         interpolation='nearest',  # No interpolation - each cell is a distinct pixel
         vmin=vmin,
         vmax=vmax
     )
 
-    # Add colorbar
-    cbar = plt.colorbar(im, ax=ax)
+    # Add colorbar (much smaller and with consistent font size)
+    cbar = plt.colorbar(im, ax=ax, fraction=0.015, pad=0.02, shrink=0.8)  # Much smaller colorbar
     if square_size is None:
-        cbar.set_label('Attention Weight', fontsize=12)
+        cbar.set_label('Attention Weight', fontsize=4)  # Match other font sizes
+        cbar.ax.tick_params(labelsize=4)  # Make colorbar tick labels smaller
+
+    # Set y-tick labels if requested
+    if use_labels and token_labels:
+        # Set y-ticks to show token labels
+        # For large matrices, only show a subset of labels
+        if num_rows <= 500:
+            # Show all labels for small matrices with smaller font
+            ax.set_yticks(range(num_rows))
+            ax.set_yticklabels(token_labels, fontsize=4)  # Reduced from 8 to 4
+        else:
+            # Show every Nth label for large matrices
+            step = max(1, num_rows // 50)
+            tick_indices = range(0, num_rows, step)
+            ax.set_yticks(tick_indices)
+            ax.set_yticklabels([token_labels[i] for i in tick_indices], fontsize=3)  # Reduced from 6 to 3
+
+    # Set x-axis tick label font size to match everything else
+    ax.tick_params(axis='x', labelsize=4)
+    ax.tick_params(axis='y', labelsize=4)
 
     # Only add labels for reasonably-sized figures
     if square_size is None:
-        ax.set_xlabel('Key Position', fontsize=12)
-        ax.set_ylabel('Query Token', fontsize=12)
-        ax.set_title(title, fontsize=14, pad=20)
+        ax.set_xlabel('Key Position', fontsize=4)  # Consistent font size
+        ax.set_ylabel('Query Token', fontsize=4)  # Consistent font size
+        # ax.set_title(title, fontsize=14, pad=20)  # Title disabled
     else:
         # For large figures, turn off all decorations
         ax.set_xlabel('')
@@ -253,7 +286,7 @@ def plot_multi_view_heatmap(attention_matrix, token_labels, output_path=None,
         vmax=1,
         ax=ax1
     )
-    ax1.set_title(f"{title_prefix} - Full Matrix", fontsize=12)
+    # ax1.set_title(f"{title_prefix} - Full Matrix", fontsize=12)
     ax1.set_xlabel('Key Position')
     ax1.set_ylabel('Query Token')
 
