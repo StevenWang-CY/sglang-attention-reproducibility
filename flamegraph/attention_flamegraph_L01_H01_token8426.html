@@ -1,0 +1,4405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Attention Weights Flame Graph - Layer 1 Head 1</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/d3-flame-graph@4.1.3/dist/d3-flamegraph.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        #header {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        #chart {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node rect {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+
+        .node text {
+            font-size: 11px;
+            fill: #333;
+            pointer-events: none;
+        }
+
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+            max-width: 520px;
+        }
+
+        #controls {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            vertical-align: middle;
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Hide the built-in d3-flame-graph tooltip; we render our own stable tooltip */
+        .d3-flame-graph-tooltip,
+        .d3-flame-graph-tip,
+        .d3-flamegraph-tooltip {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Attention Weights Flame Graph</h1>
+        <div class="info">
+            <strong>Layer:</strong> 1 |
+            <strong>Head:</strong> 1 |
+            <strong>Focus Token Index:</strong> 8426
+        </div>
+        <div class="info" style="margin-top: 10px;">
+            Hover over boxes to see attention weights. Click to zoom in/out.
+            Width represents attention weight magnitude.
+        </div>
+    </div>
+
+    <div id="controls">
+        <label>Min Attention Weight: <span id="threshold-value">0.001</span></label>
+        <input type="range" id="threshold-slider" min="0" max="0.1" step="0.001" value="0.001">
+        <button onclick="resetZoom()">Reset Zoom</button>
+    </div>
+
+    <div id="chart"></div>
+    <div id="tooltip"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-flame-graph@4.1.3/dist/d3-flamegraph.min.js"></script>
+    <script>
+        const data = {
+  "name": "all",
+  "value": 0.9999658985179849,
+  "type": "root",
+  "start": 0,
+  "end": 8653,
+  "children": [
+    {
+      "name": "system",
+      "value": 0.07241636118851602,
+      "type": "chatml",
+      "start": 0,
+      "end": 3576,
+      "children": [
+        {
+          "name": "You are an AI agent designed to operate in an i...",
+          "value": 3.068428486585617e-05,
+          "type": "text",
+          "start": 3,
+          "end": 33,
+          "children": []
+        },
+        {
+          "name": "<intro>\n",
+          "value": 0.00027451314963400364,
+          "type": "html_tag",
+          "start": 34,
+          "end": 109,
+          "children": [
+            {
+              "name": "You excel at following tasks:",
+              "value": 2.4527311325073242e-05,
+              "type": "text",
+              "start": 37,
+              "end": 42,
+              "children": []
+            },
+            {
+              "name": "1. Navigating complex websites and extracting p...",
+              "value": 4.8547983169555664e-05,
+              "type": "text",
+              "start": 43,
+              "end": 54,
+              "children": []
+            },
+            {
+              "name": "2. Automating form submissions and interactive ...",
+              "value": 2.919137477874756e-05,
+              "type": "text",
+              "start": 55,
+              "end": 65,
+              "children": []
+            },
+            {
+              "name": "3. Gathering and saving information",
+              "value": 1.9519124180078506e-05,
+              "type": "text",
+              "start": 66,
+              "end": 72,
+              "children": []
+            },
+            {
+              "name": "4. Using your filesystem effectively to decide ...",
+              "value": 0.00012926757335662842,
+              "type": "text",
+              "start": 73,
+              "end": 87,
+              "children": []
+            },
+            {
+              "name": "5. Operate effectively in an agent loop",
+              "value": 1.4320015907287598e-05,
+              "type": "text",
+              "start": 88,
+              "end": 97,
+              "children": []
+            },
+            {
+              "name": "6. Efficiently performing diverse web tasks",
+              "value": 6.0943420976400375e-06,
+              "type": "text",
+              "start": 98,
+              "end": 106,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<language_settings>\n",
+          "value": 1.844530925154686e-05,
+          "type": "html_tag",
+          "start": 110,
+          "end": 137,
+          "children": [
+            {
+              "name": "- Default working language: **English**",
+              "value": 2.4167820811271667e-06,
+              "type": "text",
+              "start": 114,
+              "end": 121,
+              "children": []
+            },
+            {
+              "name": "- Always respond in the same language as the us...",
+              "value": 1.4015473425388336e-05,
+              "type": "text",
+              "start": 122,
+              "end": 133,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<input>\n",
+          "value": 0.0001737377606332302,
+          "type": "html_tag",
+          "start": 138,
+          "end": 282,
+          "children": [
+            {
+              "name": "At every step, your input will consist of:",
+              "value": 2.7894973754882812e-05,
+              "type": "text",
+              "start": 140,
+              "end": 150,
+              "children": []
+            },
+            {
+              "name": "1. <agent_history>: A chronological event strea...",
+              "value": 1.6771722584962845e-05,
+              "type": "text",
+              "start": 151,
+              "end": 168,
+              "children": []
+            },
+            {
+              "name": "2. <agent_state>: Current <user_request>, summa...",
+              "value": 1.3817334547638893e-05,
+              "type": "text",
+              "start": 169,
+              "end": 194,
+              "children": []
+            },
+            {
+              "name": "3. <browser_state>: Current URL, open tabs, int...",
+              "value": 4.5054126530885696e-05,
+              "type": "text",
+              "start": 195,
+              "end": 217,
+              "children": []
+            },
+            {
+              "name": "4. <browser_vision>: Screenshot of the browser ...",
+              "value": 4.724971950054169e-05,
+              "type": "text",
+              "start": 218,
+              "end": 248,
+              "children": []
+            },
+            {
+              "name": "5. <read_state> This will be displayed only if ...",
+              "value": 2.190680243074894e-05,
+              "type": "text",
+              "start": 249,
+              "end": 279,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<agent_history>\n",
+          "value": 0.00010298844426870346,
+          "type": "html_tag",
+          "start": 283,
+          "end": 363,
+          "children": [
+            {
+              "name": "Agent history will be given as a list of step i...",
+              "value": 2.8996728360652924e-06,
+              "type": "text",
+              "start": 287,
+              "end": 300,
+              "children": []
+            },
+            {
+              "name": "<step_{step_number}>",
+              "value": 6.150174885988235e-05,
+              "type": "html_tag",
+              "start": 301,
+              "end": 349,
+              "children": [
+                {
+                  "name": ":\nEvaluation of Previous Step: Assessment of la...",
+                  "value": 9.238719940185547e-06,
+                  "type": "text",
+                  "start": 307,
+                  "end": 317,
+                  "children": []
+                },
+                {
+                  "name": "Memory: Your memory of this step",
+                  "value": 8.557923138141632e-06,
+                  "type": "text",
+                  "start": 318,
+                  "end": 325,
+                  "children": []
+                },
+                {
+                  "name": "Next Goal: Your goal for this step",
+                  "value": 5.102716386318207e-06,
+                  "type": "text",
+                  "start": 326,
+                  "end": 334,
+                  "children": []
+                },
+                {
+                  "name": "Action Results: Your actions and their results",
+                  "value": 1.8417835235595703e-05,
+                  "type": "text",
+                  "start": 335,
+                  "end": 343,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "and system messages wrapped in <sys> tag.",
+              "value": 3.698095679283142e-05,
+              "type": "text",
+              "start": 350,
+              "end": 359,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<user_request>\n",
+          "value": 0.0006297994405031204,
+          "type": "html_tag",
+          "start": 364,
+          "end": 435,
+          "children": [
+            {
+              "name": "USER REQUEST: This is your ultimate objective a...",
+              "value": 2.2215768694877625e-05,
+              "type": "text",
+              "start": 368,
+              "end": 380,
+              "children": []
+            },
+            {
+              "name": "- This has the highest priority. Make the user ...",
+              "value": 7.124990224838257e-05,
+              "type": "text",
+              "start": 381,
+              "end": 392,
+              "children": []
+            },
+            {
+              "name": "- If the user request is very specific - then c...",
+              "value": 6.236135959625244e-05,
+              "type": "text",
+              "start": 393,
+              "end": 414,
+              "children": []
+            },
+            {
+              "name": "- If the task is open ended you can plan yourse...",
+              "value": 0.0004600733518600464,
+              "type": "text",
+              "start": 415,
+              "end": 431,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<browser_state>\n",
+          "value": 0.031967729330062866,
+          "type": "html_tag",
+          "start": 436,
+          "end": 672,
+          "children": [
+            {
+              "name": "1. Browser State will be given as:",
+              "value": 5.031004548072815e-05,
+              "type": "text",
+              "start": 440,
+              "end": 448,
+              "children": []
+            },
+            {
+              "name": "Current URL: URL of the page you are currently ...",
+              "value": 0.0001358240842819214,
+              "type": "text",
+              "start": 449,
+              "end": 460,
+              "children": []
+            },
+            {
+              "name": "Open Tabs: Open tabs with their ids.",
+              "value": 4.334002733230591e-05,
+              "type": "text",
+              "start": 461,
+              "end": 469,
+              "children": []
+            },
+            {
+              "name": "Interactive Elements: All interactive elements ...",
+              "value": 0.0007875561714172363,
+              "type": "text",
+              "start": 470,
+              "end": 487,
+              "children": []
+            },
+            {
+              "name": "where",
+              "value": 0.00015091896057128906,
+              "type": "text",
+              "start": 491,
+              "end": 492,
+              "children": []
+            },
+            {
+              "name": "- index: Numeric identifier for interaction",
+              "value": 0.0003523826599121094,
+              "type": "text",
+              "start": 493,
+              "end": 500,
+              "children": []
+            },
+            {
+              "name": "- type: HTML element type (button, input, etc.)",
+              "value": 0.005187392234802246,
+              "type": "text",
+              "start": 501,
+              "end": 513,
+              "children": []
+            },
+            {
+              "name": "- text: Element description",
+              "value": 0.010402202606201172,
+              "type": "text",
+              "start": 514,
+              "end": 519,
+              "children": []
+            },
+            {
+              "name": "Examples:",
+              "value": 0.0078125,
+              "type": "text",
+              "start": 520,
+              "end": 521,
+              "children": []
+            },
+            {
+              "name": "[33]<div>User form",
+              "value": 0.0026006698608398438,
+              "type": "text",
+              "start": 522,
+              "end": 528,
+              "children": []
+            },
+            {
+              "name": "\\t*[35]<button aria-label='Submit form'>Submit",
+              "value": 0.0005211830139160156,
+              "type": "text",
+              "start": 532,
+              "end": 544,
+              "children": []
+            },
+            {
+              "name": "Note that:",
+              "value": 0.00040912628173828125,
+              "type": "text",
+              "start": 548,
+              "end": 550,
+              "children": []
+            },
+            {
+              "name": "- Only elements with numeric indexes in [] are ...",
+              "value": 0.0011060237884521484,
+              "type": "text",
+              "start": 551,
+              "end": 561,
+              "children": []
+            },
+            {
+              "name": "- (stacked) indentation (with \\t) is important ...",
+              "value": 0.0015061646699905396,
+              "type": "text",
+              "start": 562,
+              "end": 595,
+              "children": []
+            },
+            {
+              "name": "- Elements tagged with a star `*[` are the new ...",
+              "value": 0.0003121718764305115,
+              "type": "text",
+              "start": 596,
+              "end": 658,
+              "children": []
+            },
+            {
+              "name": "- Pure text elements without [] are not interac...",
+              "value": 2.0481646060943604e-05,
+              "type": "text",
+              "start": 659,
+              "end": 668,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<browser_vision>\n",
+          "value": 0.00048802467063069344,
+          "type": "html_tag",
+          "start": 673,
+          "end": 771,
+          "children": [
+            {
+              "name": "If you used screenshot before, you will be prov...",
+              "value": 0.000343838706612587,
+              "type": "text",
+              "start": 678,
+              "end": 722,
+              "children": []
+            },
+            {
+              "name": "If an interactive index inside your browser_sta...",
+              "value": 7.433304563164711e-05,
+              "type": "text",
+              "start": 723,
+              "end": 754,
+              "children": []
+            },
+            {
+              "name": "Use screenshot if you are unsure or simply want...",
+              "value": 5.085766315460205e-05,
+              "type": "text",
+              "start": 755,
+              "end": 766,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<browser_rules>\n",
+          "value": 0.010203413083218038,
+          "type": "html_tag",
+          "start": 772,
+          "end": 1468,
+          "children": [
+            {
+              "name": "Strictly follow these rules while using the bro...",
+              "value": 0.00014983117580413818,
+              "type": "text",
+              "start": 776,
+              "end": 789,
+              "children": []
+            },
+            {
+              "name": "- Only interact with elements that have a numer...",
+              "value": 9.688735008239746e-05,
+              "type": "text",
+              "start": 790,
+              "end": 803,
+              "children": []
+            },
+            {
+              "name": "- Only use indexes that are explicitly provided.",
+              "value": 5.884096026420593e-06,
+              "type": "text",
+              "start": 804,
+              "end": 812,
+              "children": []
+            },
+            {
+              "name": "- If research is needed, open a **new tab** ins...",
+              "value": 6.293132901191711e-05,
+              "type": "text",
+              "start": 813,
+              "end": 832,
+              "children": []
+            },
+            {
+              "name": "- If the page changes after, for example, an in...",
+              "value": 0.00024282047525048256,
+              "type": "text",
+              "start": 833,
+              "end": 868,
+              "children": []
+            },
+            {
+              "name": "- By default, only elements in the visible view...",
+              "value": 0.0002685617655515671,
+              "type": "text",
+              "start": 869,
+              "end": 912,
+              "children": []
+            },
+            {
+              "name": "- You can scroll by a specific number of pages ...",
+              "value": 0.0005215778946876526,
+              "type": "text",
+              "start": 913,
+              "end": 946,
+              "children": []
+            },
+            {
+              "name": "- If a captcha appears, attempt solving it if p...",
+              "value": 0.0013384819030761719,
+              "type": "text",
+              "start": 947,
+              "end": 973,
+              "children": []
+            },
+            {
+              "name": "- If expected elements are missing, try refresh...",
+              "value": 0.0001229420304298401,
+              "type": "text",
+              "start": 974,
+              "end": 989,
+              "children": []
+            },
+            {
+              "name": "- If the page is not fully loaded, use the wait...",
+              "value": 9.574275463819504e-05,
+              "type": "text",
+              "start": 990,
+              "end": 1003,
+              "children": []
+            },
+            {
+              "name": "- You can call extract on specific pages to gat...",
+              "value": 3.504473716020584e-05,
+              "type": "text",
+              "start": 1004,
+              "end": 1027,
+              "children": []
+            },
+            {
+              "name": "- Call extract only if the information you are ...",
+              "value": 0.00020051095634698868,
+              "type": "text",
+              "start": 1028,
+              "end": 1060,
+              "children": []
+            },
+            {
+              "name": "- Calling the extract tool is expensive! DO NOT...",
+              "value": 0.000407930463552475,
+              "type": "text",
+              "start": 1061,
+              "end": 1102,
+              "children": []
+            },
+            {
+              "name": "- If you fill an input field and your action se...",
+              "value": 0.0008448325097560883,
+              "type": "text",
+              "start": 1103,
+              "end": 1130,
+              "children": []
+            },
+            {
+              "name": "- If the action sequence was interrupted in pre...",
+              "value": 0.0007013380527496338,
+              "type": "text",
+              "start": 1131,
+              "end": 1193,
+              "children": []
+            },
+            {
+              "name": "- If the <user_request> includes specific page ...",
+              "value": 0.0015945285558700562,
+              "type": "text",
+              "start": 1194,
+              "end": 1226,
+              "children": []
+            },
+            {
+              "name": "- The <user_request> is the ultimate goal. If t...",
+              "value": 0.001987367868423462,
+              "type": "text",
+              "start": 1227,
+              "end": 1251,
+              "children": []
+            },
+            {
+              "name": "- If you input into a field, you might need to ...",
+              "value": 0.0007945746183395386,
+              "type": "text",
+              "start": 1252,
+              "end": 1278,
+              "children": []
+            },
+            {
+              "name": "- Don't login into a page if you don't have to....",
+              "value": 0.00042670220136642456,
+              "type": "text",
+              "start": 1279,
+              "end": 1304,
+              "children": []
+            },
+            {
+              "name": "- There are 2 types of tasks always first think...",
+              "value": 9.898841381072998e-05,
+              "type": "text",
+              "start": 1305,
+              "end": 1324,
+              "children": []
+            },
+            {
+              "name": "1. Very specific step by step instructions:",
+              "value": 2.6203691959381104e-05,
+              "type": "text",
+              "start": 1325,
+              "end": 1333,
+              "children": []
+            },
+            {
+              "name": "- Follow them as very precise and don't skip st...",
+              "value": 4.0366314351558685e-05,
+              "type": "text",
+              "start": 1334,
+              "end": 1352,
+              "children": []
+            },
+            {
+              "name": "2. Open ended tasks. Plan yourself, be creative...",
+              "value": 1.3012206181883812e-05,
+              "type": "text",
+              "start": 1353,
+              "end": 1367,
+              "children": []
+            },
+            {
+              "name": "- If you get stuck e.g. with logins or captcha ...",
+              "value": 7.299147546291351e-05,
+              "type": "text",
+              "start": 1368,
+              "end": 1424,
+              "children": []
+            },
+            {
+              "name": "- If you reach a PDF viewer, the file is automa...",
+              "value": 1.4736433513462543e-05,
+              "type": "text",
+              "start": 1425,
+              "end": 1464,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<file_system>\n",
+          "value": 0.002516712644137442,
+          "type": "html_tag",
+          "start": 1469,
+          "end": 1692,
+          "children": [
+            {
+              "name": "- You have access to a persistent file system w...",
+              "value": 2.8180889785289764e-05,
+              "type": "text",
+              "start": 1473,
+              "end": 1497,
+              "children": []
+            },
+            {
+              "name": "- Your file system is initialized with a `todo....",
+              "value": 4.128983709961176e-05,
+              "type": "text",
+              "start": 1498,
+              "end": 1560,
+              "children": []
+            },
+            {
+              "name": "- If you are writing a `csv` file, make sure to...",
+              "value": 2.4911947548389435e-05,
+              "type": "text",
+              "start": 1561,
+              "end": 1583,
+              "children": []
+            },
+            {
+              "name": "- If the file is too large, you are only given ...",
+              "value": 6.912834942340851e-05,
+              "type": "text",
+              "start": 1584,
+              "end": 1614,
+              "children": []
+            },
+            {
+              "name": "- If exists, <available_file_paths> includes fi...",
+              "value": 0.000293671153485775,
+              "type": "text",
+              "start": 1615,
+              "end": 1650,
+              "children": []
+            },
+            {
+              "name": "- If the task is really long, initialize a `res...",
+              "value": 0.0004785768687725067,
+              "type": "text",
+              "start": 1651,
+              "end": 1670,
+              "children": []
+            },
+            {
+              "name": "- DO NOT use the file system if the task is les...",
+              "value": 0.0015572234988212585,
+              "type": "text",
+              "start": 1671,
+              "end": 1688,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<task_completion_rules>\n",
+          "value": 0.0005942321149632335,
+          "type": "html_tag",
+          "start": 1693,
+          "end": 2008,
+          "children": [
+            {
+              "name": "You must call the `done` action in one of two c...",
+              "value": 4.296936094760895e-05,
+              "type": "text",
+              "start": 1698,
+              "end": 1711,
+              "children": []
+            },
+            {
+              "name": "- When you have fully completed the USER REQUEST.",
+              "value": 1.1960044503211975e-05,
+              "type": "text",
+              "start": 1712,
+              "end": 1721,
+              "children": []
+            },
+            {
+              "name": "- When you reach the final allowed step (`max_s...",
+              "value": 2.103205770254135e-05,
+              "type": "text",
+              "start": 1722,
+              "end": 1741,
+              "children": []
+            },
+            {
+              "name": "- If it is ABSOLUTELY IMPOSSIBLE to continue.",
+              "value": 1.4848075807094574e-05,
+              "type": "text",
+              "start": 1742,
+              "end": 1756,
+              "children": []
+            },
+            {
+              "name": "The `done` action is your opportunity to termin...",
+              "value": 2.441275864839554e-05,
+              "type": "text",
+              "start": 1757,
+              "end": 1774,
+              "children": []
+            },
+            {
+              "name": "- Set `success` to `true` only if the full USER...",
+              "value": 9.738956578075886e-06,
+              "type": "text",
+              "start": 1775,
+              "end": 1797,
+              "children": []
+            },
+            {
+              "name": "- If any part of the request is missing, incomp...",
+              "value": 1.9366387277841568e-05,
+              "type": "text",
+              "start": 1798,
+              "end": 1820,
+              "children": []
+            },
+            {
+              "name": "- You can use the `text` field of the `done` ac...",
+              "value": 7.623829878866673e-05,
+              "type": "text",
+              "start": 1821,
+              "end": 1862,
+              "children": []
+            },
+            {
+              "name": "- Put ALL the relevant information you found so...",
+              "value": 1.772516407072544e-05,
+              "type": "text",
+              "start": 1863,
+              "end": 1886,
+              "children": []
+            },
+            {
+              "name": "- Combine `text` and `files_to_display` to prov...",
+              "value": 2.0206207409501076e-05,
+              "type": "text",
+              "start": 1887,
+              "end": 1911,
+              "children": []
+            },
+            {
+              "name": "- You are ONLY ALLOWED to call `done` as a sing...",
+              "value": 5.2342191338539124e-05,
+              "type": "text",
+              "start": 1912,
+              "end": 1936,
+              "children": []
+            },
+            {
+              "name": "- If the user asks for specified format, such a...",
+              "value": 0.0002146218903362751,
+              "type": "text",
+              "start": 1937,
+              "end": 1972,
+              "children": []
+            },
+            {
+              "name": "- If the user asks for a structured output, you...",
+              "value": 5.5598095059394836e-05,
+              "type": "text",
+              "start": 1973,
+              "end": 2003,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<action_rules>\n",
+          "value": 0.00015597697347402573,
+          "type": "html_tag",
+          "start": 2009,
+          "end": 2075,
+          "children": [
+            {
+              "name": "- You are allowed to use a maximum of 4 actions...",
+              "value": 5.50542026758194e-05,
+              "type": "text",
+              "start": 2013,
+              "end": 2027,
+              "children": []
+            },
+            {
+              "name": "If you are allowed multiple actions, you can sp...",
+              "value": 8.543021976947784e-05,
+              "type": "text",
+              "start": 2028,
+              "end": 2051,
+              "children": []
+            },
+            {
+              "name": "- If the page changes after an action, the sequ...",
+              "value": 1.3565178960561752e-05,
+              "type": "text",
+              "start": 2052,
+              "end": 2071,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<efficiency_guidelines>\n",
+          "value": 0.0003211700823158026,
+          "type": "html_tag",
+          "start": 2076,
+          "end": 2333,
+          "children": [
+            {
+              "name": "You can output multiple actions in one step. Tr...",
+              "value": 4.692748188972473e-05,
+              "type": "text",
+              "start": 2082,
+              "end": 2113,
+              "children": []
+            },
+            {
+              "name": "**Recommended Action Combinations:**",
+              "value": 9.171664714813232e-05,
+              "type": "text",
+              "start": 2114,
+              "end": 2120,
+              "children": []
+            },
+            {
+              "name": "- `input` + `click` \u00e2\u0086\u0092 Fill form field and sub...",
+              "value": 1.6058795154094696e-05,
+              "type": "text",
+              "start": 2121,
+              "end": 2139,
+              "children": []
+            },
+            {
+              "name": "- `input` + `input` \u00e2\u0086\u0092 Fill multiple form fields",
+              "value": 7.065478712320328e-06,
+              "type": "text",
+              "start": 2140,
+              "end": 2153,
+              "children": []
+            },
+            {
+              "name": "- `click` + `click` \u00e2\u0086\u0092 Navigate through multi-...",
+              "value": 6.924383342266083e-06,
+              "type": "text",
+              "start": 2154,
+              "end": 2177,
+              "children": []
+            },
+            {
+              "name": "- `scroll` with pages 10 + `extract` \u00e2\u0086\u0092 Scroll...",
+              "value": 3.080815076828003e-05,
+              "type": "text",
+              "start": 2178,
+              "end": 2207,
+              "children": []
+            },
+            {
+              "name": "- File operations + browser actions",
+              "value": 7.370486855506897e-06,
+              "type": "text",
+              "start": 2208,
+              "end": 2214,
+              "children": []
+            },
+            {
+              "name": "Do not try multiple different paths in one step...",
+              "value": 1.6917474567890167e-05,
+              "type": "text",
+              "start": 2215,
+              "end": 2232,
+              "children": []
+            },
+            {
+              "name": "Its important that you see in the next step if ...",
+              "value": 2.0170584321022034e-05,
+              "type": "text",
+              "start": 2233,
+              "end": 2263,
+              "children": []
+            },
+            {
+              "name": "- do not use click and then navigate, because y...",
+              "value": 1.1884840205311775e-05,
+              "type": "text",
+              "start": 2264,
+              "end": 2285,
+              "children": []
+            },
+            {
+              "name": "- or do not use switch and switch together, bec...",
+              "value": 3.0328985303640366e-05,
+              "type": "text",
+              "start": 2286,
+              "end": 2305,
+              "children": []
+            },
+            {
+              "name": "- do not use input and then scroll, because you...",
+              "value": 2.0880717784166336e-05,
+              "type": "text",
+              "start": 2306,
+              "end": 2327,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<reasoning_rules>\n",
+          "value": 0.004452704801224172,
+          "type": "html_tag",
+          "start": 2334,
+          "end": 2894,
+          "children": [
+            {
+              "name": "You must reason explicitly and systematically a...",
+              "value": 8.592568337917328e-05,
+              "type": "text",
+              "start": 2339,
+              "end": 2354,
+              "children": []
+            },
+            {
+              "name": "Exhibit the following reasoning patterns to suc...",
+              "value": 0.00029071420431137085,
+              "type": "text",
+              "start": 2355,
+              "end": 2369,
+              "children": []
+            },
+            {
+              "name": "- Reason about <agent_history> to track progres...",
+              "value": 0.001737445592880249,
+              "type": "text",
+              "start": 2370,
+              "end": 2386,
+              "children": []
+            },
+            {
+              "name": "- Analyze the most recent \"Next Goal\" and \"Acti...",
+              "value": 0.0008042603731155396,
+              "type": "text",
+              "start": 2387,
+              "end": 2416,
+              "children": []
+            },
+            {
+              "name": "- Analyze all relevant items in <agent_history>...",
+              "value": 0.00011297361925244331,
+              "type": "text",
+              "start": 2417,
+              "end": 2451,
+              "children": []
+            },
+            {
+              "name": "- Explicitly judge success/failure/uncertainty ...",
+              "value": 0.00020747864618897438,
+              "type": "text",
+              "start": 2452,
+              "end": 2581,
+              "children": []
+            },
+            {
+              "name": "- If todo.md is empty and the task is multi-ste...",
+              "value": 1.9110855646431446e-05,
+              "type": "text",
+              "start": 2582,
+              "end": 2606,
+              "children": []
+            },
+            {
+              "name": "- Analyze `todo.md` to guide and track your pro...",
+              "value": 2.135755494236946e-06,
+              "type": "text",
+              "start": 2607,
+              "end": 2620,
+              "children": []
+            },
+            {
+              "name": "- If any todo.md items are finished, mark them ...",
+              "value": 1.0695308446884155e-05,
+              "type": "text",
+              "start": 2621,
+              "end": 2637,
+              "children": []
+            },
+            {
+              "name": "- Analyze whether you are stuck, e.g. when you ...",
+              "value": 2.7659349143505096e-05,
+              "type": "text",
+              "start": 2638,
+              "end": 2683,
+              "children": []
+            },
+            {
+              "name": "- Analyze the <read_state> where one-time infor...",
+              "value": 0.00011688470840454102,
+              "type": "text",
+              "start": 2684,
+              "end": 2728,
+              "children": []
+            },
+            {
+              "name": "- If you see information relevant to <user_requ...",
+              "value": 4.334840923547745e-05,
+              "type": "text",
+              "start": 2729,
+              "end": 2747,
+              "children": []
+            },
+            {
+              "name": "- Before writing data into a file, analyze the ...",
+              "value": 0.00011750496923923492,
+              "type": "text",
+              "start": 2748,
+              "end": 2775,
+              "children": []
+            },
+            {
+              "name": "- Decide what concise, actionable context shoul...",
+              "value": 3.616511821746826e-05,
+              "type": "text",
+              "start": 2776,
+              "end": 2792,
+              "children": []
+            },
+            {
+              "name": "- When ready to finish, state you are preparing...",
+              "value": 0.00026242807507514954,
+              "type": "text",
+              "start": 2793,
+              "end": 2813,
+              "children": []
+            },
+            {
+              "name": "- Before done, use read_file to verify file con...",
+              "value": 0.00029199570417404175,
+              "type": "text",
+              "start": 2814,
+              "end": 2829,
+              "children": []
+            },
+            {
+              "name": "- Always reason about the <user_request>. Make ...",
+              "value": 0.00024936161935329437,
+              "type": "text",
+              "start": 2830,
+              "end": 2889,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "<examples>\n",
+          "value": 0.002192394807934761,
+          "type": "html_tag",
+          "start": 2895,
+          "end": 3407,
+          "children": [
+            {
+              "name": "Here are examples of good output patterns. Use ...",
+              "value": 5.735643208026886e-05,
+              "type": "text",
+              "start": 2898,
+              "end": 2915,
+              "children": []
+            },
+            {
+              "name": "<todo_examples>\n",
+              "value": 0.0013740756548941135,
+              "type": "html_tag",
+              "start": 2916,
+              "end": 3142,
+              "children": [
+                {
+                  "name": "\"write_file\": {",
+                  "value": 1.687556505203247e-05,
+                  "type": "text",
+                  "start": 2921,
+                  "end": 2925,
+                  "children": []
+                },
+                {
+                  "name": "\"file_name\": \"todo.md\",",
+                  "value": 3.279000520706177e-05,
+                  "type": "text",
+                  "start": 2927,
+                  "end": 2934,
+                  "children": []
+                },
+                {
+                  "name": "\"content\": \"# ArXiv CS.AI Recent Papers Collect...",
+                  "value": 0.0013053319416940212,
+                  "type": "text",
+                  "start": 2936,
+                  "end": 3136,
+                  "children": []
+                },
+                {
+                  "name": "}",
+                  "value": 2.771615982055664e-06,
+                  "type": "text",
+                  "start": 3138,
+                  "end": 3138,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<evaluation_examples>\n",
+              "value": 0.0002356325276196003,
+              "type": "html_tag",
+              "start": 3143,
+              "end": 3259,
+              "children": [
+                {
+                  "name": "- Positive Examples:",
+                  "value": 8.303672075271606e-06,
+                  "type": "text",
+                  "start": 3147,
+                  "end": 3150,
+                  "children": []
+                },
+                {
+                  "name": "\"evaluation_previous_goal\": \"Successfully navig...",
+                  "value": 0.00012630410492420197,
+                  "type": "text",
+                  "start": 3151,
+                  "end": 3174,
+                  "children": []
+                },
+                {
+                  "name": "\"evaluation_previous_goal\": \"Clicked the login ...",
+                  "value": 1.8015503883361816e-05,
+                  "type": "text",
+                  "start": 3175,
+                  "end": 3195,
+                  "children": []
+                },
+                {
+                  "name": "- Negative Examples:",
+                  "value": 6.234273314476013e-06,
+                  "type": "text",
+                  "start": 3196,
+                  "end": 3199,
+                  "children": []
+                },
+                {
+                  "name": "\"evaluation_previous_goal\": \"Failed to input te...",
+                  "value": 2.147490158677101e-05,
+                  "type": "text",
+                  "start": 3200,
+                  "end": 3227,
+                  "children": []
+                },
+                {
+                  "name": "\"evaluation_previous_goal\": \"Clicked the submit...",
+                  "value": 4.863180220127106e-05,
+                  "type": "text",
+                  "start": 3228,
+                  "end": 3255,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<memory_examples>\n",
+              "value": 0.00029203295707702637,
+              "type": "html_tag",
+              "start": 3260,
+              "end": 3358,
+              "children": [
+                {
+                  "name": "\"memory\": \"Visited 2 of 5 target websites. Coll...",
+                  "value": 0.00021988246589899063,
+                  "type": "text",
+                  "start": 3264,
+                  "end": 3314,
+                  "children": []
+                },
+                {
+                  "name": "\"memory\": \"Found many pending reports that need...",
+                  "value": 6.07585534453392e-05,
+                  "type": "text",
+                  "start": 3315,
+                  "end": 3354,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<next_goal_examples>\n",
+              "value": 0.00022477004677057266,
+              "type": "html_tag",
+              "start": 3359,
+              "end": 3404,
+              "children": [
+                {
+                  "name": "\"next_goal\": \"Click on the 'Add to Cart' button...",
+                  "value": 0.00019425898790359497,
+                  "type": "text",
+                  "start": 3364,
+                  "end": 3384,
+                  "children": []
+                },
+                {
+                  "name": "\"next_goal\": \"Extract details from the first it...",
+                  "value": 1.8601305782794952e-05,
+                  "type": "text",
+                  "start": 3385,
+                  "end": 3399,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "<output>\n",
+          "value": 0.018200567923486233,
+          "type": "html_tag",
+          "start": 3408,
+          "end": 3574,
+          "children": [
+            {
+              "name": "You must ALWAYS respond with a valid JSON in th...",
+              "value": 7.113441824913025e-05,
+              "type": "text",
+              "start": 3411,
+              "end": 3423,
+              "children": []
+            },
+            {
+              "name": "{\n  \"thinking\": \"A structured",
+              "value": 1.7381273210048676e-05,
+              "type": "text",
+              "start": 3424,
+              "end": 3432,
+              "children": []
+            },
+            {
+              "name": "<think>",
+              "value": 0.01800897717475891,
+              "type": "html_tag",
+              "start": 3433,
+              "end": 3571,
+              "children": [
+                {
+                  "name": "-style reasoning block that applies the <reason...",
+                  "value": 0.0003013983368873596,
+                  "type": "text",
+                  "start": 3434,
+                  "end": 3447,
+                  "children": []
+                },
+                {
+                  "name": "\"evaluation_previous_goal\": \"Concise one-senten...",
+                  "value": 0.0012570768594741821,
+                  "type": "text",
+                  "start": 3449,
+                  "end": 3475,
+                  "children": []
+                },
+                {
+                  "name": "\"memory\": \"1-3 sentences of specific memory of ...",
+                  "value": 0.005165077745914459,
+                  "type": "text",
+                  "start": 3477,
+                  "end": 3519,
+                  "children": []
+                },
+                {
+                  "name": "\"next_goal\": \"State the next immediate goal and...",
+                  "value": 0.0067081451416015625,
+                  "type": "text",
+                  "start": 3521,
+                  "end": 3541,
+                  "children": []
+                },
+                {
+                  "name": "\"action\":[{\"navigate\": { \"url\": \"url_value\"}}, ...",
+                  "value": 0.0034415125846862793,
+                  "type": "text",
+                  "start": 3543,
+                  "end": 3563,
+                  "children": []
+                },
+                {
+                  "name": "}\nAction list should NEVER be empty.",
+                  "value": 0.00036787986755371094,
+                  "type": "text",
+                  "start": 3564,
+                  "end": 3571,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "value": 0.5066663586185314,
+      "type": "chatml",
+      "start": 3577,
+      "end": 8419,
+      "children": [
+        {
+          "name": "<agent_history>\n",
+          "value": 0.0037402641028165817,
+          "type": "html_tag",
+          "start": 3580,
+          "end": 3893,
+          "children": [
+            {
+              "name": "Agent initialized",
+              "value": 9.012222290039062e-05,
+              "type": "text",
+              "start": 3584,
+              "end": 3586,
+              "children": []
+            },
+            {
+              "name": "<step>\n",
+              "value": 0.001692265272140503,
+              "type": "html_tag",
+              "start": 3587,
+              "end": 3650,
+              "children": [
+                {
+                  "name": "No previous action taken yet. Starting with nav...",
+                  "value": 0.00038839876651763916,
+                  "type": "text",
+                  "start": 3590,
+                  "end": 3604,
+                  "children": []
+                },
+                {
+                  "name": "Initiating navigation to DuckDuckGo to search f...",
+                  "value": 0.00045111775398254395,
+                  "type": "text",
+                  "start": 3605,
+                  "end": 3619,
+                  "children": []
+                },
+                {
+                  "name": "Navigate to https://duckduckgo.com to begin the...",
+                  "value": 0.0004690885543823242,
+                  "type": "text",
+                  "start": 3620,
+                  "end": 3633,
+                  "children": []
+                },
+                {
+                  "name": "Result",
+                  "value": 3.7550926208496094e-05,
+                  "type": "text",
+                  "start": 3634,
+                  "end": 3635,
+                  "children": []
+                },
+                {
+                  "name": "Opened new tab with URL https://duckduckgo.com/...",
+                  "value": 0.0003298521041870117,
+                  "type": "text",
+                  "start": 3636,
+                  "end": 3650,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<step>\n",
+              "value": 0.000710703432559967,
+              "type": "html_tag",
+              "start": 3651,
+              "end": 3712,
+              "children": [
+                {
+                  "name": "Successfully navigated to DuckDuckGo. Verdict: ...",
+                  "value": 9.815394878387451e-05,
+                  "type": "text",
+                  "start": 3654,
+                  "end": 3667,
+                  "children": []
+                },
+                {
+                  "name": "Navigated to DuckDuckGo. Need to enter 'hello w...",
+                  "value": 0.00033434852957725525,
+                  "type": "text",
+                  "start": 3668,
+                  "end": 3691,
+                  "children": []
+                },
+                {
+                  "name": "Input 'hello world' into the search bar and sub...",
+                  "value": 8.35619866847992e-05,
+                  "type": "text",
+                  "start": 3692,
+                  "end": 3705,
+                  "children": []
+                },
+                {
+                  "name": "Result",
+                  "value": 6.264448165893555e-05,
+                  "type": "text",
+                  "start": 3706,
+                  "end": 3707,
+                  "children": []
+                },
+                {
+                  "name": "Typed 'hello world'",
+                  "value": 0.00010985136032104492,
+                  "type": "text",
+                  "start": 3708,
+                  "end": 3712,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<step>\n",
+              "value": 0.00044637545943260193,
+              "type": "html_tag",
+              "start": 3713,
+              "end": 3806,
+              "children": [
+                {
+                  "name": "Failed to submit the search query correctly bec...",
+                  "value": 0.00020517036318778992,
+                  "type": "text",
+                  "start": 3716,
+                  "end": 3733,
+                  "children": []
+                },
+                {
+                  "name": "Attempted to search for 'hello world' on DuckDu...",
+                  "value": 4.557892680168152e-05,
+                  "type": "text",
+                  "start": 3734,
+                  "end": 3767,
+                  "children": []
+                },
+                {
+                  "name": "Clear the current search input and re-enter 'he...",
+                  "value": 3.779679536819458e-05,
+                  "type": "text",
+                  "start": 3768,
+                  "end": 3786,
+                  "children": []
+                },
+                {
+                  "name": "Result",
+                  "value": 4.544854164123535e-06,
+                  "type": "text",
+                  "start": 3787,
+                  "end": 3788,
+                  "children": []
+                },
+                {
+                  "name": "Clicked button aria-label=clear",
+                  "value": 1.2900680303573608e-05,
+                  "type": "text",
+                  "start": 3789,
+                  "end": 3795,
+                  "children": []
+                },
+                {
+                  "name": "Typed 'hello world'",
+                  "value": 1.5042722225189209e-05,
+                  "type": "text",
+                  "start": 3796,
+                  "end": 3800,
+                  "children": []
+                },
+                {
+                  "name": "Clicked button aria-label=search",
+                  "value": 1.459568738937378e-05,
+                  "type": "text",
+                  "start": 3801,
+                  "end": 3806,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<step>\n",
+              "value": 0.0006209602579474449,
+              "type": "html_tag",
+              "start": 3807,
+              "end": 3889,
+              "children": [
+                {
+                  "name": "Successfully submitted the search query 'hello ...",
+                  "value": 0.00024983659386634827,
+                  "type": "text",
+                  "start": 3810,
+                  "end": 3829,
+                  "children": []
+                },
+                {
+                  "name": "Search query 'hello world' has been submitted. ...",
+                  "value": 0.0002918858081102371,
+                  "type": "text",
+                  "start": 3830,
+                  "end": 3859,
+                  "children": []
+                },
+                {
+                  "name": "Scroll down the page to locate the 16th search ...",
+                  "value": 2.6837922632694244e-05,
+                  "type": "text",
+                  "start": 3860,
+                  "end": 3877,
+                  "children": []
+                },
+                {
+                  "name": "Result",
+                  "value": 6.116926670074463e-06,
+                  "type": "text",
+                  "start": 3878,
+                  "end": 3879,
+                  "children": []
+                },
+                {
+                  "name": "Element index 2 not found in browser state",
+                  "value": 2.6598572731018066e-05,
+                  "type": "text",
+                  "start": 3880,
+                  "end": 3889,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "<agent_state>\n",
+          "value": 0.0003606964601203799,
+          "type": "html_tag",
+          "start": 3894,
+          "end": 3998,
+          "children": [
+            {
+              "name": "<user_request>\n",
+              "value": 5.061586853116751e-05,
+              "type": "html_tag",
+              "start": 3898,
+              "end": 3940,
+              "children": [
+                {
+                  "name": "I want to see the 16th search result for \"hello...",
+                  "value": 4.618056118488312e-05,
+                  "type": "text",
+                  "start": 3902,
+                  "end": 3936,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<file_system>\n\n",
+              "value": 5.969777703285217e-06,
+              "type": "html_tag",
+              "start": 3941,
+              "end": 3948,
+              "children": []
+            },
+            {
+              "name": "<todo_contents>\n",
+              "value": 3.393320366740227e-05,
+              "type": "html_tag",
+              "start": 3949,
+              "end": 3966,
+              "children": [
+                {
+                  "name": "[empty todo.md, fill it when applicable]",
+                  "value": 2.7559231966733932e-05,
+                  "type": "text",
+                  "start": 3953,
+                  "end": 3962,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "<step_info>",
+              "value": 0.00025451648980379105,
+              "type": "html_tag",
+              "start": 3967,
+              "end": 3994,
+              "children": [
+                {
+                  "name": "Step5 maximum:100",
+                  "value": 9.168684482574463e-05,
+                  "type": "text",
+                  "start": 3971,
+                  "end": 3978,
+                  "children": []
+                },
+                {
+                  "name": "Today:2025-12-07",
+                  "value": 0.0001512877643108368,
+                  "type": "text",
+                  "start": 3979,
+                  "end": 3990,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "<browser_state>\n",
+          "value": 0.48273564799455926,
+          "type": "html_tag",
+          "start": 3999,
+          "end": 8417,
+          "children": [
+            {
+              "name": "<page_stats>",
+              "value": 0.00014542508870363235,
+              "type": "html_tag",
+              "start": 4003,
+              "end": 4052,
+              "children": [
+                {
+                  "name": "58 links, 263 interactive, 0 iframes, 1 scroll ...",
+                  "value": 0.00012962054461240768,
+                  "type": "text",
+                  "start": 4007,
+                  "end": 4048,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Current tab: 4703",
+              "value": 3.981590270996094e-05,
+              "type": "text",
+              "start": 4053,
+              "end": 4061,
+              "children": []
+            },
+            {
+              "name": "Available tabs:",
+              "value": 1.0907649993896484e-05,
+              "type": "text",
+              "start": 4062,
+              "end": 4064,
+              "children": []
+            },
+            {
+              "name": "Tab 4703: https://duckduckgo.com/?q=hello+world...",
+              "value": 4.7299545258283615e-05,
+              "type": "text",
+              "start": 4065,
+              "end": 4096,
+              "children": []
+            },
+            {
+              "name": "<page_info>",
+              "value": 1.9801082089543343e-05,
+              "type": "html_tag",
+              "start": 4097,
+              "end": 4123,
+              "children": [
+                {
+                  "name": "0.0 pages above, 2.1 pages below, 3.1 total pages",
+                  "value": 1.7496291548013687e-05,
+                  "type": "text",
+                  "start": 4101,
+                  "end": 4119,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "name": "Interactive elements:",
+              "value": 1.8998980522155762e-06,
+              "type": "text",
+              "start": 4124,
+              "end": 4126,
+              "children": []
+            },
+            {
+              "name": "[Start of page]",
+              "value": 1.7834827303886414e-06,
+              "type": "text",
+              "start": 4127,
+              "end": 4131,
+              "children": []
+            },
+            {
+              "name": "|SCROLL|",
+              "value": 1.3457611203193665e-06,
+              "type": "text",
+              "start": 4132,
+              "end": 4135,
+              "children": []
+            },
+            {
+              "name": "<html /> (0.0 pages above, 2.1 pages below)",
+              "value": 0.3866340158856474,
+              "type": "html_tag",
+              "start": 4136,
+              "end": 8400,
+              "children": [
+                {
+                  "name": "[1501]<div />\n",
+                  "value": 0.003409387543797493,
+                  "type": "browser_element",
+                  "start": 4154,
+                  "end": 4334,
+                  "children": [
+                    {
+                      "name": "[1503]<a id=header-logo-wrapper aria-label=Duck...",
+                      "value": 3.954488784074783e-05,
+                      "type": "browser_element",
+                      "start": 4164,
+                      "end": 4184,
+                      "children": []
+                    },
+                    {
+                      "name": "[1516]<div />\n",
+                      "value": 0.0033407555893063545,
+                      "type": "browser_element",
+                      "start": 4187,
+                      "end": 4334,
+                      "children": [
+                        {
+                          "name": "[1517]<div id=react-search-form />\n",
+                          "value": 0.003294040448963642,
+                          "type": "browser_element",
+                          "start": 4197,
+                          "end": 4334,
+                          "children": [
+                            {
+                              "name": "[1518]<form id=search_form name=x />\n",
+                              "value": 0.003261921927332878,
+                              "type": "browser_element",
+                              "start": 4212,
+                              "end": 4334,
+                              "children": [
+                                {
+                                  "name": "[1524]<div />\n",
+                                  "value": 0.00026585906744003296,
+                                  "type": "browser_element",
+                                  "start": 4272,
+                                  "end": 4296,
+                                  "children": [
+                                    {
+                                      "name": "[1528]<button type=submit aria-label=search />\n",
+                                      "value": 7.941573858261108e-05,
+                                      "type": "browser_element",
+                                      "start": 4282,
+                                      "end": 4296,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "[1532]<div data-state=idle />\n",
+                                  "value": 0.00012489967048168182,
+                                  "type": "browser_element",
+                                  "start": 4298,
+                                  "end": 4334,
+                                  "children": [
+                                    {
+                                      "name": "[1535]<ul role=listbox id=listbox--:r1: multise...",
+                                      "value": 0.00011391844600439072,
+                                      "type": "browser_element",
+                                      "start": 4312,
+                                      "end": 4334,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2352]<a />\n",
+                  "value": 4.840083420276642e-06,
+                  "type": "browser_element",
+                  "start": 4336,
+                  "end": 4343,
+                  "children": []
+                },
+                {
+                  "name": "[1541]<button id=header-hamburger-menu-btn />\n",
+                  "value": 1.958198845386505e-05,
+                  "type": "browser_element",
+                  "start": 4355,
+                  "end": 4369,
+                  "children": []
+                },
+                {
+                  "name": "[1555]<a />\n",
+                  "value": 2.4046748876571655e-06,
+                  "type": "browser_element",
+                  "start": 4376,
+                  "end": 4383,
+                  "children": []
+                },
+                {
+                  "name": "[1563]<a />\n",
+                  "value": 4.5765191316604614e-06,
+                  "type": "browser_element",
+                  "start": 4389,
+                  "end": 4396,
+                  "children": []
+                },
+                {
+                  "name": "*[2454]<a />\n",
+                  "value": 1.216307282447815e-05,
+                  "type": "browser_element",
+                  "start": 4402,
+                  "end": 4409,
+                  "children": []
+                },
+                {
+                  "name": "*[2455]<a />\n",
+                  "value": 1.91517174243927e-05,
+                  "type": "browser_element",
+                  "start": 4415,
+                  "end": 4422,
+                  "children": []
+                },
+                {
+                  "name": "*[2469]<div />\n",
+                  "value": 3.561988705769181e-05,
+                  "type": "browser_element",
+                  "start": 4428,
+                  "end": 4474,
+                  "children": [
+                    {
+                      "name": "*[2458]<span />\n",
+                      "value": 1.6215257346630096e-05,
+                      "type": "browser_element",
+                      "start": 4438,
+                      "end": 4456,
+                      "children": [
+                        {
+                          "name": "*[2456]<span />\n",
+                          "value": 8.988194167613983e-06,
+                          "type": "browser_element",
+                          "start": 4448,
+                          "end": 4456,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2459]<svg /> <!-- SVG content collapsed -->",
+                      "value": 1.1246302165091038e-06,
+                      "type": "browser_element",
+                      "start": 4462,
+                      "end": 4474,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2462]<div />\n",
+                  "value": 9.11438837647438e-06,
+                  "type": "browser_element",
+                  "start": 4476,
+                  "end": 4506,
+                  "children": [
+                    {
+                      "name": "*[2461]<div />\n",
+                      "value": 7.929746061563492e-06,
+                      "type": "browser_element",
+                      "start": 4486,
+                      "end": 4506,
+                      "children": [
+                        {
+                          "name": "*[2460]<a />\n Maps",
+                          "value": 3.963243216276169e-06,
+                          "type": "browser_element",
+                          "start": 4496,
+                          "end": 4506,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2465]<div />\n",
+                  "value": 1.466972753405571e-05,
+                  "type": "browser_element",
+                  "start": 4509,
+                  "end": 4537,
+                  "children": [
+                    {
+                      "name": "*[2464]<div />\n",
+                      "value": 1.3203360140323639e-05,
+                      "type": "browser_element",
+                      "start": 4519,
+                      "end": 4537,
+                      "children": [
+                        {
+                          "name": "*[2463]<a />\n",
+                          "value": 6.880611181259155e-06,
+                          "type": "browser_element",
+                          "start": 4529,
+                          "end": 4537,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2476]<a />\n",
+                  "value": 1.2740492820739746e-06,
+                  "type": "browser_element",
+                  "start": 4542,
+                  "end": 4549,
+                  "children": []
+                },
+                {
+                  "name": "[1568]<span />\n",
+                  "value": 4.4549815356731415e-06,
+                  "type": "browser_element",
+                  "start": 4556,
+                  "end": 4577,
+                  "children": [
+                    {
+                      "name": "[1569]<a />\n Duck.ai",
+                      "value": 2.507586032152176e-06,
+                      "type": "browser_element",
+                      "start": 4566,
+                      "end": 4577,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "[1577]<span />\n",
+                  "value": 2.582557499408722e-05,
+                  "type": "browser_element",
+                  "start": 4580,
+                  "end": 4622,
+                  "children": [
+                    {
+                      "name": "[1578]<button />\n",
+                      "value": 1.9351951777935028e-05,
+                      "type": "browser_element",
+                      "start": 4590,
+                      "end": 4622,
+                      "children": [
+                        {
+                          "name": "[1582]<span />\n",
+                          "value": 3.009103238582611e-06,
+                          "type": "browser_element",
+                          "start": 4600,
+                          "end": 4608,
+                          "children": []
+                        },
+                        {
+                          "name": "[1586]<a />\n",
+                          "value": 9.727198630571365e-06,
+                          "type": "browser_element",
+                          "start": 4615,
+                          "end": 4622,
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "[1611]<div />\n",
+                  "value": 0.00020665675401687622,
+                  "type": "browser_element",
+                  "start": 4624,
+                  "end": 4720,
+                  "children": [
+                    {
+                      "name": "[1612]<span />\n",
+                      "value": 0.00013639545068144798,
+                      "type": "browser_element",
+                      "start": 4634,
+                      "end": 4702,
+                      "children": [
+                        {
+                          "name": "[1613]<div />\n",
+                          "value": 0.00013322499580681324,
+                          "type": "browser_element",
+                          "start": 4644,
+                          "end": 4702,
+                          "children": [
+                            {
+                              "name": "[1614]<div />\n",
+                              "value": 0.00013158516958355904,
+                              "type": "browser_element",
+                              "start": 4654,
+                              "end": 4702,
+                              "children": [
+                                {
+                                  "name": "[1615]<div />\n",
+                                  "value": 4.952726885676384e-05,
+                                  "type": "browser_element",
+                                  "start": 4664,
+                                  "end": 4692,
+                                  "children": [
+                                    {
+                                      "name": "[1616]<div />\n",
+                                      "value": 5.22984191775322e-06,
+                                      "type": "browser_element",
+                                      "start": 4674,
+                                      "end": 4682,
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "[1618]<div />\n",
+                                      "value": 2.4225562810897827e-05,
+                                      "type": "browser_element",
+                                      "start": 4684,
+                                      "end": 4692,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "[1619]<span />\n",
+                                  "value": 7.146596908569336e-05,
+                                  "type": "browser_element",
+                                  "start": 4694,
+                                  "end": 4702,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "[1621]<svg /> <!-- SVG content collapsed -->",
+                      "value": 2.8517097234725952e-05,
+                      "type": "browser_element",
+                      "start": 4708,
+                      "end": 4720,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "[1648]<div />\n",
+                  "value": 5.303928628563881e-05,
+                  "type": "browser_element",
+                  "start": 4722,
+                  "end": 4789,
+                  "children": [
+                    {
+                      "name": "[1649]<span />\n",
+                      "value": 2.7861446142196655e-05,
+                      "type": "browser_element",
+                      "start": 4732,
+                      "end": 4770,
+                      "children": [
+                        {
+                          "name": "[1650]<div />\n",
+                          "value": 2.06921249628067e-05,
+                          "type": "browser_element",
+                          "start": 4742,
+                          "end": 4770,
+                          "children": [
+                            {
+                              "name": "[1651]<div />\n",
+                              "value": 1.586228609085083e-05,
+                              "type": "browser_element",
+                              "start": 4752,
+                              "end": 4770,
+                              "children": [
+                                {
+                                  "name": "[1652]<a />\n",
+                                  "value": 6.269663572311401e-06,
+                                  "type": "browser_element",
+                                  "start": 4762,
+                                  "end": 4770,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "[1654]<svg /> <!-- SVG content collapsed -->",
+                      "value": 6.677117198705673e-06,
+                      "type": "browser_element",
+                      "start": 4777,
+                      "end": 4789,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "[2118]<div />\n",
+                  "value": 2.553616650402546e-05,
+                  "type": "browser_element",
+                  "start": 4791,
+                  "end": 4830,
+                  "children": [
+                    {
+                      "name": "[2119]<span />\n Safe search: moderate",
+                      "value": 1.0295072570443153e-05,
+                      "type": "browser_element",
+                      "start": 4801,
+                      "end": 4814,
+                      "children": []
+                    },
+                    {
+                      "name": "[2121]<svg /> <!-- SVG content collapsed -->",
+                      "value": 2.643093466758728e-06,
+                      "type": "browser_element",
+                      "start": 4818,
+                      "end": 4830,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "[2146]<div />\n",
+                  "value": 1.3923854567110538e-05,
+                  "type": "browser_element",
+                  "start": 4832,
+                  "end": 4869,
+                  "children": [
+                    {
+                      "name": "[2147]<span />\n",
+                      "value": 1.1828960850834846e-06,
+                      "type": "browser_element",
+                      "start": 4842,
+                      "end": 4850,
+                      "children": []
+                    },
+                    {
+                      "name": "[2149]<svg /> <!-- SVG content collapsed -->",
+                      "value": 6.5802596509456635e-06,
+                      "type": "browser_element",
+                      "start": 4857,
+                      "end": 4869,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2512]<a />\n",
+                  "value": 3.1241215765476227e-06,
+                  "type": "browser_element",
+                  "start": 4871,
+                  "end": 4878,
+                  "children": []
+                },
+                {
+                  "name": "*[2513]<a />\n",
+                  "value": 7.1553513407707214e-06,
+                  "type": "browser_element",
+                  "start": 4880,
+                  "end": 4887,
+                  "children": []
+                },
+                {
+                  "name": "*[2485]<a />\n",
+                  "value": 1.1594966053962708e-06,
+                  "type": "browser_element",
+                  "start": 4910,
+                  "end": 4917,
+                  "children": []
+                },
+                {
+                  "name": "*[2493]<a />\n",
+                  "value": 1.2419186532497406e-06,
+                  "type": "browser_element",
+                  "start": 5034,
+                  "end": 5041,
+                  "children": []
+                },
+                {
+                  "name": "*[2505]<a />\n",
+                  "value": 7.537892088294029e-07,
+                  "type": "browser_element",
+                  "start": 5054,
+                  "end": 5061,
+                  "children": []
+                },
+                {
+                  "name": "*[2506]<a />\n",
+                  "value": 1.2842938303947449e-06,
+                  "type": "browser_element",
+                  "start": 5067,
+                  "end": 5074,
+                  "children": []
+                },
+                {
+                  "name": "*[2507]<a />\n",
+                  "value": 4.776520654559135e-07,
+                  "type": "browser_element",
+                  "start": 5080,
+                  "end": 5087,
+                  "children": []
+                },
+                {
+                  "name": "*[2508]<a />\n",
+                  "value": 1.1920928955078125e-06,
+                  "type": "browser_element",
+                  "start": 5089,
+                  "end": 5096,
+                  "children": []
+                },
+                {
+                  "name": "*[2509]<a />\n",
+                  "value": 1.8971040844917297e-06,
+                  "type": "browser_element",
+                  "start": 5103,
+                  "end": 5110,
+                  "children": []
+                },
+                {
+                  "name": "*[2520]<div />\n",
+                  "value": 6.569363176822662e-05,
+                  "type": "browser_element",
+                  "start": 5118,
+                  "end": 5140,
+                  "children": [
+                    {
+                      "name": "*[2519]<svg /> <!-- SVG content collapsed -->",
+                      "value": 6.133690476417542e-05,
+                      "type": "browser_element",
+                      "start": 5128,
+                      "end": 5140,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2523]<a />\n",
+                  "value": 4.5396387577056885e-05,
+                  "type": "browser_element",
+                  "start": 5145,
+                  "end": 5152,
+                  "children": []
+                },
+                {
+                  "name": "*[2531]<button aria-label=Positive feedback exp...",
+                  "value": 1.881830394268036e-05,
+                  "type": "browser_element",
+                  "start": 5163,
+                  "end": 5177,
+                  "children": []
+                },
+                {
+                  "name": "*[2532]<button aria-label=Negative feedback exp...",
+                  "value": 1.0197516530752182e-05,
+                  "type": "browser_element",
+                  "start": 5179,
+                  "end": 5193,
+                  "children": []
+                },
+                {
+                  "name": "*[2599]<article id=r1-0 />\n",
+                  "value": 0.009674517437815666,
+                  "type": "browser_element",
+                  "start": 5195,
+                  "end": 5487,
+                  "children": [
+                    {
+                      "name": "*[2595]<div />\n",
+                      "value": 9.873881936073303e-06,
+                      "type": "browser_element",
+                      "start": 5210,
+                      "end": 5229,
+                      "children": [
+                        {
+                          "name": "*[2570]<button expanded=false />\n",
+                          "value": 5.864538252353668e-06,
+                          "type": "browser_element",
+                          "start": 5220,
+                          "end": 5229,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2596]<div />\n",
+                      "value": 3.511924296617508e-05,
+                      "type": "browser_element",
+                      "start": 5232,
+                      "end": 5284,
+                      "children": [
+                        {
+                          "name": "*[2583]<div />\n",
+                          "value": 2.455431967973709e-05,
+                          "type": "browser_element",
+                          "start": 5242,
+                          "end": 5284,
+                          "children": [
+                            {
+                              "name": "*[2582]<div />\n",
+                              "value": 1.8436461687088013e-05,
+                              "type": "browser_element",
+                              "start": 5252,
+                              "end": 5284,
+                              "children": [
+                                {
+                                  "name": "*[2579]<p />\n Wikipedia",
+                                  "value": 5.845911800861359e-06,
+                                  "type": "browser_element",
+                                  "start": 5262,
+                                  "end": 5272,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2580]<a />\n",
+                                  "value": 7.152557373046875e-06,
+                                  "type": "browser_element",
+                                  "start": 5276,
+                                  "end": 5284,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2597]<div />\n",
+                      "value": 0.00011344440281391144,
+                      "type": "browser_element",
+                      "start": 5308,
+                      "end": 5340,
+                      "children": [
+                        {
+                          "name": "*[2586]<h2 level=2 />\n",
+                          "value": 5.278177559375763e-05,
+                          "type": "browser_element",
+                          "start": 5318,
+                          "end": 5340,
+                          "children": [
+                            {
+                              "name": "*[2585]<a />\n",
+                              "value": 1.7270445823669434e-05,
+                              "type": "browser_element",
+                              "start": 5332,
+                              "end": 5340,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2598]<div />\n",
+                      "value": 0.009337205439805984,
+                      "type": "browser_element",
+                      "start": 5353,
+                      "end": 5487,
+                      "children": [
+                        {
+                          "name": "*[2594]<div />\n",
+                          "value": 0.009310860186815262,
+                          "type": "browser_element",
+                          "start": 5363,
+                          "end": 5487,
+                          "children": [
+                            {
+                              "name": "*[2593]<div />\n",
+                              "value": 0.00926816463470459,
+                              "type": "browser_element",
+                              "start": 5373,
+                              "end": 5487,
+                              "children": [
+                                {
+                                  "name": "*[2592]<span />\n",
+                                  "value": 0.009213849902153015,
+                                  "type": "browser_element",
+                                  "start": 5383,
+                                  "end": 5487,
+                                  "children": [
+                                    {
+                                      "name": "*[2591]<span />\n Learn about the origin and evo...",
+                                      "value": 0.009106427431106567,
+                                      "type": "browser_element",
+                                      "start": 5393,
+                                      "end": 5487,
+                                      "children": [
+                                        {
+                                          "name": "*[2587]<b />\n",
+                                          "value": 0.0001894831657409668,
+                                          "type": "browser_element",
+                                          "start": 5419,
+                                          "end": 5427,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2588]<b />\n",
+                                          "value": 0.0002065598964691162,
+                                          "type": "browser_element",
+                                          "start": 5433,
+                                          "end": 5441,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2589]<b />\n",
+                                          "value": 4.667043685913086e-05,
+                                          "type": "browser_element",
+                                          "start": 5465,
+                                          "end": 5473,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2590]<b />\n",
+                                          "value": 7.413327693939209e-05,
+                                          "type": "browser_element",
+                                          "start": 5479,
+                                          "end": 5487,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2661]<article id=r1-1 />\n",
+                  "value": 0.014889586716890335,
+                  "type": "browser_element",
+                  "start": 5500,
+                  "end": 5876,
+                  "children": [
+                    {
+                      "name": "*[2657]<div />\n",
+                      "value": 9.321793913841248e-05,
+                      "type": "browser_element",
+                      "start": 5515,
+                      "end": 5534,
+                      "children": [
+                        {
+                          "name": "*[2629]<button expanded=false />\n",
+                          "value": 4.2047351598739624e-05,
+                          "type": "browser_element",
+                          "start": 5525,
+                          "end": 5534,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2658]<div />\n",
+                      "value": 0.0004972741007804871,
+                      "type": "browser_element",
+                      "start": 5537,
+                      "end": 5591,
+                      "children": [
+                        {
+                          "name": "*[2642]<div />\n",
+                          "value": 0.0004705861210823059,
+                          "type": "browser_element",
+                          "start": 5547,
+                          "end": 5591,
+                          "children": [
+                            {
+                              "name": "*[2641]<div />\n",
+                              "value": 0.00045044906437397003,
+                              "type": "browser_element",
+                              "start": 5557,
+                              "end": 5591,
+                              "children": [
+                                {
+                                  "name": "*[2638]<p />\n",
+                                  "value": 4.989653825759888e-05,
+                                  "type": "browser_element",
+                                  "start": 5567,
+                                  "end": 5575,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2639]<a />\n",
+                                  "value": 1.8320977687835693e-05,
+                                  "type": "browser_element",
+                                  "start": 5583,
+                                  "end": 5591,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2659]<div />\n",
+                      "value": 4.8883259296417236e-05,
+                      "type": "browser_element",
+                      "start": 5620,
+                      "end": 5652,
+                      "children": [
+                        {
+                          "name": "*[2645]<h2 level=2 />\n",
+                          "value": 3.641657531261444e-05,
+                          "type": "browser_element",
+                          "start": 5630,
+                          "end": 5652,
+                          "children": [
+                            {
+                              "name": "*[2644]<a />\n",
+                              "value": 2.2299587726593018e-05,
+                              "type": "browser_element",
+                              "start": 5644,
+                              "end": 5652,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2660]<div />\n",
+                      "value": 0.013542542234063148,
+                      "type": "browser_element",
+                      "start": 5669,
+                      "end": 5876,
+                      "children": [
+                        {
+                          "name": "*[2656]<div />\n",
+                          "value": 0.013415852561593056,
+                          "type": "browser_element",
+                          "start": 5679,
+                          "end": 5876,
+                          "children": [
+                            {
+                              "name": "*[2655]<div />\n",
+                              "value": 0.013243863359093666,
+                              "type": "browser_element",
+                              "start": 5689,
+                              "end": 5876,
+                              "children": [
+                                {
+                                  "name": "*[2654]<span />\n",
+                                  "value": 0.013123536482453346,
+                                  "type": "browser_element",
+                                  "start": 5699,
+                                  "end": 5876,
+                                  "children": [
+                                    {
+                                      "name": "*[2652]<span />\n Mar 21, 2025",
+                                      "value": 0.00014335662126541138,
+                                      "type": "browser_element",
+                                      "start": 5709,
+                                      "end": 5728,
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "*[2653]<span />\n",
+                                      "value": 0.012874515727162361,
+                                      "type": "browser_element",
+                                      "start": 5732,
+                                      "end": 5876,
+                                      "children": [
+                                        {
+                                          "name": "*[2646]<b />\n",
+                                          "value": 5.222111940383911e-05,
+                                          "type": "browser_element",
+                                          "start": 5747,
+                                          "end": 5755,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2647]<b />\n",
+                                          "value": 2.1690502762794495e-05,
+                                          "type": "browser_element",
+                                          "start": 5761,
+                                          "end": 5769,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2648]<b />\n",
+                                          "value": 0.00020772218704223633,
+                                          "type": "browser_element",
+                                          "start": 5826,
+                                          "end": 5834,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2649]<b />\n",
+                                          "value": 0.0019631385803222656,
+                                          "type": "browser_element",
+                                          "start": 5840,
+                                          "end": 5848,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2650]<b />\n",
+                                          "value": 0.0014271736145019531,
+                                          "type": "browser_element",
+                                          "start": 5854,
+                                          "end": 5862,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2651]<b />\n",
+                                          "value": 0.002941131591796875,
+                                          "type": "browser_element",
+                                          "start": 5868,
+                                          "end": 5876,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2721]<article id=r1-2 />\n",
+                  "value": 0.021649591624736786,
+                  "type": "browser_element",
+                  "start": 5894,
+                  "end": 6226,
+                  "children": [
+                    {
+                      "name": "*[2717]<div />\n",
+                      "value": 0.0009876787662506104,
+                      "type": "browser_element",
+                      "start": 5909,
+                      "end": 5928,
+                      "children": [
+                        {
+                          "name": "*[2691]<button expanded=false />\n",
+                          "value": 0.0006680488586425781,
+                          "type": "browser_element",
+                          "start": 5919,
+                          "end": 5928,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2718]<div />\n",
+                      "value": 0.0012609362602233887,
+                      "type": "browser_element",
+                      "start": 5931,
+                      "end": 5985,
+                      "children": [
+                        {
+                          "name": "*[2704]<div />\n",
+                          "value": 0.0011560618877410889,
+                          "type": "browser_element",
+                          "start": 5941,
+                          "end": 5985,
+                          "children": [
+                            {
+                              "name": "*[2703]<div />\n",
+                              "value": 0.0009652376174926758,
+                              "type": "browser_element",
+                              "start": 5951,
+                              "end": 5985,
+                              "children": [
+                                {
+                                  "name": "*[2700]<p />\n en.wikiversity.org",
+                                  "value": 0.00019726157188415527,
+                                  "type": "browser_element",
+                                  "start": 5961,
+                                  "end": 5973,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2701]<a />\n",
+                                  "value": 4.217028617858887e-05,
+                                  "type": "browser_element",
+                                  "start": 5977,
+                                  "end": 5985,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2719]<div />\n",
+                      "value": 0.0013346970081329346,
+                      "type": "browser_element",
+                      "start": 6006,
+                      "end": 6038,
+                      "children": [
+                        {
+                          "name": "*[2707]<h2 level=2 />\n",
+                          "value": 0.0011082291603088379,
+                          "type": "browser_element",
+                          "start": 6016,
+                          "end": 6038,
+                          "children": [
+                            {
+                              "name": "*[2706]<a />\n",
+                              "value": 0.00040072202682495117,
+                              "type": "browser_element",
+                              "start": 6030,
+                              "end": 6038,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2720]<div />\n",
+                      "value": 0.016793452203273773,
+                      "type": "browser_element",
+                      "start": 6050,
+                      "end": 6226,
+                      "children": [
+                        {
+                          "name": "*[2716]<div />\n",
+                          "value": 0.01568075269460678,
+                          "type": "browser_element",
+                          "start": 6060,
+                          "end": 6226,
+                          "children": [
+                            {
+                              "name": "*[2715]<div />\n",
+                              "value": 0.015536747872829437,
+                              "type": "browser_element",
+                              "start": 6070,
+                              "end": 6226,
+                              "children": [
+                                {
+                                  "name": "*[2714]<span />\n",
+                                  "value": 0.015308015048503876,
+                                  "type": "browser_element",
+                                  "start": 6080,
+                                  "end": 6226,
+                                  "children": [
+                                    {
+                                      "name": "*[2712]<span />\n",
+                                      "value": 0.0006344318389892578,
+                                      "type": "browser_element",
+                                      "start": 6090,
+                                      "end": 6098,
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "*[2713]<span />\n",
+                                      "value": 0.010753504931926727,
+                                      "type": "browser_element",
+                                      "start": 6113,
+                                      "end": 6226,
+                                      "children": [
+                                        {
+                                          "name": "*[2708]<b />\n",
+                                          "value": 0.0017254352569580078,
+                                          "type": "browser_element",
+                                          "start": 6123,
+                                          "end": 6131,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2709]<b />\n",
+                                          "value": 0.0012784004211425781,
+                                          "type": "browser_element",
+                                          "start": 6137,
+                                          "end": 6145,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2710]<b />\n",
+                                          "value": 3.865361213684082e-05,
+                                          "type": "browser_element",
+                                          "start": 6203,
+                                          "end": 6211,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2711]<b />\n world",
+                                          "value": 0.00023120641708374023,
+                                          "type": "browser_element",
+                                          "start": 6217,
+                                          "end": 6226,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3764]<a title=Images for hello world />\n",
+                  "value": 0.00016501545906066895,
+                  "type": "browser_element",
+                  "start": 6261,
+                  "end": 6274,
+                  "children": []
+                },
+                {
+                  "name": "*[3786]<div />\n",
+                  "value": 0.0006571859121322632,
+                  "type": "browser_element",
+                  "start": 6286,
+                  "end": 6325,
+                  "children": [
+                    {
+                      "name": "*[3767]<span />\n",
+                      "value": 0.0002046823501586914,
+                      "type": "browser_element",
+                      "start": 6296,
+                      "end": 6304,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3768]<svg /> <!-- SVG content collapsed -->",
+                      "value": 9.94950532913208e-05,
+                      "type": "browser_element",
+                      "start": 6313,
+                      "end": 6325,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3851]<a />\n",
+                  "value": 0.001344185322523117,
+                  "type": "browser_element",
+                  "start": 6327,
+                  "end": 6481,
+                  "children": [
+                    {
+                      "name": "*[3845]<button aria-label=menu />\n",
+                      "value": 4.2691826820373535e-05,
+                      "type": "browser_element",
+                      "start": 6360,
+                      "end": 6371,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3832]<button aria-label=menu />\n",
+                      "value": 0.00015211105346679688,
+                      "type": "browser_element",
+                      "start": 6382,
+                      "end": 6393,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3844]<div />\n",
+                      "value": 0.0008768066763877869,
+                      "type": "browser_element",
+                      "start": 6396,
+                      "end": 6481,
+                      "children": [
+                        {
+                          "name": "*[3841]<div />\n",
+                          "value": 0.0002742260694503784,
+                          "type": "browser_element",
+                          "start": 6406,
+                          "end": 6439,
+                          "children": [
+                            {
+                              "name": "*[3834]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.00010202080011367798,
+                              "type": "browser_element",
+                              "start": 6416,
+                              "end": 6429,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3835]<span />\n",
+                              "value": 0.00011920928955078125,
+                              "type": "browser_element",
+                              "start": 6431,
+                              "end": 6439,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "*[3842]<div />\n",
+                          "value": 0.00031103938817977905,
+                          "type": "browser_element",
+                          "start": 6448,
+                          "end": 6481,
+                          "children": [
+                            {
+                              "name": "*[3839]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.00015947222709655762,
+                              "type": "browser_element",
+                              "start": 6458,
+                              "end": 6471,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3840]<span />\n",
+                              "value": 5.652010440826416e-05,
+                              "type": "browser_element",
+                              "start": 6473,
+                              "end": 6481,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3883]<a />\n",
+                  "value": 0.026724062860012054,
+                  "type": "browser_element",
+                  "start": 6488,
+                  "end": 6641,
+                  "children": [
+                    {
+                      "name": "*[3877]<button aria-label=menu />\n",
+                      "value": 0.00027629733085632324,
+                      "type": "browser_element",
+                      "start": 6521,
+                      "end": 6532,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3864]<button aria-label=menu />\n",
+                      "value": 0.00036460161209106445,
+                      "type": "browser_element",
+                      "start": 6542,
+                      "end": 6553,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3876]<div />\n",
+                      "value": 0.024476051330566406,
+                      "type": "browser_element",
+                      "start": 6556,
+                      "end": 6641,
+                      "children": [
+                        {
+                          "name": "*[3873]<div />\n",
+                          "value": 0.011862754821777344,
+                          "type": "browser_element",
+                          "start": 6566,
+                          "end": 6599,
+                          "children": [
+                            {
+                              "name": "*[3866]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.0036420822143554688,
+                              "type": "browser_element",
+                              "start": 6576,
+                              "end": 6589,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3867]<span />\n",
+                              "value": 0.0019788742065429688,
+                              "type": "browser_element",
+                              "start": 6591,
+                              "end": 6599,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "*[3874]<div />\n",
+                          "value": 0.0020303726196289062,
+                          "type": "browser_element",
+                          "start": 6608,
+                          "end": 6641,
+                          "children": [
+                            {
+                              "name": "*[3871]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.0007973909378051758,
+                              "type": "browser_element",
+                              "start": 6618,
+                              "end": 6631,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3872]<span />\n",
+                              "value": 0.0003756284713745117,
+                              "type": "browser_element",
+                              "start": 6633,
+                              "end": 6641,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3918]<a />\n",
+                  "value": 0.004821404814720154,
+                  "type": "browser_element",
+                  "start": 6648,
+                  "end": 6802,
+                  "children": [
+                    {
+                      "name": "*[3912]<button aria-label=menu />\n",
+                      "value": 0.0001049339771270752,
+                      "type": "browser_element",
+                      "start": 6684,
+                      "end": 6695,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3899]<button aria-label=menu />\n",
+                      "value": 4.760921001434326e-05,
+                      "type": "browser_element",
+                      "start": 6703,
+                      "end": 6714,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3911]<div />\n",
+                      "value": 0.0019407272338867188,
+                      "type": "browser_element",
+                      "start": 6717,
+                      "end": 6802,
+                      "children": [
+                        {
+                          "name": "*[3908]<div />\n",
+                          "value": 0.0011138319969177246,
+                          "type": "browser_element",
+                          "start": 6727,
+                          "end": 6760,
+                          "children": [
+                            {
+                              "name": "*[3901]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.0006282925605773926,
+                              "type": "browser_element",
+                              "start": 6737,
+                              "end": 6750,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3902]<span />\n",
+                              "value": 8.481740951538086e-05,
+                              "type": "browser_element",
+                              "start": 6752,
+                              "end": 6760,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "*[3909]<div />\n",
+                          "value": 0.0005616545677185059,
+                          "type": "browser_element",
+                          "start": 6769,
+                          "end": 6802,
+                          "children": [
+                            {
+                              "name": "*[3906]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.00018736720085144043,
+                              "type": "browser_element",
+                              "start": 6779,
+                              "end": 6792,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3907]<span />\n",
+                              "value": 0.00016176700592041016,
+                              "type": "browser_element",
+                              "start": 6794,
+                              "end": 6802,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3950]<a />\n",
+                  "value": 0.004576554521918297,
+                  "type": "browser_element",
+                  "start": 6809,
+                  "end": 6958,
+                  "children": [
+                    {
+                      "name": "*[3944]<button aria-label=menu />\n",
+                      "value": 0.00025838613510131836,
+                      "type": "browser_element",
+                      "start": 6840,
+                      "end": 6851,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3931]<button aria-label=menu />\n",
+                      "value": 0.00023189187049865723,
+                      "type": "browser_element",
+                      "start": 6859,
+                      "end": 6870,
+                      "children": []
+                    },
+                    {
+                      "name": "*[3943]<div />\n",
+                      "value": 0.0005535092204809189,
+                      "type": "browser_element",
+                      "start": 6873,
+                      "end": 6958,
+                      "children": [
+                        {
+                          "name": "*[3940]<div />\n",
+                          "value": 0.00020945444703102112,
+                          "type": "browser_element",
+                          "start": 6883,
+                          "end": 6916,
+                          "children": [
+                            {
+                              "name": "*[3933]<svg /> <!-- SVG content collapsed -->",
+                              "value": 9.85078513622284e-05,
+                              "type": "browser_element",
+                              "start": 6893,
+                              "end": 6906,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3934]<span />\n",
+                              "value": 8.636713027954102e-05,
+                              "type": "browser_element",
+                              "start": 6908,
+                              "end": 6916,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "name": "*[3941]<div />\n",
+                          "value": 0.0002328474074602127,
+                          "type": "browser_element",
+                          "start": 6925,
+                          "end": 6958,
+                          "children": [
+                            {
+                              "name": "*[3938]<svg /> <!-- SVG content collapsed -->",
+                              "value": 0.0001109093427658081,
+                              "type": "browser_element",
+                              "start": 6935,
+                              "end": 6948,
+                              "children": []
+                            },
+                            {
+                              "name": "*[3939]<span />\n",
+                              "value": 2.7922913432121277e-05,
+                              "type": "browser_element",
+                              "start": 6950,
+                              "end": 6958,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[3795]<a />\n",
+                  "value": 5.3476542234420776e-05,
+                  "type": "browser_element",
+                  "start": 6965,
+                  "end": 6972,
+                  "children": []
+                },
+                {
+                  "name": "*[3803]<button aria-label=Positive feedback exp...",
+                  "value": 0.0007627904415130615,
+                  "type": "browser_element",
+                  "start": 6984,
+                  "end": 6998,
+                  "children": []
+                },
+                {
+                  "name": "*[3804]<button aria-label=Negative feedback exp...",
+                  "value": 0.001181483268737793,
+                  "type": "browser_element",
+                  "start": 7000,
+                  "end": 7014,
+                  "children": []
+                },
+                {
+                  "name": "*[2788]<article id=r1-3 />\n",
+                  "value": 0.07547850906848907,
+                  "type": "browser_element",
+                  "start": 7016,
+                  "end": 7317,
+                  "children": [
+                    {
+                      "name": "*[2784]<div />\n",
+                      "value": 0.000372372567653656,
+                      "type": "browser_element",
+                      "start": 7031,
+                      "end": 7050,
+                      "children": [
+                        {
+                          "name": "*[2759]<button expanded=false />\n",
+                          "value": 0.00023227185010910034,
+                          "type": "browser_element",
+                          "start": 7041,
+                          "end": 7050,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2785]<div />\n",
+                      "value": 0.00029923394322395325,
+                      "type": "browser_element",
+                      "start": 7053,
+                      "end": 7106,
+                      "children": [
+                        {
+                          "name": "*[2772]<div />\n",
+                          "value": 0.00027982890605926514,
+                          "type": "browser_element",
+                          "start": 7063,
+                          "end": 7106,
+                          "children": [
+                            {
+                              "name": "*[2771]<div />\n",
+                              "value": 0.0002506449818611145,
+                              "type": "browser_element",
+                              "start": 7073,
+                              "end": 7106,
+                              "children": [
+                                {
+                                  "name": "*[2768]<p />\n",
+                                  "value": 3.468245267868042e-05,
+                                  "type": "browser_element",
+                                  "start": 7083,
+                                  "end": 7091,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2769]<a />\n",
+                                  "value": 6.264448165893555e-05,
+                                  "type": "browser_element",
+                                  "start": 7098,
+                                  "end": 7106,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2786]<div />\n",
+                      "value": 0.00030940398573875427,
+                      "type": "browser_element",
+                      "start": 7134,
+                      "end": 7166,
+                      "children": [
+                        {
+                          "name": "*[2775]<h2 level=2 />\n",
+                          "value": 0.00020984187722206116,
+                          "type": "browser_element",
+                          "start": 7144,
+                          "end": 7166,
+                          "children": [
+                            {
+                              "name": "*[2774]<a />\n",
+                              "value": 0.00011051073670387268,
+                              "type": "browser_element",
+                              "start": 7158,
+                              "end": 7166,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2787]<div />\n",
+                      "value": 0.07253232598304749,
+                      "type": "browser_element",
+                      "start": 7182,
+                      "end": 7317,
+                      "children": [
+                        {
+                          "name": "*[2783]<div />\n",
+                          "value": 0.07232704758644104,
+                          "type": "browser_element",
+                          "start": 7192,
+                          "end": 7317,
+                          "children": [
+                            {
+                              "name": "*[2782]<div />\n",
+                              "value": 0.07218402624130249,
+                              "type": "browser_element",
+                              "start": 7202,
+                              "end": 7317,
+                              "children": [
+                                {
+                                  "name": "*[2781]<span />\n",
+                                  "value": 0.0715598464012146,
+                                  "type": "browser_element",
+                                  "start": 7212,
+                                  "end": 7317,
+                                  "children": [
+                                    {
+                                      "name": "*[2780]<span />\n Learn what a",
+                                      "value": 0.0713619589805603,
+                                      "type": "browser_element",
+                                      "start": 7222,
+                                      "end": 7317,
+                                      "children": [
+                                        {
+                                          "name": "*[2776]<b />\n",
+                                          "value": 0.00031569600105285645,
+                                          "type": "browser_element",
+                                          "start": 7238,
+                                          "end": 7246,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2777]<b />\n",
+                                          "value": 0.0013172626495361328,
+                                          "type": "browser_element",
+                                          "start": 7252,
+                                          "end": 7260,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2778]<b />\n",
+                                          "value": 0.0033178329467773438,
+                                          "type": "browser_element",
+                                          "start": 7295,
+                                          "end": 7303,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2779]<b />\n",
+                                          "value": 0.002245187759399414,
+                                          "type": "browser_element",
+                                          "start": 7309,
+                                          "end": 7317,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2848]<article id=r1-4 />\n",
+                  "value": 0.014536887407302856,
+                  "type": "browser_element",
+                  "start": 7328,
+                  "end": 7660,
+                  "children": [
+                    {
+                      "name": "*[2844]<div />\n",
+                      "value": 0.0016849040985107422,
+                      "type": "browser_element",
+                      "start": 7343,
+                      "end": 7362,
+                      "children": [
+                        {
+                          "name": "*[2818]<button expanded=false />\n",
+                          "value": 0.0006165504455566406,
+                          "type": "browser_element",
+                          "start": 7353,
+                          "end": 7362,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2845]<div />\n",
+                      "value": 0.0022277310490608215,
+                      "type": "browser_element",
+                      "start": 7365,
+                      "end": 7458,
+                      "children": [
+                        {
+                          "name": "*[2831]<div />\n",
+                          "value": 0.001681603491306305,
+                          "type": "browser_element",
+                          "start": 7375,
+                          "end": 7458,
+                          "children": [
+                            {
+                              "name": "*[2830]<div />\n",
+                              "value": 0.0012869611382484436,
+                              "type": "browser_element",
+                              "start": 7385,
+                              "end": 7458,
+                              "children": [
+                                {
+                                  "name": "*[2827]<p />\n",
+                                  "value": 6.313621997833252e-05,
+                                  "type": "browser_element",
+                                  "start": 7395,
+                                  "end": 7403,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2828]<a />\n",
+                                  "value": 0.0008285194635391235,
+                                  "type": "browser_element",
+                                  "start": 7413,
+                                  "end": 7458,
+                                  "children": [
+                                    {
+                                      "name": "*[2824]<span />\n dsa \u00e2\u0080\u00ba hello-world-program-fi...",
+                                      "value": 0.0004856288433074951,
+                                      "type": "browser_element",
+                                      "start": 7437,
+                                      "end": 7458,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2846]<div />\n",
+                      "value": 0.0007128939032554626,
+                      "type": "browser_element",
+                      "start": 7462,
+                      "end": 7494,
+                      "children": [
+                        {
+                          "name": "*[2834]<h2 level=2 />\n",
+                          "value": 0.0004345625638961792,
+                          "type": "browser_element",
+                          "start": 7472,
+                          "end": 7494,
+                          "children": [
+                            {
+                              "name": "*[2833]<a />\n",
+                              "value": 7.255375385284424e-05,
+                              "type": "browser_element",
+                              "start": 7486,
+                              "end": 7494,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2847]<div />\n",
+                      "value": 0.0035719797015190125,
+                      "type": "browser_element",
+                      "start": 7508,
+                      "end": 7660,
+                      "children": [
+                        {
+                          "name": "*[2843]<div />\n",
+                          "value": 0.003432326018810272,
+                          "type": "browser_element",
+                          "start": 7518,
+                          "end": 7660,
+                          "children": [
+                            {
+                              "name": "*[2842]<div />\n",
+                              "value": 0.002985350787639618,
+                              "type": "browser_element",
+                              "start": 7528,
+                              "end": 7660,
+                              "children": [
+                                {
+                                  "name": "*[2841]<span />\n",
+                                  "value": 0.0028923973441123962,
+                                  "type": "browser_element",
+                                  "start": 7538,
+                                  "end": 7660,
+                                  "children": [
+                                    {
+                                      "name": "*[2839]<span />\n Jul 12, 2025",
+                                      "value": 0.0011619329452514648,
+                                      "type": "browser_element",
+                                      "start": 7548,
+                                      "end": 7567,
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "*[2840]<span />\n The",
+                                      "value": 0.0013379082083702087,
+                                      "type": "browser_element",
+                                      "start": 7571,
+                                      "end": 7660,
+                                      "children": [
+                                        {
+                                          "name": "*[2835]<b />\n",
+                                          "value": 4.106760025024414e-05,
+                                          "type": "browser_element",
+                                          "start": 7584,
+                                          "end": 7592,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2836]<b />\n",
+                                          "value": 9.227544069290161e-05,
+                                          "type": "browser_element",
+                                          "start": 7598,
+                                          "end": 7606,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2837]<b />\n",
+                                          "value": 5.735456943511963e-05,
+                                          "type": "browser_element",
+                                          "start": 7638,
+                                          "end": 7646,
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "*[2838]<b />\n",
+                                          "value": 0.00010591745376586914,
+                                          "type": "browser_element",
+                                          "start": 7652,
+                                          "end": 7660,
+                                          "children": []
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[2908]<article id=r1-5 />\n",
+                  "value": 0.016294851899147034,
+                  "type": "browser_element",
+                  "start": 7673,
+                  "end": 7765,
+                  "children": [
+                    {
+                      "name": "*[2904]<div />\n",
+                      "value": 0.001042187213897705,
+                      "type": "browser_element",
+                      "start": 7688,
+                      "end": 7707,
+                      "children": [
+                        {
+                          "name": "*[2878]<button expanded=false />\n",
+                          "value": 0.0007019639015197754,
+                          "type": "browser_element",
+                          "start": 7698,
+                          "end": 7707,
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "*[2905]<div />\n",
+                      "value": 0.013985753059387207,
+                      "type": "browser_element",
+                      "start": 7710,
+                      "end": 7765,
+                      "children": [
+                        {
+                          "name": "*[2891]<div />\n",
+                          "value": 0.009485125541687012,
+                          "type": "browser_element",
+                          "start": 7720,
+                          "end": 7765,
+                          "children": [
+                            {
+                              "name": "*[2890]<div />\n",
+                              "value": 0.007207751274108887,
+                              "type": "browser_element",
+                              "start": 7730,
+                              "end": 7765,
+                              "children": [
+                                {
+                                  "name": "*[2887]<p />\n en.wikibooks.org",
+                                  "value": 0.0017088651657104492,
+                                  "type": "browser_element",
+                                  "start": 7740,
+                                  "end": 7753,
+                                  "children": []
+                                },
+                                {
+                                  "name": "*[2888]<a />\n",
+                                  "value": 0.0002300739288330078,
+                                  "type": "browser_element",
+                                  "start": 7757,
+                                  "end": 7765,
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "*[4006]<button aria-label=Assist Settings />\n",
+                  "value": 0.00017273426055908203,
+                  "type": "browser_element",
+                  "start": 7791,
+                  "end": 7804,
+                  "children": []
+                },
+                {
+                  "name": "*[4002]<button aria-label=Copy />\n",
+                  "value": 0.0012313127517700195,
+                  "type": "browser_element",
+                  "start": 7811,
+                  "end": 7822,
+                  "children": []
+                },
+                {
+                  "name": "*[4003]<div aria-label=Learn More About Assist ...",
+                  "value": 0.0004198402166366577,
+                  "type": "browser_element",
+                  "start": 7824,
+                  "end": 7847,
+                  "children": []
+                },
+                {
+                  "name": "*[4004]<button aria-label=Assist Settings title...",
+                  "value": 0.00045321881771087646,
+                  "type": "browser_element",
+                  "start": 7849,
+                  "end": 7867,
+                  "children": []
+                },
+                {
+                  "name": "*[4013]<span />\n",
+                  "value": 0.000515282154083252,
+                  "type": "browser_element",
+                  "start": 7920,
+                  "end": 7940,
+                  "children": [
+                    {
+                      "name": "*[4012]<a />\n Wikipedia",
+                      "value": 0.00013870000839233398,
+                      "type": "browser_element",
+                      "start": 7930,
+                      "end": 7940,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[4025]<button />\n",
+                  "value": 0.0004443526268005371,
+                  "type": "browser_element",
+                  "start": 7943,
+                  "end": 7950,
+                  "children": []
+                },
+                {
+                  "name": "*[4024]<form />\n",
+                  "value": 0.002134382724761963,
+                  "type": "browser_element",
+                  "start": 7956,
+                  "end": 7981,
+                  "children": [
+                    {
+                      "name": "*[4023]<button aria-label=Expand Duck.ai chat i...",
+                      "value": 0.0017066597938537598,
+                      "type": "browser_element",
+                      "start": 7966,
+                      "end": 7981,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "name": "*[4042]<button aria-label=Positive feedback exp...",
+                  "value": 0.002402782440185547,
+                  "type": "browser_element",
+                  "start": 8001,
+                  "end": 8015,
+                  "children": []
+                },
+                {
+                  "name": "*[4043]<button aria-label=Negative feedback exp...",
+                  "value": 0.0037342309951782227,
+                  "type": "browser_element",
+                  "start": 8017,
+                  "end": 8031,
+                  "children": []
+                },
+                {
+                  "name": "*[3224]<li level=1 />\n",
+                  "value": 0.1139768660068512,
+                  "type": "browser_element",
+                  "start": 8033,
+                  "end": 8386,
+                  "children": [
+                    {
+                      "name": "*[3542]<div />\n",
+                      "value": 0.11311379075050354,
+                      "type": "browser_element",
+                      "start": 8046,
+                      "end": 8386,
+                      "children": [
+                        {
+                          "name": "*[3543]<p />\n",
+                          "value": 0.0007131099700927734,
+                          "type": "browser_element",
+                          "start": 8056,
+                          "end": 8064,
+                          "children": []
+                        },
+                        {
+                          "name": "*[3546]<div />\n",
+                          "value": 0.10963121056556702,
+                          "type": "browser_element",
+                          "start": 8078,
+                          "end": 8386,
+                          "children": [
+                            {
+                              "name": "*[3547]<ol />\n",
+                              "value": 0.03379043936729431,
+                              "type": "browser_element",
+                              "start": 8088,
+                              "end": 8219,
+                              "children": [
+                                {
+                                  "name": "*[3548]<li level=2 />\n",
+                                  "value": 0.0009801685810089111,
+                                  "type": "browser_element",
+                                  "start": 8098,
+                                  "end": 8122,
+                                  "children": [
+                                    {
+                                      "name": "*[3549]<a />\n hello world",
+                                      "value": 0.0006045103073120117,
+                                      "type": "browser_element",
+                                      "start": 8111,
+                                      "end": 8122,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3553]<li level=2 />\n",
+                                  "value": 0.0016842484474182129,
+                                  "type": "browser_element",
+                                  "start": 8130,
+                                  "end": 8154,
+                                  "children": [
+                                    {
+                                      "name": "*[3554]<a />\n hello world",
+                                      "value": 0.0008713603019714355,
+                                      "type": "browser_element",
+                                      "start": 8143,
+                                      "end": 8154,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3559]<li level=2 />\n",
+                                  "value": 0.004389643669128418,
+                                  "type": "browser_element",
+                                  "start": 8166,
+                                  "end": 8190,
+                                  "children": [
+                                    {
+                                      "name": "*[3560]<a />\n hello world",
+                                      "value": 0.0013984441757202148,
+                                      "type": "browser_element",
+                                      "start": 8179,
+                                      "end": 8190,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3564]<li level=2 />\n",
+                                  "value": 0.0024188756942749023,
+                                  "type": "browser_element",
+                                  "start": 8198,
+                                  "end": 8219,
+                                  "children": [
+                                    {
+                                      "name": "*[3565]<a />\n",
+                                      "value": 0.001337289810180664,
+                                      "type": "browser_element",
+                                      "start": 8211,
+                                      "end": 8219,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "*[3570]<ol />\n",
+                              "value": 0.07128292322158813,
+                              "type": "browser_element",
+                              "start": 8238,
+                              "end": 8386,
+                              "children": [
+                                {
+                                  "name": "*[3571]<li level=2 />\n",
+                                  "value": 0.017526626586914062,
+                                  "type": "browser_element",
+                                  "start": 8248,
+                                  "end": 8272,
+                                  "children": [
+                                    {
+                                      "name": "*[3572]<a />\n hello world",
+                                      "value": 0.007504463195800781,
+                                      "type": "browser_element",
+                                      "start": 8261,
+                                      "end": 8272,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3577]<li level=2 />\n",
+                                  "value": 0.008773088455200195,
+                                  "type": "browser_element",
+                                  "start": 8284,
+                                  "end": 8308,
+                                  "children": [
+                                    {
+                                      "name": "*[3578]<a />\n hello world",
+                                      "value": 0.00218963623046875,
+                                      "type": "browser_element",
+                                      "start": 8297,
+                                      "end": 8308,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3584]<li level=2 />\n",
+                                  "value": 0.012546539306640625,
+                                  "type": "browser_element",
+                                  "start": 8323,
+                                  "end": 8344,
+                                  "children": [
+                                    {
+                                      "name": "*[3585]<a />\n",
+                                      "value": 0.004471778869628906,
+                                      "type": "browser_element",
+                                      "start": 8336,
+                                      "end": 8344,
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "*[3591]<li level=2 />\n",
+                                  "value": 0.014212608337402344,
+                                  "type": "browser_element",
+                                  "start": 8362,
+                                  "end": 8386,
+                                  "children": [
+                                    {
+                                      "name": "*[3592]<a />\n hello world",
+                                      "value": 0.008352279663085938,
+                                      "type": "browser_element",
+                                      "start": 8375,
+                                      "end": 8386,
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "[2332]<button />\n",
+                  "value": 0.012042999267578125,
+                  "type": "browser_element",
+                  "start": 8393,
+                  "end": 8400,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "assistant",
+      "value": 0.4208831787109375,
+      "type": "chatml",
+      "start": 8420,
+      "end": 8652,
+      "children": [
+        {
+          "name": "{\n  \"thinking\": \"The user wants to see the 16th...",
+          "value": 0.37213134765625,
+          "type": "text",
+          "start": 8423,
+          "end": 8516,
+          "children": []
+        },
+        {
+          "name": "\"evaluation_previous_goal\": \"The previous actio...",
+          "value": 0.0,
+          "type": "text",
+          "start": 8518,
+          "end": 8549,
+          "children": []
+        },
+        {
+          "name": "\"memory\": \"Currently viewing the first few sear...",
+          "value": 0.0,
+          "type": "text",
+          "start": 8551,
+          "end": 8598,
+          "children": []
+        },
+        {
+          "name": "\"next_goal\": \"Scroll down the page to locate th...",
+          "value": 0.0,
+          "type": "text",
+          "start": 8600,
+          "end": 8623,
+          "children": []
+        },
+        {
+          "name": "\"action\": [",
+          "value": 0.0,
+          "type": "text",
+          "start": 8625,
+          "end": 8628,
+          "children": []
+        },
+        {
+          "name": "{\n      \"scroll\": {",
+          "value": 0.0,
+          "type": "text",
+          "start": 8630,
+          "end": 8635,
+          "children": []
+        },
+        {
+          "name": "\"pages\": 2.1",
+          "value": 0.0,
+          "type": "text",
+          "start": 8637,
+          "end": 8644,
+          "children": []
+        },
+        {
+          "name": "}\n    }",
+          "value": 0.0,
+          "type": "text",
+          "start": 8646,
+          "end": 8648,
+          "children": []
+        },
+        {
+          "name": "]\n}",
+          "value": 0.0,
+          "type": "text",
+          "start": 8650,
+          "end": 8651,
+          "children": []
+        }
+      ]
+    }
+  ]
+};
+
+        let filteredData = data;
+        let currentThreshold = 0.001;
+
+        const width = Math.max(1400, window.innerWidth - 100);
+        const cellHeight = 22;
+        const globalTotal = (data && typeof data.value === "number" && data.value > 0)
+            ? data.value
+            : (data && data.children ? d3.sum(data.children, c => (c && c.value) ? c.value : 0) : 1);
+
+        // Color mapping function
+        function getColor(d) {
+            if (d.data.type === "root") return "#888";
+            if (d.data.type === "chatml") return "#4CAF50";
+            if (d.data.type === "html_tag") return "#2196F3";
+            if (d.data.type === "browser_element") return "#9C27B0";  // Purple for browser elements
+            if (d.data.type === "text") return "#FF9800";
+            return "#999";
+        }
+
+        // Create flamegraph using d3-flame-graph library
+        const chart = flamegraph()
+            .width(width)
+            .cellHeight(cellHeight)
+            .transitionDuration(750)
+            .minFrameSize(5)
+            .transitionEase(d3.easeCubic)
+            .sort(true)
+            .title("")
+            .selfValue(false)
+            // Flame graph convention: root at bottom, children above
+            .inverted(false)
+            .color(getColor);
+
+        // Disable built-in tooltip if supported (varies by version)
+        if (typeof chart.tooltip === "function") {
+            chart.tooltip(false);
+        }
+        // Also set setDetailsElement to null to prevent tooltip rendering
+        if (typeof chart.setDetailsElement === "function") {
+            chart.setDetailsElement(null);
+        }
+
+        function filterData(data, threshold) {
+            if (!data.children) return data;
+            return {
+                ...data,
+                children: data.children
+                    .filter(child => child.value >= threshold)
+                    .map(child => filterData(child, threshold))
+            };
+        }
+
+        function maxDepth(node) {
+            if (!node || !node.children || node.children.length === 0) return 1;
+            let m = 1;
+            for (const c of node.children) {
+                m = Math.max(m, 1 + maxDepth(c));
+            }
+            return m;
+        }
+
+	        function render(rootData) {
+	            const depth = maxDepth(rootData);
+	            const height = Math.max((depth + 1) * cellHeight + 40, 180);
+	            chart.height(height);
+	            d3.select("#chart").selectAll("*").remove();
+	            d3.select("#chart")
+	                .datum(rootData)
+	                .call(chart);
+
+	            // Aggressively remove any tooltip elements created by the library
+	            setTimeout(() => {
+	                d3.selectAll(".d3-flame-graph-tooltip, .d3-flame-graph-tip, .d3-flamegraph-tooltip").remove();
+	                // Remove <title> nodes to prevent the browser's native SVG tooltip
+	                // (d3-flame-graph uses <title> for hover text in some versions).
+	                d3.select("#chart").selectAll("svg title").remove();
+	            }, 0);
+	        }
+
+        // Stable tooltip that always reports GLOBAL % (not re-based after zoom).
+        const tooltip = document.getElementById("tooltip");
+        const chartEl = document.getElementById("chart");
+
+        function hideTooltip() {
+            tooltip.style.display = "none";
+        }
+
+        function showTooltip(evt, d) {
+            const value = (d && d.data && typeof d.data.value === "number") ? d.data.value
+                : (d && typeof d.value === "number") ? d.value
+                : 0;
+
+            // Always calculate percentage relative to the original root (globalTotal)
+            const globalPct = globalTotal > 0 ? (value / globalTotal) * 100 : 0;
+
+            const name = (d && d.data && d.data.name) ? d.data.name : "(unknown)";
+            const type = (d && d.data && d.data.type) ? d.data.type : "";
+            const start = (d && d.data && typeof d.data.start === "number") ? d.data.start : null;
+            const end = (d && d.data && typeof d.data.end === "number") ? d.data.end : null;
+
+            let html = `<div><strong>${name}</strong></div>`;
+            if (start !== null && end !== null) {
+                html += `<div>Tokens: [${start}..${end}] (${end - start + 1} tokens)</div>`;
+            }
+            html += `<div>Attention: ${globalPct.toFixed(3)}% (${value.toFixed(6)})</div>`;
+            if (type) {
+                html += `<div>Type: ${type}</div>`;
+            }
+
+            tooltip.innerHTML = html;
+            tooltip.style.left = (evt.pageX + 10) + "px";
+            tooltip.style.top = (evt.pageY - 10) + "px";
+            tooltip.style.display = "block";
+        }
+
+        // Works because d3 binds hierarchy nodes as __data__ on the SVG elements.
+        chartEl.addEventListener("mousemove", (evt) => {
+            const d = evt.target && evt.target.__data__;
+            if (!d || !d.data) {
+                hideTooltip();
+                return;
+            }
+            showTooltip(evt, d);
+        });
+        chartEl.addEventListener("mouseleave", hideTooltip);
+
+        // Custom zoom (re-root) so clicked node becomes the bottom row and the
+        // chart height collapses to the subtree (avoids huge blank space).
+        const zoomStack = [data];
+
+        function currentRoot() {
+            return zoomStack[zoomStack.length - 1];
+        }
+
+        function resetZoom() {
+            zoomStack.length = 0;
+            zoomStack.push(filteredData);
+            render(currentRoot());
+        }
+
+        function zoomIn(nodeData) {
+            if (!nodeData || !nodeData.children || nodeData.children.length === 0) return;
+            if (nodeData === currentRoot()) return;
+            zoomStack.push(nodeData);
+            render(currentRoot());
+        }
+
+        // Initial render
+        render(data);
+
+        // Threshold slider
+        d3.select("#threshold-slider").on("input", function() {
+            currentThreshold = +this.value;
+            d3.select("#threshold-value").text(currentThreshold.toFixed(4));
+            filteredData = filterData(data, currentThreshold);
+            zoomStack.length = 0;
+            zoomStack.push(filteredData);
+            render(currentRoot());
+        });
+
+        // Capture clicks on rects and use our zoom instead of the library's,
+        // otherwise the library keeps the original depth baseline.
+        chartEl.addEventListener("click", (evt) => {
+            const d = evt.target && evt.target.__data__;
+            if (!d || !d.data) return;
+            evt.preventDefault();
+            evt.stopPropagation();
+            evt.stopImmediatePropagation();
+            zoomIn(d.data);
+        }, true);
+
+        // Double-click anywhere to go up one level
+        chartEl.addEventListener("dblclick", (evt) => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            evt.stopImmediatePropagation();
+            if (zoomStack.length > 1) {
+                zoomStack.pop();
+                render(currentRoot());
+            }
+        }, true);
+
+        window.resetZoom = resetZoom;
+    </script>
+</body>
+</html>

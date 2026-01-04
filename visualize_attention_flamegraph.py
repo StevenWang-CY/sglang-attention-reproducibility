@@ -77,10 +77,12 @@ class StructureNode:
 
     def to_flamegraph_dict(self) -> Dict[str, Any]:
         """Convert to flamegraph format."""
-        # Use attention weight as the value
+        # Each node's value is simply the sum of attention weights in its token range
+        # This is already calculated in self.attention_weight by calculate_attention_for_nodes()
+
         return {
             "name": self.content,
-            "value": self.attention_weight,
+            "value": self.attention_weight,  # Sum of attention in this node's token range
             "type": self.node_type,
             "start": self.start_idx,
             "end": self.end_idx,
@@ -94,6 +96,10 @@ def parse_chatml_structure(tokens: List[str]) -> StructureNode:
     current_chatml_node = None  # Track current ChatML block (system/user/assistant)
     current_parent = root
     stack = [root]
+
+    # For browser state: track depth based on tab count
+    browser_state_mode = False
+    browser_depth_stack = [root]  # Stack of nodes at each tab depth level
 
     i = 0
     n = len(tokens)
@@ -123,20 +129,226 @@ def parse_chatml_structure(tokens: List[str]) -> StructureNode:
             current_chatml_node = node
             current_parent = node  # Content goes inside this ChatML block
             stack = [root, node]
+            browser_state_mode = False
             i = role_idx
             continue
 
         elif "<|im_end|>" in token or (i + 1 < n and "<|im_end|>" in token + tokens[i+1]):
             if current_chatml_node:
-                current_chatml_node.end_idx = i + 1
+                # Include the newline token after <|im_end|> in this section
+                # Check if next token is a newline
+                if i + 1 < n and tokens[i + 1] == '\n':
+                    current_chatml_node.end_idx = i + 1
+                    i += 2  # Skip both <|im_end|> and the newline
+                else:
+                    current_chatml_node.end_idx = i
+                    i += 1
                 current_chatml_node = None
                 current_parent = root
                 stack = [root]
-            i += 1
+            else:
+                i += 1
+            browser_state_mode = False
             continue
 
-        # Check for HTML tags - look for < at start of token or as standalone token
-        if token.startswith('<') or token == '<':
+        # Check if previous token was \n followed by tabs - this indicates indentation depth
+        # We need to look backwards to see if we just passed \n\t+ sequence
+        tab_count = 0
+        if i > 0 and tokens[i-1] == '\t':
+            # Count tabs backwards from current position
+            check_idx = i - 1
+            while check_idx >= 0 and tokens[check_idx] == '\t':
+                tab_count += 1
+                check_idx -= 1
+            # check_idx should now be at \n
+            if check_idx >= 0 and '\n' in tokens[check_idx]:
+                browser_state_mode = True
+
+        # Handle browser state with tab-based hierarchy
+        if browser_state_mode:
+            # Check for closing tags (especially </browser_state>) to exit browser mode
+            if token == '</' or token.startswith('</'):
+                j = i
+                tag_end = min(i + 5, n)
+                while j < tag_end and '>' not in tokens[j]:
+                    j += 1
+
+                if j < n and '>' in tokens[j]:
+                    tag_str = "".join(tokens[i:j+1])
+                    closing_tag_match = re.match(r'.*?</(\w+)', tag_str)
+                    if closing_tag_match and len(stack) > 1:
+                        closing_tag_name = closing_tag_match.group(1)
+
+                        # Find matching opening tag and close it
+                        for idx in range(len(stack) - 1, 0, -1):
+                            if stack[idx].node_type == "html_tag" and closing_tag_name in stack[idx].content:
+                                stack[idx].end_idx = j
+
+                                # If closing browser_state, exit browser_state_mode
+                                if closing_tag_name == 'browser_state':
+                                    browser_state_mode = False
+
+                                while len(stack) > idx:
+                                    stack.pop()
+                                current_parent = stack[-1]
+                                break
+                    i = j + 1
+                    continue
+
+            # Check for special markers like |SCROLL|, |SHADOW(open)|
+            if token.startswith('|'):
+                j = i
+                marker_end = min(i + 10, n)
+                # Find the closing |
+                while j < marker_end:
+                    if j > i and '|' in tokens[j]:
+                        break
+                    j += 1
+
+                if j < n:
+                    marker_str = "".join(tokens[i:j+1])
+                    if marker_str.startswith('|') and '|' in marker_str[1:]:
+                        # Move to position after marker
+                        i = j + 1
+                        # Check if there's a tag on the same line
+                        if i < n and (tokens[i].startswith('<') or re.match(r'^\*?\[\d+\]<', tokens[i])):
+                            # Marker is part of the same line, will be included with tag
+                            token = marker_str + tokens[i]
+                        else:
+                            # Standalone marker
+                            continue
+
+            # Check for browser elements: [1501]<div /> or *[2352]<a />
+            # Could start with [ or *
+            if token == '[' or token == '*' or token.startswith('[') or token.startswith('*'):
+                # Recalculate tab depth for THIS specific element
+                # Count actual \t characters (not just tokens) backwards from current position
+                elem_tab_count = 0
+                check_idx = i - 1
+                while check_idx >= 0:
+                    if '\t' in tokens[check_idx]:
+                        # Count all \t characters in this token
+                        elem_tab_count += tokens[check_idx].count('\t')
+                        check_idx -= 1
+                    elif '\n' in tokens[check_idx]:
+                        # Found the newline, stop counting
+                        break
+                    else:
+                        # Non-tab, non-newline token - stop
+                        break
+
+                # Try to parse as browser element
+                j = i
+                tag_end = min(i + 25, n)
+
+                # Gather tokens to check if this forms a browser element
+                test_str = "".join(tokens[i:min(i+10, n)])
+                if re.match(r'^\*?\[\d+\]<', test_str):
+                    # This is a browser element, find its end
+                    found_end = False
+                    while j < tag_end:
+                        if '/>' in tokens[j]:
+                            found_end = True
+                            break
+                        if tokens[j] == '>' or (tokens[j].endswith('>') and not tokens[j].endswith('/>')):
+                            found_end = True
+                            break
+                        j += 1
+
+                    if found_end and j < n:
+                        elem_str = "".join(tokens[i:j+1])
+
+                        # Collect any text on the same line (before newline or next tab)
+                        text_parts = []
+                        k = j + 1
+                        while k < n and tokens[k] not in ['\n', '\t']:
+                            # Stop if we hit another tag
+                            next_test = "".join(tokens[k:min(k+10, n)])
+                            if next_test.startswith('<') or re.match(r'^\*?\[\d+\]<', next_test):
+                                break
+                            text_parts.append(tokens[k])
+                            k += 1
+
+                        # Build display name
+                        if text_parts:
+                            inline_text = "".join(text_parts).strip()
+                            if inline_text:
+                                display_name = f"{elem_str} {inline_text[:30]}"
+                                if len(inline_text) > 30:
+                                    display_name += "..."
+                            else:
+                                display_name = elem_str if len(elem_str) <= 50 else elem_str[:47] + "..."
+                        else:
+                            display_name = elem_str if len(elem_str) <= 50 else elem_str[:47] + "..."
+
+                        node = StructureNode("browser_element", display_name, i, k - 1)
+
+                        # Adjust browser_depth_stack to match current tab level
+                        # Ensure we have enough entries in the stack
+                        while len(browser_depth_stack) <= elem_tab_count:
+                            browser_depth_stack.append(browser_depth_stack[-1])
+
+                        # Trim stack to current depth + 1
+                        browser_depth_stack = browser_depth_stack[:elem_tab_count + 1]
+
+                        # Add node to parent at this depth
+                        parent_node = browser_depth_stack[elem_tab_count]
+                        parent_node.children.append(node)
+
+                        # Add this node to stack at next depth level
+                        if len(browser_depth_stack) == elem_tab_count + 1:
+                            browser_depth_stack.append(node)
+                        else:
+                            browser_depth_stack[elem_tab_count + 1] = node
+
+                        i = k
+                        continue
+
+            # Handle <html /> tag specially
+            if token.startswith('<html'):
+                j = i
+                while j < n and '>' not in tokens[j]:
+                    j += 1
+                if j < n:
+                    tag_str = "".join(tokens[i:j+1])
+
+                    # Collect text on same line
+                    text_parts = []
+                    k = j + 1
+                    while k < n and tokens[k] not in ['\n', '\t']:
+                        if re.match(r'^\*?\[\d+\]<', tokens[k]) or tokens[k].startswith('<'):
+                            break
+                        text_parts.append(tokens[k])
+                        k += 1
+
+                    inline_text = "".join(text_parts).strip()
+                    if inline_text:
+                        display_name = f"{tag_str} {inline_text[:40]}"
+                        if len(inline_text) > 40:
+                            display_name += "..."
+                    else:
+                        display_name = tag_str
+
+                    node = StructureNode("html_tag", display_name, i, k - 1)
+
+                    # Adjust browser_depth_stack
+                    while len(browser_depth_stack) <= tab_count:
+                        browser_depth_stack.append(browser_depth_stack[-1])
+                    browser_depth_stack = browser_depth_stack[:tab_count + 1]
+
+                    parent_node = browser_depth_stack[tab_count]
+                    parent_node.children.append(node)
+
+                    if len(browser_depth_stack) == tab_count + 1:
+                        browser_depth_stack.append(node)
+                    else:
+                        browser_depth_stack[tab_count + 1] = node
+
+                    i = k
+                    continue
+
+        # Regular HTML/XML tag parsing (for non-browser-state content)
+        if not browser_state_mode and (token.startswith('<') or token == '<'):
             j = i
             tag_end = min(i + 20, n)
 
@@ -153,6 +365,16 @@ def parse_chatml_structure(tokens: List[str]) -> StructureNode:
                     if closing_tag_match and len(stack) > 1:
                         closing_tag_name = closing_tag_match.group(1)
 
+                        # Special handling: when closing agent_history, also close any open <step> tags
+                        if closing_tag_name == 'agent_history':
+                            # First close any unclosed <step> tags
+                            for idx in range(len(stack) - 1, 0, -1):
+                                if stack[idx].node_type == "html_tag" and 'step' in stack[idx].content:
+                                    stack[idx].end_idx = i - 1
+                                    while len(stack) > idx:
+                                        stack.pop()
+                                    break
+
                         # Find matching opening tag and close it
                         for idx in range(len(stack) - 1, 0, -1):
                             if stack[idx].node_type == "html_tag" and closing_tag_name in stack[idx].content:
@@ -166,11 +388,50 @@ def parse_chatml_structure(tokens: List[str]) -> StructureNode:
                     tag_match = re.match(r'.*?<(\w+)', tag_str)
                     if tag_match:
                         tag_name = tag_match.group(1)
-                        display_name = tag_str[:40] if len(tag_str) < 40 else tag_str[:37] + "..."
-                        node = StructureNode("html_tag", display_name, i, j)
+
+                        # Special handling for <step> tag - implicitly close previous <step> if exists
+                        if tag_name == 'step':
+                            # Look for previous unclosed <step> tag in stack and close it
+                            for idx in range(len(stack) - 1, 0, -1):
+                                if stack[idx].node_type == "html_tag" and 'step' in stack[idx].content:
+                                    # Close previous <step> tag
+                                    stack[idx].end_idx = i - 1
+                                    while len(stack) > idx:
+                                        stack.pop()
+                                    current_parent = stack[-1]
+                                    break
+
+                        # Collect text on same line for <html /> tags
+                        k = j + 1
+                        if tag_name == 'html' and tag_str.endswith('/>'):
+                            text_parts = []
+                            while k < n and tokens[k] not in ['\n', '\t']:
+                                if re.match(r'^\*?\[\d+\]<', tokens[k]) or tokens[k].startswith('<'):
+                                    break
+                                text_parts.append(tokens[k])
+                                k += 1
+                            inline_text = "".join(text_parts).strip()
+                            if inline_text:
+                                display_name = f"{tag_str} {inline_text[:40]}"
+                                if len(inline_text) > 40:
+                                    display_name += "..."
+                            else:
+                                display_name = tag_str
+                        else:
+                            display_name = tag_str[:40] if len(tag_str) < 40 else tag_str[:37] + "..."
+
+                        node = StructureNode("html_tag", display_name, i, k - 1 if tag_name == 'html' else j)
                         current_parent.children.append(node)
 
-                        # Self-closing tag check
+                        # Special handling for <html /> - it becomes the root of browser state hierarchy
+                        if tag_name == 'html' and tag_str.endswith('/>'):
+                            # Reset browser_depth_stack with <html /> at depth 0
+                            browser_depth_stack = [current_chatml_node if current_chatml_node else current_parent, node]
+                            browser_state_mode = True
+                            i = k
+                            continue
+
+                        # Self-closing tags don't become parents
                         if not tag_str.endswith('/>') and '/>' not in tag_str:
                             stack.append(node)
                             current_parent = node
@@ -178,37 +439,67 @@ def parse_chatml_structure(tokens: List[str]) -> StructureNode:
                 i = j + 1
                 continue
 
-        if not token.strip():
+        if not token.strip() or token == '\n':
             i += 1
             continue
 
-        # Text content
-        text_start = i
-        text_parts = [token]
-        i += 1
-
-        text_limit = min(i + 30, n)
-        while i < text_limit:
-            # Stop if we hit a new HTML tag (starts with < or is </)
-            if tokens[i].startswith('<') or tokens[i] == '<':
-                break
-            # Stop if we hit ChatML markers
-            if "<|im" in tokens[i]:
-                break
-            text_parts.append(tokens[i])
+        # Text content (non-browser-state mode only)
+        if not browser_state_mode:
+            text_start = i
+            text_parts = [token]
             i += 1
 
-        text = "".join(text_parts).strip()
-        if text:
-            if len(text) > 50:
-                display_text = text[:47] + "..."
-            else:
-                display_text = text
-            node = StructureNode("text", display_text, text_start, i - 1)
-            current_parent.children.append(node)
+            # Continue until we hit a newline, tag, or ChatML marker
+            # No arbitrary token limit - use natural line breaks
+            while i < n:
+                # Stop if we hit a new HTML tag or ChatML marker
+                if tokens[i].startswith('<') or tokens[i] == '<':
+                    break
+                if "<|im" in tokens[i]:
+                    break
+                if tokens[i] == '\t':  # Entering browser state
+                    break
+
+                # Add the token
+                text_parts.append(tokens[i])
+
+                # Stop after we hit a newline (natural line break)
+                if '\n' in tokens[i]:
+                    i += 1
+                    break
+
+                i += 1
+
+            text = "".join(text_parts).strip()
+            if text:
+                if len(text) > 50:
+                    display_text = text[:47] + "..."
+                else:
+                    display_text = text
+                node = StructureNode("text", display_text, text_start, i - 1)
+                current_parent.children.append(node)
+        else:
+            # In browser state, skip unhandled tokens
+            i += 1
 
     print(f"Parsed tree structure with {len(root.children)} top-level nodes")
     return root
+
+
+def fix_parent_ranges(node: StructureNode) -> None:
+    """
+    Fix parent node ranges to span from their start to their last child's end.
+    This handles cases where parent tags don't have explicit closing tags.
+    """
+    if node.children:
+        # Recursively fix children first
+        for child in node.children:
+            fix_parent_ranges(child)
+
+        # Update this node's end_idx to match the last child's end_idx
+        last_child = node.children[-1]
+        if last_child.end_idx > node.end_idx:
+            node.end_idx = last_child.end_idx
 
 
 def calculate_attention_for_nodes(root: StructureNode, attention_weights: List[float]) -> None:
@@ -260,6 +551,9 @@ def build_hierarchical_structure(
     # Parse the tree structure
     tree = parse_chatml_structure(tokens)
 
+    # Fix parent ranges to include all children (handles self-closing tags with children)
+    fix_parent_ranges(tree)
+
     # Calculate attention weights for each node
     calculate_attention_for_nodes(tree, attention_weights)
 
@@ -297,6 +591,7 @@ def generate_svg_flamegraph(
             "root": "#888",
             "chatml": "#4CAF50",
             "html_tag": "#2196F3",
+            "browser_element": "#9C27B0",  # Purple for browser elements
             "text": "#FF9800"
         }
         color = color_map.get(node.get("type", ""), "#999")
@@ -656,6 +951,7 @@ def generate_html_flamegraph(
             if (d.data.type === "root") return "#888";
             if (d.data.type === "chatml") return "#4CAF50";
             if (d.data.type === "html_tag") return "#2196F3";
+            if (d.data.type === "browser_element") return "#9C27B0";  // Purple for browser elements
             if (d.data.type === "text") return "#FF9800";
             return "#999";
         }
@@ -678,6 +974,10 @@ def generate_html_flamegraph(
         if (typeof chart.tooltip === "function") {
             chart.tooltip(false);
         }
+        // Also set setDetailsElement to null to prevent tooltip rendering
+        if (typeof chart.setDetailsElement === "function") {
+            chart.setDetailsElement(null);
+        }
 
         function filterData(data, threshold) {
             if (!data.children) return data;
@@ -698,15 +998,23 @@ def generate_html_flamegraph(
             return m;
         }
 
-        function render(rootData) {
-            const depth = maxDepth(rootData);
-            const height = Math.max((depth + 1) * cellHeight + 40, 180);
-            chart.height(height);
-            d3.select("#chart").selectAll("*").remove();
-            d3.select("#chart")
-                .datum(rootData)
-                .call(chart);
-        }
+	        function render(rootData) {
+	            const depth = maxDepth(rootData);
+	            const height = Math.max((depth + 1) * cellHeight + 40, 180);
+	            chart.height(height);
+	            d3.select("#chart").selectAll("*").remove();
+	            d3.select("#chart")
+	                .datum(rootData)
+	                .call(chart);
+
+	            // Aggressively remove any tooltip elements created by the library
+	            setTimeout(() => {
+	                d3.selectAll(".d3-flame-graph-tooltip, .d3-flame-graph-tip, .d3-flamegraph-tooltip").remove();
+	                // Remove <title> nodes to prevent the browser's native SVG tooltip
+	                // (d3-flame-graph uses <title> for hover text in some versions).
+	                d3.select("#chart").selectAll("svg title").remove();
+	            }, 0);
+	        }
 
         // Stable tooltip that always reports GLOBAL % (not re-based after zoom).
         const tooltip = document.getElementById("tooltip");
@@ -721,18 +1029,8 @@ def generate_html_flamegraph(
                 : (d && typeof d.value === "number") ? d.value
                 : 0;
 
+            // Always calculate percentage relative to the original root (globalTotal)
             const globalPct = globalTotal > 0 ? (value / globalTotal) * 100 : 0;
-
-            // Percent within current zoomed view (approximate using rendered rect width).
-            let viewPct = null;
-            const svg = chartEl.querySelector("svg");
-            if (svg && evt.target && evt.target.getBoundingClientRect) {
-                const svgW = svg.getBoundingClientRect().width;
-                const rectW = evt.target.getBoundingClientRect().width;
-                if (svgW > 0 && rectW >= 0) {
-                    viewPct = (rectW / svgW) * 100;
-                }
-            }
 
             const name = (d && d.data && d.data.name) ? d.data.name : "(unknown)";
             const type = (d && d.data && d.data.type) ? d.data.type : "";
@@ -740,15 +1038,12 @@ def generate_html_flamegraph(
             const end = (d && d.data && typeof d.data.end === "number") ? d.data.end : null;
 
             let html = `<div><strong>${name}</strong></div>`;
-            html += `<div>Global: ${globalPct.toFixed(3)}% (value=${value.toFixed(6)})</div>`;
-            if (viewPct !== null) {
-                html += `<div>In View: ${viewPct.toFixed(3)}%</div>`;
+            if (start !== null && end !== null) {
+                html += `<div>Tokens: [${start}..${end}] (${end - start + 1} tokens)</div>`;
             }
+            html += `<div>Attention: ${globalPct.toFixed(3)}% (${value.toFixed(6)})</div>`;
             if (type) {
                 html += `<div>Type: ${type}</div>`;
-            }
-            if (start !== null || end !== null) {
-                html += `<div>Token span: ${start ?? "?"}..${end ?? "?"}</div>`;
             }
 
             tooltip.innerHTML = html;
@@ -946,13 +1241,23 @@ Examples:
     # Generate output based on format
     focus_idx = args.focus_token if args.focus_token >= 0 else len(token_ids) + args.focus_token
 
+    # Add focus token to filename
+    base_name = output_file.stem
+    parent_dir = output_file.parent
+
     if args.format in ['html', 'both']:
-        html_file = output_file if args.format == 'html' else output_file.with_suffix('.html')
+        if args.format == 'html':
+            html_file = parent_dir / f"{base_name}_token{focus_idx}.html"
+        else:
+            html_file = parent_dir / f"{base_name}_token{focus_idx}.html"
         generate_html_flamegraph(hierarchy, html_file, args.layer, args.head, focus_idx)
         print(f"\nDone! Open {html_file} in your browser to view the interactive visualization.")
 
     if args.format in ['svg', 'both']:
-        svg_file = output_file if args.format == 'svg' else output_file.with_suffix('.svg')
+        if args.format == 'svg':
+            svg_file = parent_dir / f"{base_name}_token{focus_idx}.svg"
+        else:
+            svg_file = parent_dir / f"{base_name}_token{focus_idx}.svg"
         generate_svg_flamegraph(hierarchy, svg_file, args.layer, args.head, focus_idx)
         print(f"\nDone! View {svg_file} for the static SVG flamegraph.")
 

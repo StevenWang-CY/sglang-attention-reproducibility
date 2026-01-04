@@ -6,7 +6,6 @@ python3 visualize_attention_flamegraph.py \
   --tokens attention_weights/archive_20251215_112126/attn_weights_request_000001_layer_01_head_01_tokens.csv \
   --layer 1 \
   --head 1 \
-  --focus-token 7346 \
-  --output attention_flamegraph.html
+  --focus-token 8425
 
 echo "Done! Open attention_flamegraph.html in your browser"
