@@ -3,7 +3,7 @@
 #SBATCH --job-name=sglang-serve
 #SBATCH --ntasks=1
 #SBATCH --gpus=1
-#SBATCH --time=00:15:00
+#SBATCH --time=00:20:00
 #SBATCH --qos=dgx
 #SBATCH --output=logs/%x-%j.out
 
@@ -32,4 +32,4 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="${LOG_DIR}/runtime_qwen3vl_${TIMESTAMP}_client.log"
 
 
-./start_sglang_deepseek_v32_quant.sh > ${LOG_FILE} 2>&1
+./start_sglang_qwen3vl_default_attn.sh > ${LOG_FILE} 2>&1

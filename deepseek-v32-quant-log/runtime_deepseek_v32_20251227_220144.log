@@ -1,0 +1,39 @@
+[2025-12-27 22:02:18] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:02:40] WARNING server_args.py:1104: Set nsa attention backend for DeepSeek NSA.
+[2025-12-27 22:02:40] WARNING server_args.py:1109: DP attention is enabled for DeepSeek NSA.
+[2025-12-27 22:02:40] WARNING server_args.py:1112: Setting page size to 64 for DeepSeek NSA.
+[2025-12-27 22:02:40] WARNING server_args.py:1120: Setting KV cache dtype to fp8_e4m3 for DeepSeek NSA.
+[2025-12-27 22:02:40] WARNING server_args.py:1134: Setting NSA backend to flashmla_auto for prefill and flashmla_kv for decode for FP8 KV Cache.
+NSA_DUAL_STREAM=True NSA_FUSE_TOPK=True NSA_FLASHMLA_BACKEND_DECODE_COMPUTE_FP8=True NSA_QUANT_K_CACHE_FAST=True NSA_DEQUANT_K_CACHE_FAST=True 
+[2025-12-27 22:02:40] INFO awq.py:276: The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:02:40] WARNING server_args.py:1386: DP attention is enabled. The chunked prefill size is adjusted to 128 to avoid MoE kernel issues. 
+[2025-12-27 22:02:43] port 8234 is in use. Waiting for 15 seconds for port_base to be available. port_base is used by a process already. process.name()='python'' process.cmdline()=['python', '-m', 'sglang.launch_server', '--model-path', '/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', '--served-model-name', 'DeepSeek-V3.2-AWQ', '--host', '0.0.0.0', '--port', '8000', '--context-length', '10240', '--tp', '4', '--chunked-prefill-size', '512', '--trust-remote-code', '--quantization', 'awq_marlin', '--dtype', 'bfloat16', '--log-level', 'info', '--log-requests', '--mem-fraction-static', '0.7', '--model-loader-extra-config', '{"enable_multithread_load": true,"num_threads": 64}', '--watchdog-timeout', '600'] process.status()='sleeping' pid=931720
+[2025-12-27 22:02:43] port 8234 is in use. Waiting for 20 seconds for port_base to be available. port_base is used by a process already. process.name()='python'' process.cmdline()=['python', '-m', 'sglang.launch_server', '--model-path', '/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', '--served-model-name', 'DeepSeek-V3.2-AWQ', '--host', '0.0.0.0', '--port', '8000', '--context-length', '10240', '--tp', '4', '--chunked-prefill-size', '512', '--trust-remote-code', '--quantization', 'awq_marlin', '--dtype', 'bfloat16', '--log-level', 'info', '--log-requests', '--mem-fraction-static', '0.7', '--model-loader-extra-config', '{"enable_multithread_load": true,"num_threads": 64}', '--watchdog-timeout', '600'] process.status()='sleeping' pid=931720
+[2025-12-27 22:02:44] port 8234 is in use. Waiting for 25 seconds for port_base to be available. port_base is used by a process already. process.name()='python'' process.cmdline()=['python', '-m', 'sglang.launch_server', '--model-path', '/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', '--served-model-name', 'DeepSeek-V3.2-AWQ', '--host', '0.0.0.0', '--port', '8000', '--context-length', '10240', '--tp', '4', '--chunked-prefill-size', '512', '--trust-remote-code', '--quantization', 'awq_marlin', '--dtype', 'bfloat16', '--log-level', 'info', '--log-requests', '--mem-fraction-static', '0.7', '--model-loader-extra-config', '{"enable_multithread_load": true,"num_threads": 64}', '--watchdog-timeout', '600'] process.status()='sleeping' pid=931720
+[2025-12-27 22:02:44] Port is already in use. dist_init_port=8233 port_base=8234 detokenizer_port=8235 nccl_port=8697 scheduler_input_port=8238
+Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/server_args.py", line 4200, in init_new
+    wait_port_available(port_base, "port_base")
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/utils/common.py", line 704, in wait_port_available
+    raise ValueError(
+ValueError: port_base at 8234 is not available in 30 seconds. port_base is used by a process already. process.name()='python'' process.cmdline()=['python', '-m', 'sglang.launch_server', '--model-path', '/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', '--served-model-name', 'DeepSeek-V3.2-AWQ', '--host', '0.0.0.0', '--port', '8000', '--context-length', '10240', '--tp', '4', '--chunked-prefill-size', '512', '--trust-remote-code', '--quantization', 'awq_marlin', '--dtype', 'bfloat16', '--log-level', 'info', '--log-requests', '--mem-fraction-static', '0.7', '--model-loader-extra-config', '{"enable_multithread_load": true,"num_threads": 64}', '--watchdog-timeout', '600'] process.status()='sleeping' pid=931720
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/launch_server.py", line 27, in <module>
+    run_server(server_args)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/launch_server.py", line 20, in run_server
+    launch_server(server_args)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/entrypoints/http_server.py", line 1341, in launch_server
+    _launch_subprocesses(server_args=server_args)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/entrypoints/engine.py", line 791, in _launch_subprocesses
+    port_args = PortArgs.init_new(server_args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/server_args.py", line 4200, in init_new
+    wait_port_available(port_base, "port_base")
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/utils/common.py", line 704, in wait_port_available
+    raise ValueError(
+ValueError: port_base at 8234 is not available in 30 seconds. port_base is used by a process already. process.name()='python'' process.cmdline()=['python', '-m', 'sglang.launch_server', '--model-path', '/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', '--served-model-name', 'DeepSeek-V3.2-AWQ', '--host', '0.0.0.0', '--port', '8000', '--context-length', '10240', '--tp', '4', '--chunked-prefill-size', '512', '--trust-remote-code', '--quantization', 'awq_marlin', '--dtype', 'bfloat16', '--log-level', 'info', '--log-requests', '--mem-fraction-static', '0.7', '--model-loader-extra-config', '{"enable_multithread_load": true,"num_threads": 64}', '--watchdog-timeout', '600'] process.status()='sleeping' pid=931720

@@ -51,6 +51,7 @@ python -m sglang.launch_server \
   --trust-remote-code \
   --log-level info \
   --log-requests \
+  --log-requests-max-input-len -1 \
   --model-loader-extra-config '{"enable_multithread_load": true,"num_threads": 64}' \
   --watchdog-timeout 600 > ${LOG_FILE} 2>&1 &
 

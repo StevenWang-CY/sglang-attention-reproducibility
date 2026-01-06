@@ -1,0 +1,734 @@
+[2025-12-27 17:07:41] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:08:09] INFO awq.py:276: The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:08:09] WARNING server_args.py:1104: Set nsa attention backend for DeepSeek NSA.
+[2025-12-27 17:08:09] WARNING server_args.py:1109: DP attention is enabled for DeepSeek NSA.
+[2025-12-27 17:08:09] WARNING server_args.py:1112: Setting page size to 64 for DeepSeek NSA.
+[2025-12-27 17:08:09] WARNING server_args.py:1120: Setting KV cache dtype to fp8_e4m3 for DeepSeek NSA.
+[2025-12-27 17:08:09] WARNING server_args.py:1134: Setting NSA backend to flashmla_auto for prefill and flashmla_kv for decode for FP8 KV Cache.
+NSA_DUAL_STREAM=True NSA_FUSE_TOPK=True NSA_FLASHMLA_BACKEND_DECODE_COMPUTE_FP8=True NSA_QUANT_K_CACHE_FAST=True NSA_DEQUANT_K_CACHE_FAST=True 
+[2025-12-27 17:08:09] WARNING server_args.py:1386: DP attention is enabled. The chunked prefill size is adjusted to 128 to avoid MoE kernel issues. 
+[2025-12-27 17:08:10] server_args=ServerArgs(model_path='/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', tokenizer_path='/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', tokenizer_mode='auto', tokenizer_worker_num=1, skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{"enable_multithread_load": true,"num_threads": 64}', trust_remote_code=True, context_length=10240, is_embedding=False, enable_multimodal=None, revision=None, model_impl='auto', host='0.0.0.0', port=8000, grpc_mode=False, skip_server_warmup=False, warmups=None, nccl_port=None, checkpoint_engine_wait_weights_before_ready=False, dtype='bfloat16', quantization='awq_marlin', quantization_param_path=None, kv_cache_dtype='fp8_e4m3', enable_fp32_lm_head=False, modelopt_quant=None, modelopt_checkpoint_restore_path=None, modelopt_checkpoint_save_path=None, modelopt_export_path=None, quantize_and_serve=False, mem_fraction_static=0.944, max_running_requests=None, max_queued_requests=None, max_total_tokens=None, chunked_prefill_size=128, max_prefill_tokens=16384, schedule_policy='fcfs', enable_priority_scheduling=False, abort_on_priority_when_disabled=False, schedule_low_priority_values_first=False, priority_scheduling_preemption_threshold=10, schedule_conservativeness=0.3, page_size=64, hybrid_kvcache_ratio=None, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=False, radix_eviction_policy='lru', device='cuda', tp_size=4, pp_size=1, pp_max_micro_batch_size=None, stream_interval=1, stream_output=False, random_seed=162744035, constrained_json_whitespace_pattern=None, constrained_json_disable_any_whitespace=False, watchdog_timeout=600.0, dist_timeout=None, download_dir=None, base_gpu_id=0, gpu_id_step=1, sleep_on_idle=False, log_level='info', log_level_http=None, log_requests=True, log_requests_level=2, crash_dump_folder=None, show_time_cost=False, enable_metrics=False, enable_metrics_for_all_schedulers=False, tokenizer_metrics_custom_labels_header='x-custom-labels', tokenizer_metrics_allowed_custom_labels=None, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, collect_tokens_histogram=False, prompt_tokens_buckets=None, generation_tokens_buckets=None, gc_warning_threshold_secs=0.0, decode_log_interval=40, enable_request_time_stats_logging=False, kv_events_config=None, enable_trace=False, otlp_traces_endpoint='localhost:4317', export_metrics_to_file=False, export_metrics_to_file_dir=None, api_key=None, served_model_name='DeepSeek-V3.2-AWQ', weight_version='default', chat_template=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, tool_call_parser=None, tool_server=None, sampling_defaults='model', dp_size=4, load_balance_method='round_robin', load_watch_interval=0.1, prefill_round_robin_balance=False, dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loaded_loras=None, max_loras_per_batch=8, lora_eviction_policy='lru', lora_backend='csgmv', max_lora_chunk_size=16, attention_backend='nsa', decode_attention_backend=None, prefill_attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', mm_attention_backend=None, nsa_prefill_backend='flashmla_auto', nsa_decode_backend='flashmla_kv', speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_revision=None, speculative_draft_load_format=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, speculative_attention_mode='prefill', speculative_moe_runner_backend=None, speculative_ngram_min_match_window_size=1, speculative_ngram_max_match_window_size=12, speculative_ngram_min_bfs_breadth=1, speculative_ngram_max_bfs_breadth=10, speculative_ngram_match_type='BFS', speculative_ngram_branch_length=18, speculative_ngram_capacity=10000000, ep_size=1, moe_a2a_backend='none', moe_runner_backend='auto', flashinfer_mxfp4_moe_precision='default', enable_flashinfer_allreduce_fusion=False, deepep_mode='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm='static', init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, eplb_min_rebalancing_utilization_threshold=1.0, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, elastic_ep_backend=None, mooncake_ib_device=None, max_mamba_cache_size=None, mamba_ssm_dtype='float32', mamba_full_memory_ratio=0.9, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through', hicache_io_backend='kernel', hicache_mem_layout='layer_first', hicache_storage_backend=None, hicache_storage_prefetch_policy='best_effort', hicache_storage_backend_extra_config=None, enable_lmcache=False, kt_weight_path=None, kt_method='AMXINT4', kt_cpuinfer=None, kt_threadpool_count=2, kt_num_gpu_experts=None, kt_max_deferred_experts_per_token=None, enable_double_sparsity=False, ds_channel_config_path=None, ds_heavy_channel_num=32, ds_heavy_token_num=256, ds_heavy_channel_type='qk', ds_sparse_decode_threshold=4096, cpu_offload_gb=0, offload_group_size=-1, offload_num_in_group=1, offload_prefetch_step=1, offload_mode='cpu', multi_item_scoring_delimiter=None, disable_radix_cache=False, cuda_graph_max_bs=512, cuda_graph_bs=[1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], disable_cuda_graph=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_cudagraph_gc=False, enable_layerwise_nvtx_marker=False, enable_nccl_nvls=False, enable_symm_mem=False, disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_tokenizer_batch_encode=False, disable_tokenizer_batch_decode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, enable_torch_symm_mem=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=True, enable_dp_lm_head=False, enable_two_batch_overlap=False, enable_single_batch_overlap=False, tbo_token_distribution_threshold=0.48, enable_torch_compile=False, enable_piecewise_cuda_graph=False, torch_compile_max_bs=32, piecewise_cuda_graph_max_tokens=4096, piecewise_cuda_graph_tokens=[4, 8, 12, 16, 20, 24, 28, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 288, 320, 352, 384, 416, 448, 480, 512, 640, 768, 896, 1024, 1152, 1280, 1408, 1536, 1664, 1792, 1920, 2048, 2176, 2304, 2432, 2560, 2688, 2816, 2944, 3072, 3200, 3328, 3456, 3584, 3712, 3840, 3968, 4096], piecewise_cuda_graph_compiler='eager', torchao_config='', enable_nan_detection=False, enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, triton_attention_split_tile_size=None, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, enable_weights_cpu_backup=False, enable_draft_weights_cpu_backup=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, keep_mm_feature_on_device=False, enable_return_hidden_states=False, scheduler_recv_interval=1, numa_node=None, enable_deterministic_inference=False, rl_on_policy_target=None, enable_attn_tp_input_scattered=False, enable_dynamic_batch_tokenizer=False, dynamic_batch_tokenizer_batch_size=32, dynamic_batch_tokenizer_batch_timeout=0.002, debug_tensor_dump_output_folder=None, debug_tensor_dump_layers=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_decode_tp=None, disaggregation_decode_dp=None, disaggregation_prefill_pp=1, disaggregation_ib_device=None, disaggregation_decode_enable_offload_kvcache=False, num_reserved_decode_tokens=512, disaggregation_decode_polling_interval=1, custom_weight_loader=[], weight_loader_disable_mmap=False, remote_instance_weight_loader_seed_instance_ip=None, remote_instance_weight_loader_seed_instance_service_port=None, remote_instance_weight_loader_send_weights_group_ports=None, enable_pdmux=False, pdmux_config_path=None, sm_group_num=8, mm_max_concurrent_calls=32, mm_per_request_timeout=10.0, enable_broadcast_mm_inputs_process=False, decrypted_config_file=None, decrypted_draft_config_file=None)
+[2025-12-27 17:08:10] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:08:11] Using default HuggingFace chat template with detected content format: string
+[2025-12-27 17:08:50] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 17:08:50] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:09:49] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 17:09:49] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 17:09:50] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 17:09:50] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:10:12 DP0 TP0] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:12 DP0 TP0] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:12 DP0 TP0] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:10:29 DP2 TP2] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:29 DP2 TP2] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:29 DP2 TP2] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:10:46 DP3 TP3] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:47 DP3 TP3] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:10:47 DP3 TP3] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 17:11:04 DP1 TP1] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:11:04 DP1 TP1] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 17:11:04 DP1 TP1] Init torch distributed begin.
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[2025-12-27 17:11:05 DP0 TP0] sglang is using nccl==2.27.3
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[2025-12-27 17:11:06 DP0 TP0] Init torch distributed ends. mem usage=1.46 GB
+[2025-12-27 17:11:06 DP3 TP3] Init torch distributed ends. mem usage=1.33 GB
+[2025-12-27 17:11:06 DP2 TP2] Init torch distributed ends. mem usage=1.49 GB
+[2025-12-27 17:11:06 DP1 TP1] Init torch distributed ends. mem usage=1.49 GB
+[2025-12-27 17:11:12 DP0 TP0] Load weight begin. avail mem=176.25 GB
+[2025-12-27 17:11:12 DP3 TP3] Load weight begin. avail mem=176.37 GB
+[2025-12-27 17:11:12 DP2 TP2] Load weight begin. avail mem=176.22 GB
+[2025-12-27 17:11:12 DP1 TP1] Load weight begin. avail mem=176.22 GB
+[2025-12-27 17:11:12 DP0 TP0] Shared experts fusion optimization enabled.
+Multi-thread loading shards:   0% Completed | 0/121 [00:00<?, ?it/s]
+Multi-thread loading shards:   1% Completed | 1/121 [00:05<11:38,  5.82s/it]
+Multi-thread loading shards:   2% Completed | 2/121 [00:28<31:03, 15.66s/it]
+Multi-thread loading shards:   2% Completed | 3/121 [00:29<17:34,  8.94s/it]
+Multi-thread loading shards:   3% Completed | 4/121 [00:29<10:40,  5.48s/it]
+Multi-thread loading shards:   4% Completed | 5/121 [00:29<07:02,  3.64s/it]
+Multi-thread loading shards:   5% Completed | 6/121 [00:30<04:53,  2.55s/it]
+Multi-thread loading shards:   6% Completed | 7/121 [00:30<03:24,  1.80s/it]
+Multi-thread loading shards:   7% Completed | 8/121 [00:30<02:25,  1.28s/it]
+Multi-thread loading shards:   7% Completed | 9/121 [00:30<01:46,  1.05it/s]
+Multi-thread loading shards:   8% Completed | 10/121 [00:31<01:18,  1.41it/s]
+Multi-thread loading shards:   9% Completed | 11/121 [00:31<01:04,  1.72it/s]
+Multi-thread loading shards:  10% Completed | 12/121 [00:31<00:49,  2.20it/s]
+Multi-thread loading shards:  11% Completed | 13/121 [00:31<00:44,  2.45it/s]
+Multi-thread loading shards:  12% Completed | 14/121 [00:32<00:36,  2.96it/s]
+Multi-thread loading shards:  12% Completed | 15/121 [00:32<00:35,  2.96it/s]
+Multi-thread loading shards:  13% Completed | 16/121 [00:32<00:37,  2.79it/s]
+Multi-thread loading shards:  14% Completed | 17/121 [00:33<00:36,  2.85it/s]
+Multi-thread loading shards:  15% Completed | 18/121 [00:33<00:40,  2.53it/s]
+Multi-thread loading shards:  16% Completed | 19/121 [00:33<00:34,  2.97it/s]
+Multi-thread loading shards:  17% Completed | 20/121 [00:34<00:32,  3.08it/s]
+Multi-thread loading shards:  17% Completed | 21/121 [00:34<00:37,  2.68it/s]
+Multi-thread loading shards:  19% Completed | 23/121 [00:35<00:29,  3.27it/s]
+Multi-thread loading shards:  20% Completed | 24/121 [00:35<00:26,  3.70it/s]
+Multi-thread loading shards:  21% Completed | 25/121 [00:35<00:23,  4.12it/s]
+Multi-thread loading shards:  22% Completed | 27/121 [00:35<00:19,  4.88it/s]
+Multi-thread loading shards:  23% Completed | 28/121 [00:35<00:18,  5.04it/s]
+Multi-thread loading shards:  24% Completed | 29/121 [00:36<00:18,  4.89it/s]
+Multi-thread loading shards:  25% Completed | 30/121 [00:36<00:21,  4.30it/s]
+Multi-thread loading shards:  26% Completed | 31/121 [00:36<00:24,  3.66it/s]
+Multi-thread loading shards:  26% Completed | 32/121 [00:37<00:23,  3.82it/s]
+Multi-thread loading shards:  27% Completed | 33/121 [00:37<00:24,  3.58it/s]
+Multi-thread loading shards:  28% Completed | 34/121 [00:37<00:21,  4.02it/s]
+Multi-thread loading shards:  29% Completed | 35/121 [00:37<00:20,  4.17it/s]
+Multi-thread loading shards:  30% Completed | 36/121 [00:38<00:27,  3.14it/s]
+Multi-thread loading shards:  31% Completed | 37/121 [00:38<00:23,  3.60it/s]
+Multi-thread loading shards:  31% Completed | 38/121 [00:38<00:19,  4.31it/s]
+Multi-thread loading shards:  32% Completed | 39/121 [00:38<00:18,  4.48it/s]
+Multi-thread loading shards:  33% Completed | 40/121 [00:39<00:21,  3.76it/s]
+Multi-thread loading shards:  34% Completed | 41/121 [00:39<00:18,  4.22it/s]
+Multi-thread loading shards:  35% Completed | 42/121 [00:39<00:16,  4.75it/s]
+Multi-thread loading shards:  36% Completed | 43/121 [00:39<00:14,  5.29it/s]
+Multi-thread loading shards:  37% Completed | 45/121 [00:40<00:15,  4.98it/s]
+Multi-thread loading shards:  38% Completed | 46/121 [00:40<00:14,  5.05it/s]
+Multi-thread loading shards:  39% Completed | 47/121 [00:40<00:15,  4.84it/s]
+Multi-thread loading shards:  40% Completed | 48/121 [00:40<00:14,  5.13it/s]
+Multi-thread loading shards:  40% Completed | 49/121 [00:40<00:14,  4.90it/s]
+Multi-thread loading shards:  41% Completed | 50/121 [00:41<00:16,  4.43it/s]
+Multi-thread loading shards:  42% Completed | 51/121 [00:41<00:13,  5.14it/s]
+Multi-thread loading shards:  43% Completed | 52/121 [00:41<00:12,  5.44it/s]
+Multi-thread loading shards:  44% Completed | 53/121 [00:41<00:14,  4.81it/s]
+Multi-thread loading shards:  45% Completed | 54/121 [00:41<00:16,  4.01it/s]
+Multi-thread loading shards:  45% Completed | 55/121 [00:42<00:15,  4.14it/s]
+Multi-thread loading shards:  46% Completed | 56/121 [00:42<00:15,  4.20it/s]
+Multi-thread loading shards:  47% Completed | 57/121 [00:42<00:14,  4.55it/s]
+Multi-thread loading shards:  48% Completed | 58/121 [00:42<00:14,  4.40it/s]
+Multi-thread loading shards:  49% Completed | 59/121 [00:43<00:13,  4.59it/s]
+Multi-thread loading shards:  50% Completed | 60/121 [00:43<00:19,  3.18it/s]
+Multi-thread loading shards:  50% Completed | 61/121 [00:43<00:16,  3.66it/s]
+Multi-thread loading shards:  51% Completed | 62/121 [00:44<00:15,  3.72it/s]
+Multi-thread loading shards:  52% Completed | 63/121 [00:44<00:16,  3.52it/s]
+Multi-thread loading shards:  53% Completed | 64/121 [00:44<00:13,  4.14it/s]
+Multi-thread loading shards:  54% Completed | 65/121 [00:44<00:11,  4.71it/s]
+Multi-thread loading shards:  55% Completed | 67/121 [00:45<00:14,  3.71it/s]
+Multi-thread loading shards:  56% Completed | 68/121 [00:47<00:43,  1.21it/s]
+Multi-thread loading shards:  57% Completed | 69/121 [01:00<03:21,  3.88s/it]
+Multi-thread loading shards:  58% Completed | 70/121 [01:00<02:29,  2.94s/it]
+Multi-thread loading shards:  59% Completed | 71/121 [01:01<01:54,  2.29s/it]
+Multi-thread loading shards:  60% Completed | 72/121 [01:01<01:23,  1.69s/it]
+Multi-thread loading shards:  60% Completed | 73/121 [01:01<01:02,  1.29s/it]
+Multi-thread loading shards:  62% Completed | 75/121 [01:02<00:33,  1.36it/s]
+Multi-thread loading shards:  63% Completed | 76/121 [01:02<00:27,  1.65it/s]
+Multi-thread loading shards:  64% Completed | 77/121 [01:02<00:22,  1.95it/s]
+Multi-thread loading shards:  65% Completed | 79/121 [01:02<00:14,  2.94it/s]
+Multi-thread loading shards:  66% Completed | 80/121 [01:02<00:11,  3.50it/s]
+Multi-thread loading shards:  68% Completed | 82/121 [01:02<00:07,  4.91it/s]
+Multi-thread loading shards:  69% Completed | 84/121 [01:03<00:05,  6.30it/s]
+Multi-thread loading shards:  71% Completed | 86/121 [01:03<00:07,  4.51it/s]
+Multi-thread loading shards:  73% Completed | 88/121 [01:03<00:05,  5.86it/s]
+Multi-thread loading shards:  75% Completed | 91/121 [01:04<00:03,  8.08it/s]
+Multi-thread loading shards:  78% Completed | 94/121 [01:04<00:02, 10.94it/s]
+Multi-thread loading shards:  80% Completed | 97/121 [01:04<00:01, 13.80it/s]
+Multi-thread loading shards:  83% Completed | 100/121 [01:04<00:01, 16.39it/s]
+Multi-thread loading shards:  85% Completed | 103/121 [01:04<00:01, 17.80it/s]
+Multi-thread loading shards:  88% Completed | 106/121 [01:04<00:00, 19.09it/s]
+Multi-thread loading shards:  91% Completed | 110/121 [01:04<00:00, 21.97it/s]
+Multi-thread loading shards:  93% Completed | 113/121 [01:04<00:00, 23.78it/s]
+Multi-thread loading shards:  96% Completed | 116/121 [01:05<00:00, 24.90it/s]
+Multi-thread loading shards:  98% Completed | 119/121 [01:05<00:00, 26.06it/s]
+Multi-thread loading shards: 100% Completed | 121/121 [01:05<00:00,  1.86it/s]
+
+[2025-12-27 17:12:50 DP3 TP3] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 17:12:50 DP3 TP3] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.57 GB, mem usage=90.80 GB.
+[2025-12-27 17:12:50 DP2 TP2] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 17:12:50 DP2 TP2] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.41 GB, mem usage=90.80 GB.
+[2025-12-27 17:12:50 DP0 TP0] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 17:12:50 DP0 TP0] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.44 GB, mem usage=90.80 GB.
+[2025-12-27 17:12:51 DP1 TP1] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 17:12:51 DP1 TP1] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.41 GB, mem usage=90.80 GB.
+[2025-12-27 17:12:51 DP0 TP0] Using KV cache dtype: torch.float8_e4m3fn
+[2025-12-27 17:12:51 DP0 TP0] KV Cache is allocated. #tokens: 1878144, KV size: 84.08 GB
+[2025-12-27 17:12:51 DP0 TP0] Memory pool end. avail mem=1.44 GB
+[2025-12-27 17:12:51 DP1 TP1] KV Cache is allocated. #tokens: 1878144, KV size: 84.08 GB
+[2025-12-27 17:12:51 DP1 TP1] Memory pool end. avail mem=1.41 GB
+[2025-12-27 17:12:51 DP2 TP2] KV Cache is allocated. #tokens: 1878144, KV size: 84.08 GB
+[2025-12-27 17:12:51 DP2 TP2] Memory pool end. avail mem=1.41 GB
+[2025-12-27 17:12:51 DP3 TP3] KV Cache is allocated. #tokens: 1878144, KV size: 84.08 GB
+[2025-12-27 17:12:51 DP3 TP3] Memory pool end. avail mem=1.57 GB
+[2025-12-27 17:12:51 DP0 TP0] Capture cuda graph begin. This can take up to several minutes. avail mem=1.00 GB
+[2025-12-27 17:12:51 DP0 TP0] Capture cuda graph bs [1, 2, 4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512]
+  0%|          | 0/52 [00:00<?, ?it/s]Capturing batches (bs=512 avail_mem=0.76 GB):   0%|          | 0/52 [00:00<?, ?it/s][2025-12-27 17:12:51 DP3 TP3] Capture cuda graph begin. This can take up to several minutes. avail mem=1.13 GB
+[2025-12-27 17:12:52 DP1 TP1] Capture cuda graph begin. This can take up to several minutes. avail mem=0.97 GB
+[2025-12-27 17:12:52 DP2 TP2] Capture cuda graph begin. This can take up to several minutes. avail mem=0.97 GB
+[2025-12-27 17:13:25 DP0 TP0] Using default MoE kernel config. Performance might be sub-optimal! Config file not found at /vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/moe/fused_moe_triton/configs/triton_3_4_0/E=257,N=14336,device_name=NVIDIA_B200.json, you can create them with https://github.com/sgl-project/sglang/tree/main/benchmark/kernels/fused_moe_triton
+[2025-12-27 17:13:25 DP2 TP2] Using default MoE kernel config. Performance might be sub-optimal! Config file not found at /vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/moe/fused_moe_triton/configs/triton_3_4_0/E=257,N=14336,device_name=NVIDIA_B200.json, you can create them with https://github.com/sgl-project/sglang/tree/main/benchmark/kernels/fused_moe_triton
+[2025-12-27 17:13:25 DP1 TP1] Using default MoE kernel config. Performance might be sub-optimal! Config file not found at /vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/moe/fused_moe_triton/configs/triton_3_4_0/E=257,N=14336,device_name=NVIDIA_B200.json, you can create them with https://github.com/sgl-project/sglang/tree/main/benchmark/kernels/fused_moe_triton
+[2025-12-27 17:13:25 DP3 TP3] Using default MoE kernel config. Performance might be sub-optimal! Config file not found at /vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/moe/fused_moe_triton/configs/triton_3_4_0/E=257,N=14336,device_name=NVIDIA_B200.json, you can create them with https://github.com/sgl-project/sglang/tree/main/benchmark/kernels/fused_moe_triton
+Capturing batches (bs=512 avail_mem=0.76 GB):   0%|          | 0/52 [00:35<?, ?it/s]
+[2025-12-27 17:13:27 DP0 TP0] Registering 0 cuda graph addresses
+[2025-12-27 17:13:27 DP2 TP2] Scheduler hit an exception: Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393, in __init__
+    self.capture()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551, in capture
+    _capture_one_stream()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535, in _capture_one_stream
+    ) = self.capture_one_batch_size(bs, forward, stream_idx)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741, in capture_one_batch_size
+    run_once()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3261, in forward
+    return self.logits_processor(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 525, in forward
+    logits = self._get_logits(pruned_states, lm_head, logits_metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 881, in _get_logits
+    logits = tensor_model_parallel_all_gather(logits)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/communication_op.py", line 20, in tensor_model_parallel_all_gather
+    return get_tp_group().all_gather(input_, dim)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/parallel_state.py", line 818, in all_gather
+    output_tensor = output_tensor.reshape(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 2 has a total capacity of 178.35 GiB of which 22.62 MiB is free. Including non-PyTorch memory, this process has 178.31 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312, in __init__
+    self.tp_worker = TpModelWorker(
+                     ^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237, in __init__
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491, in initialize
+    self.init_device_graphs()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 395, in __init__
+    raise Exception(
+Exception: Capture cuda graph failed: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 2 has a total capacity of 178.35 GiB of which 22.62 MiB is free. Including non-PyTorch memory, this process has 178.31 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Possible solutions:
+1. set --mem-fraction-static to a smaller value (e.g., 0.8 or 0.7)
+2. set --cuda-graph-max-bs to a smaller value (e.g., 16)
+3. disable torch compile by not using --enable-torch-compile
+4. disable CUDA graph by --disable-cuda-graph. (Not recommended. Huge performance loss)
+Open an issue on GitHub https://github.com/sgl-project/sglang/issues/new/choose 
+
+
+[NSA Indexer Layer 0] Top-k build time (paged): 10218.966 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 1] Top-k build time (paged): 0.134 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 2] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 3] Top-k build time (paged): 0.126 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 4] Top-k build time (paged): 0.124 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 5] Top-k build time (paged): 0.123 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 6] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 7] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 8] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 9] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 10] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 11] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 12] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 13] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 14] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 15] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 16] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 17] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 18] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 19] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 20] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 21] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 22] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 23] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 24] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 25] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 26] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 27] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 28] Top-k build time (paged): 0.125 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 29] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 30] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 31] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 32] Top-k build time (paged): 0.124 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 33] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 34] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 35] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 36] Top-k build time (paged): 0.202 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 37] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 38] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 39] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 40] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 41] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 42] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 43] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 44] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 45] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 46] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 47] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 48] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 49] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 50] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 51] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 52] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 53] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 54] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 55] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 56] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 57] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 58] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 59] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 60] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[2025-12-27 17:13:27 DP1 TP1] Scheduler hit an exception: Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393, in __init__
+    self.capture()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551, in capture
+    _capture_one_stream()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535, in _capture_one_stream
+    ) = self.capture_one_batch_size(bs, forward, stream_idx)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741, in capture_one_batch_size
+    run_once()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3261, in forward
+    return self.logits_processor(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 525, in forward
+    logits = self._get_logits(pruned_states, lm_head, logits_metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 881, in _get_logits
+    logits = tensor_model_parallel_all_gather(logits)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/communication_op.py", line 20, in tensor_model_parallel_all_gather
+    return get_tp_group().all_gather(input_, dim)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/parallel_state.py", line 818, in all_gather
+    output_tensor = output_tensor.reshape(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 1 has a total capacity of 178.35 GiB of which 22.62 MiB is free. Including non-PyTorch memory, this process has 178.31 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312, in __init__
+    self.tp_worker = TpModelWorker(
+                     ^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237, in __init__
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491, in initialize
+    self.init_device_graphs()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 395, in __init__
+    raise Exception(
+Exception: Capture cuda graph failed: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 1 has a total capacity of 178.35 GiB of which 22.62 MiB is free. Including non-PyTorch memory, this process has 178.31 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Possible solutions:
+1. set --mem-fraction-static to a smaller value (e.g., 0.8 or 0.7)
+2. set --cuda-graph-max-bs to a smaller value (e.g., 16)
+3. disable torch compile by not using --enable-torch-compile
+4. disable CUDA graph by --disable-cuda-graph. (Not recommended. Huge performance loss)
+Open an issue on GitHub https://github.com/sgl-project/sglang/issues/new/choose 
+
+
+[NSA Indexer Layer 0] Top-k build time (paged): 9291.162 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 1] Top-k build time (paged): 0.138 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 2] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 3] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 4] Top-k build time (paged): 0.129 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 5] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 6] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 7] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 8] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 9] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 10] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 11] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 12] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 13] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 14] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 15] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 16] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 17] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 18] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 19] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 20] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 21] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 22] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 23] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 24] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 25] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 26] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 27] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 28] Top-k build time (paged): 0.123 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 29] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 30] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 31] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 32] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 33] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 34] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 35] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 36] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 37] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 38] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 39] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 40] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 41] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 42] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 43] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 44] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 45] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 46] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 47] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 48] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 49] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 50] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 51] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 52] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 53] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 54] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 55] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 56] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 57] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 58] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 59] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 60] Top-k build time (paged): 0.168 ms, batch_size: 512, topk: 2048
+[2025-12-27 17:13:27 DP3 TP3] Scheduler hit an exception: Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393, in __init__
+    self.capture()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551, in capture
+    _capture_one_stream()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535, in _capture_one_stream
+    ) = self.capture_one_batch_size(bs, forward, stream_idx)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741, in capture_one_batch_size
+    run_once()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3261, in forward
+    return self.logits_processor(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 525, in forward
+    logits = self._get_logits(pruned_states, lm_head, logits_metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 881, in _get_logits
+    logits = tensor_model_parallel_all_gather(logits)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/communication_op.py", line 20, in tensor_model_parallel_all_gather
+    return get_tp_group().all_gather(input_, dim)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/parallel_state.py", line 818, in all_gather
+    output_tensor = output_tensor.reshape(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 3 has a total capacity of 178.35 GiB of which 182.62 MiB is free. Including non-PyTorch memory, this process has 178.16 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312, in __init__
+    self.tp_worker = TpModelWorker(
+                     ^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237, in __init__
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491, in initialize
+    self.init_device_graphs()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 395, in __init__
+    raise Exception(
+Exception: Capture cuda graph failed: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 3 has a total capacity of 178.35 GiB of which 182.62 MiB is free. Including non-PyTorch memory, this process has 178.16 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Possible solutions:
+1. set --mem-fraction-static to a smaller value (e.g., 0.8 or 0.7)
+2. set --cuda-graph-max-bs to a smaller value (e.g., 16)
+3. disable torch compile by not using --enable-torch-compile
+4. disable CUDA graph by --disable-cuda-graph. (Not recommended. Huge performance loss)
+Open an issue on GitHub https://github.com/sgl-project/sglang/issues/new/choose 
+
+
+[NSA Indexer Layer 0] Top-k build time (paged): 9493.133 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 1] Top-k build time (paged): 0.142 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 2] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 3] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 4] Top-k build time (paged): 0.124 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 5] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 6] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 7] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 8] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 9] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 10] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 11] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 12] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 13] Top-k build time (paged): 0.122 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 14] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 15] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 16] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 17] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 18] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 19] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 20] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 21] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 22] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 23] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 24] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 25] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 26] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 27] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 28] Top-k build time (paged): 0.126 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 29] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 30] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 31] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 32] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 33] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 34] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 35] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 36] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 37] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 38] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 39] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 40] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 41] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 42] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 43] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 44] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 45] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 46] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 47] Top-k build time (paged): 0.115 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 48] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 49] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 50] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 51] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 52] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 53] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 54] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 55] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 56] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 57] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 58] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 59] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 60] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[2025-12-27 17:13:27 DP0 TP0] Scheduler hit an exception: Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393, in __init__
+    self.capture()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551, in capture
+    _capture_one_stream()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535, in _capture_one_stream
+    ) = self.capture_one_batch_size(bs, forward, stream_idx)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741, in capture_one_batch_size
+    run_once()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728, in run_once
+    logits_output_or_pp_proxy_tensors = forward(
+                                        ^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3261, in forward
+    return self.logits_processor(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 525, in forward
+    logits = self._get_logits(pruned_states, lm_head, logits_metadata)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/logits_processor.py", line 881, in _get_logits
+    logits = tensor_model_parallel_all_gather(logits)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/communication_op.py", line 20, in tensor_model_parallel_all_gather
+    return get_tp_group().all_gather(input_, dim)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/distributed/parallel_state.py", line 818, in all_gather
+    output_tensor = output_tensor.reshape(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 0 has a total capacity of 178.35 GiB of which 54.62 MiB is free. Including non-PyTorch memory, this process has 178.28 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312, in __init__
+    self.tp_worker = TpModelWorker(
+                     ^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237, in __init__
+    self._model_runner = ModelRunner(
+                         ^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324, in __init__
+    self.initialize(min_per_gpu_memory)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491, in initialize
+    self.init_device_graphs()
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034, in init_device_graphs
+    self.graph_runner = graph_runners[self.device](self)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 395, in __init__
+    raise Exception(
+Exception: Capture cuda graph failed: CUDA out of memory. Tried to allocate 506.00 MiB. GPU 0 has a total capacity of 178.35 GiB of which 54.62 MiB is free. Including non-PyTorch memory, this process has 178.28 GiB memory in use. Of the allocated memory 175.57 GiB is allocated by PyTorch, and 621.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Possible solutions:
+1. set --mem-fraction-static to a smaller value (e.g., 0.8 or 0.7)
+2. set --cuda-graph-max-bs to a smaller value (e.g., 16)
+3. disable torch compile by not using --enable-torch-compile
+4. disable CUDA graph by --disable-cuda-graph. (Not recommended. Huge performance loss)
+Open an issue on GitHub https://github.com/sgl-project/sglang/issues/new/choose 
+
+
+[NSA Indexer Layer 0] Top-k build time (paged): 9003.324 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 1] Top-k build time (paged): 0.138 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 2] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 3] Top-k build time (paged): 0.122 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 4] Top-k build time (paged): 0.126 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 5] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 6] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 7] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 8] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 9] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 10] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 11] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 12] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 13] Top-k build time (paged): 0.124 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 14] Top-k build time (paged): 0.123 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 15] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 16] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 17] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 18] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 19] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 20] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 21] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 22] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 23] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 24] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 25] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 26] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 27] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 28] Top-k build time (paged): 0.211 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 29] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 30] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 31] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 32] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 33] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 34] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 35] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 36] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 37] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 38] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 39] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 40] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 41] Top-k build time (paged): 0.114 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 42] Top-k build time (paged): 0.123 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 43] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 44] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 45] Top-k build time (paged): 0.120 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 46] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 47] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 48] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 49] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 50] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 51] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 52] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 53] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 54] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 55] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 56] Top-k build time (paged): 0.116 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 57] Top-k build time (paged): 0.121 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 58] Top-k build time (paged): 0.117 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 59] Top-k build time (paged): 0.119 ms, batch_size: 512, topk: 2048
+[NSA Indexer Layer 60] Top-k build time (paged): 0.118 ms, batch_size: 512, topk: 2048
+[rank0]:[W1227 17:13:28.882532145 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank1]:[W1227 17:13:29.554206494 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=96, addr=[localhost.localdomain]:53594, remote=[localhost.localdomain]:8450): Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+Exception raised from recvBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:682 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fff352d9eb0 in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5d694d1 (0x7fff193ef4d1 in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5d6a8cd (0x7fff193f08cd in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5d6b47a (0x7fff193f147a in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::check(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) + 0x31e (0x7fff193ec19e in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::ProcessGroupNCCL::HeartbeatMonitor::runLoop() + 0x398 (0x7ffed88d1b18 in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: <unknown function> + 0xdf0e6 (0x7ffff4ee80e6 in /vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/bin/../lib/libstdc++.so.6)
+frame #7: <unknown function> + 0x9caa4 (0x7ffff7c9caa4 in /usr/lib/x86_64-linux-gnu/libc.so.6)
+frame #8: <unknown function> + 0x129c6c (0x7ffff7d29c6c in /usr/lib/x86_64-linux-gnu/libc.so.6)
+
+[rank1]:[W1227 17:13:29.561442975 ProcessGroupNCCL.cpp:1783] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?

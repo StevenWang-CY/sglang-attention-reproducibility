@@ -1,0 +1,15 @@
+Reading CSV file: attention_weights/archive_20251204_214346/attn_weights_request_000007_layer_00_head_00.csv
+⏱️  CSV parsing time: 22.00s
+⏱️  Numpy conversion time: 2.64s
+Loaded attention matrix: (9086, 9086)
+Query tokens (rows): 9086
+Key positions (cols): 9086
+⏱️  Total loading time: 24.64s
+Auto-generated output filename: attention_weights/archive_20251204_214346/attn_weights_request_000007_layer_00_head_00.png
+Auto-calculated figure size: (908.6, 908.6) for 9086×9086 matrix
+Creating heatmap with figure size: (908.6, 908.6)
+⏱️  Heatmap rendering time: 0.10s
+Saving heatmap to: attention_weights/archive_20251204_214346/attn_weights_request_000007_layer_00_head_00.png
+⏱️  Image saving time: 2989.22s
+✓ Heatmap saved successfully!
+⏱️  Total plotting time: 3000.86s

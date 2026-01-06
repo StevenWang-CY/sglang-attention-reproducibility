@@ -1,0 +1,23 @@
+==================================================
+Starting SGLang with DeepSeek V3.2 (NSA attention)
+Log file: deepseek-v32-quant-log/runtime_deepseek_v32_20251228_132855.log
+==================================================
+SGLang server started with PID: 2893162
+Waiting for server to be ready...
+Server is ready!
+
+==================================================
+Executing send_sglang_request.py
+==================================================
+Sending request to sglang...
+ERROR: Could not connect to sglang server at http://localhost:8000
+Make sure the sglang server is running!
+
+Script failed: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x155553d386b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+==================================================
+Request completed. Server is still running.
+Server PID: 2893162
+Log file: deepseek-v32-quant-log/runtime_deepseek_v32_20251228_132855.log
+To stop the server, run: kill 2893162
+==================================================

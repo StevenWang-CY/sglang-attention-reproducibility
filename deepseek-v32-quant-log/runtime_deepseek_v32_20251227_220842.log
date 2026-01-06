@@ -1,0 +1,452 @@
+[2025-12-27 22:09:18] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:09:38] WARNING server_args.py:1104: Set nsa attention backend for DeepSeek NSA.
+[2025-12-27 22:09:38] WARNING server_args.py:1109: DP attention is enabled for DeepSeek NSA.
+[2025-12-27 22:09:38] WARNING server_args.py:1112: Setting page size to 64 for DeepSeek NSA.
+[2025-12-27 22:09:38] WARNING server_args.py:1120: Setting KV cache dtype to fp8_e4m3 for DeepSeek NSA.
+[2025-12-27 22:09:38] WARNING server_args.py:1134: Setting NSA backend to flashmla_auto for prefill and flashmla_kv for decode for FP8 KV Cache.
+NSA_DUAL_STREAM=True NSA_FUSE_TOPK=True NSA_FLASHMLA_BACKEND_DECODE_COMPUTE_FP8=True NSA_QUANT_K_CACHE_FAST=True NSA_DEQUANT_K_CACHE_FAST=True 
+[2025-12-27 22:09:38] INFO awq.py:276: The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:09:38] WARNING server_args.py:1386: DP attention is enabled. The chunked prefill size is adjusted to 128 to avoid MoE kernel issues. 
+[2025-12-27 22:09:39] server_args=ServerArgs(model_path='/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', tokenizer_path='/vast/projects/liuv/pennnetworks/hf_models/QuantTrio/DeepSeek-V3.2-AWQ', tokenizer_mode='auto', tokenizer_worker_num=1, skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{"enable_multithread_load": true,"num_threads": 64}', trust_remote_code=True, context_length=10240, is_embedding=False, enable_multimodal=None, revision=None, model_impl='auto', host='0.0.0.0', port=8000, grpc_mode=False, skip_server_warmup=False, warmups=None, nccl_port=None, checkpoint_engine_wait_weights_before_ready=False, dtype='bfloat16', quantization='awq_marlin', quantization_param_path=None, kv_cache_dtype='fp8_e4m3', enable_fp32_lm_head=False, modelopt_quant=None, modelopt_checkpoint_restore_path=None, modelopt_checkpoint_save_path=None, modelopt_export_path=None, quantize_and_serve=False, mem_fraction_static=0.7, max_running_requests=None, max_queued_requests=None, max_total_tokens=None, chunked_prefill_size=128, max_prefill_tokens=16384, schedule_policy='fcfs', enable_priority_scheduling=False, abort_on_priority_when_disabled=False, schedule_low_priority_values_first=False, priority_scheduling_preemption_threshold=10, schedule_conservativeness=0.3, page_size=64, hybrid_kvcache_ratio=None, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=False, radix_eviction_policy='lru', device='cuda', tp_size=4, pp_size=1, pp_max_micro_batch_size=None, stream_interval=1, stream_output=False, random_seed=839730742, constrained_json_whitespace_pattern=None, constrained_json_disable_any_whitespace=False, watchdog_timeout=600.0, dist_timeout=None, download_dir=None, base_gpu_id=0, gpu_id_step=1, sleep_on_idle=False, log_level='info', log_level_http=None, log_requests=True, log_requests_level=2, crash_dump_folder=None, show_time_cost=False, enable_metrics=False, enable_metrics_for_all_schedulers=False, tokenizer_metrics_custom_labels_header='x-custom-labels', tokenizer_metrics_allowed_custom_labels=None, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, collect_tokens_histogram=False, prompt_tokens_buckets=None, generation_tokens_buckets=None, gc_warning_threshold_secs=0.0, decode_log_interval=40, enable_request_time_stats_logging=False, kv_events_config=None, enable_trace=False, otlp_traces_endpoint='localhost:4317', export_metrics_to_file=False, export_metrics_to_file_dir=None, api_key=None, served_model_name='DeepSeek-V3.2-AWQ', weight_version='default', chat_template=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, tool_call_parser=None, tool_server=None, sampling_defaults='model', dp_size=4, load_balance_method='round_robin', load_watch_interval=0.1, prefill_round_robin_balance=False, dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loaded_loras=None, max_loras_per_batch=8, lora_eviction_policy='lru', lora_backend='csgmv', max_lora_chunk_size=16, attention_backend='nsa', decode_attention_backend=None, prefill_attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', mm_attention_backend=None, nsa_prefill_backend='flashmla_auto', nsa_decode_backend='flashmla_kv', speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_revision=None, speculative_draft_load_format=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, speculative_attention_mode='prefill', speculative_moe_runner_backend=None, speculative_ngram_min_match_window_size=1, speculative_ngram_max_match_window_size=12, speculative_ngram_min_bfs_breadth=1, speculative_ngram_max_bfs_breadth=10, speculative_ngram_match_type='BFS', speculative_ngram_branch_length=18, speculative_ngram_capacity=10000000, ep_size=1, moe_a2a_backend='none', moe_runner_backend='auto', flashinfer_mxfp4_moe_precision='default', enable_flashinfer_allreduce_fusion=False, deepep_mode='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm='static', init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, eplb_min_rebalancing_utilization_threshold=1.0, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, elastic_ep_backend=None, mooncake_ib_device=None, max_mamba_cache_size=None, mamba_ssm_dtype='float32', mamba_full_memory_ratio=0.9, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through', hicache_io_backend='kernel', hicache_mem_layout='layer_first', hicache_storage_backend=None, hicache_storage_prefetch_policy='best_effort', hicache_storage_backend_extra_config=None, enable_lmcache=False, kt_weight_path=None, kt_method='AMXINT4', kt_cpuinfer=None, kt_threadpool_count=2, kt_num_gpu_experts=None, kt_max_deferred_experts_per_token=None, enable_double_sparsity=False, ds_channel_config_path=None, ds_heavy_channel_num=32, ds_heavy_token_num=256, ds_heavy_channel_type='qk', ds_sparse_decode_threshold=4096, cpu_offload_gb=0, offload_group_size=-1, offload_num_in_group=1, offload_prefetch_step=1, offload_mode='cpu', multi_item_scoring_delimiter=None, disable_radix_cache=False, cuda_graph_max_bs=8, cuda_graph_bs=[1, 2, 4, 8], disable_cuda_graph=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_cudagraph_gc=False, enable_layerwise_nvtx_marker=False, enable_nccl_nvls=False, enable_symm_mem=False, disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_tokenizer_batch_encode=False, disable_tokenizer_batch_decode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, enable_torch_symm_mem=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=True, enable_dp_lm_head=False, enable_two_batch_overlap=False, enable_single_batch_overlap=False, tbo_token_distribution_threshold=0.48, enable_torch_compile=False, enable_piecewise_cuda_graph=False, torch_compile_max_bs=32, piecewise_cuda_graph_max_tokens=4096, piecewise_cuda_graph_tokens=[4, 8, 12, 16, 20, 24, 28, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 288, 320, 352, 384, 416, 448, 480, 512, 640, 768, 896, 1024, 1152, 1280, 1408, 1536, 1664, 1792, 1920, 2048, 2176, 2304, 2432, 2560, 2688, 2816, 2944, 3072, 3200, 3328, 3456, 3584, 3712, 3840, 3968, 4096], piecewise_cuda_graph_compiler='eager', torchao_config='', enable_nan_detection=False, enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, triton_attention_split_tile_size=None, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, enable_weights_cpu_backup=False, enable_draft_weights_cpu_backup=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, keep_mm_feature_on_device=False, enable_return_hidden_states=False, scheduler_recv_interval=1, numa_node=None, enable_deterministic_inference=False, rl_on_policy_target=None, enable_attn_tp_input_scattered=False, enable_dynamic_batch_tokenizer=False, dynamic_batch_tokenizer_batch_size=32, dynamic_batch_tokenizer_batch_timeout=0.002, debug_tensor_dump_output_folder=None, debug_tensor_dump_layers=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_decode_tp=None, disaggregation_decode_dp=None, disaggregation_prefill_pp=1, disaggregation_ib_device=None, disaggregation_decode_enable_offload_kvcache=False, num_reserved_decode_tokens=512, disaggregation_decode_polling_interval=1, custom_weight_loader=[], weight_loader_disable_mmap=False, remote_instance_weight_loader_seed_instance_ip=None, remote_instance_weight_loader_seed_instance_service_port=None, remote_instance_weight_loader_send_weights_group_ports=None, enable_pdmux=False, pdmux_config_path=None, sm_group_num=8, mm_max_concurrent_calls=32, mm_per_request_timeout=10.0, enable_broadcast_mm_inputs_process=False, decrypted_config_file=None, decrypted_draft_config_file=None)
+[2025-12-27 22:09:39] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:09:40] Using default HuggingFace chat template with detected content format: string
+[2025-12-27 22:10:09] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 22:10:10] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:11:00] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 22:11:00] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 22:11:01] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+[2025-12-27 22:11:01] INFO _optional_torch_c_dlpack.py:119: JIT-compiling torch-c-dlpack-ext to cache...
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:11:22 DP2 TP2] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:22 DP2 TP2] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:22 DP2 TP2] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:11:38 DP3 TP3] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:39 DP3 TP3] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:39 DP3 TP3] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:11:54 DP0 TP0] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:54 DP0 TP0] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:11:54 DP0 TP0] Init torch distributed begin.
+/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:161: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[2025-12-27 22:12:09 DP1 TP1] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:12:10 DP1 TP1] The model is convertible to awq_marlin during runtime. Using awq_marlin kernel.
+[2025-12-27 22:12:10 DP1 TP1] Init torch distributed begin.
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[2025-12-27 22:12:11 DP0 TP0] sglang is using nccl==2.27.3
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[2025-12-27 22:12:12 DP3 TP3] Init torch distributed ends. mem usage=1.33 GB
+[2025-12-27 22:12:12 DP0 TP0] Init torch distributed ends. mem usage=1.46 GB
+[2025-12-27 22:12:12 DP2 TP2] Init torch distributed ends. mem usage=1.49 GB
+[2025-12-27 22:12:12 DP1 TP1] Init torch distributed ends. mem usage=1.49 GB
+[2025-12-27 22:12:16 DP0 TP0] Load weight begin. avail mem=176.25 GB
+[2025-12-27 22:12:16 DP0 TP0] Shared experts fusion optimization enabled.
+[2025-12-27 22:12:17 DP2 TP2] Load weight begin. avail mem=176.22 GB
+[2025-12-27 22:12:17 DP3 TP3] Load weight begin. avail mem=176.37 GB
+[2025-12-27 22:12:17 DP1 TP1] Load weight begin. avail mem=176.22 GB
+Multi-thread loading shards:   0% Completed | 0/121 [00:00<?, ?it/s]
+Multi-thread loading shards:   1% Completed | 1/121 [00:00<01:02,  1.92it/s]
+Multi-thread loading shards:   2% Completed | 2/121 [00:04<05:12,  2.63s/it]
+Multi-thread loading shards:   2% Completed | 3/121 [00:05<03:47,  1.93s/it]
+Multi-thread loading shards:   3% Completed | 4/121 [00:06<02:32,  1.31s/it]
+Multi-thread loading shards:   4% Completed | 5/121 [00:06<01:56,  1.00s/it]
+Multi-thread loading shards:   5% Completed | 6/121 [00:06<01:24,  1.37it/s]
+Multi-thread loading shards:   6% Completed | 7/121 [00:06<01:02,  1.82it/s]
+Multi-thread loading shards:   7% Completed | 8/121 [00:07<00:49,  2.27it/s]
+Multi-thread loading shards:   7% Completed | 9/121 [00:07<00:37,  2.96it/s]
+Multi-thread loading shards:   8% Completed | 10/121 [00:07<00:37,  2.98it/s]
+Multi-thread loading shards:   9% Completed | 11/121 [00:07<00:30,  3.65it/s]
+Multi-thread loading shards:  10% Completed | 12/121 [00:07<00:28,  3.88it/s]
+Multi-thread loading shards:  11% Completed | 13/121 [00:08<00:26,  4.13it/s]
+Multi-thread loading shards:  12% Completed | 15/121 [00:08<00:19,  5.55it/s]
+Multi-thread loading shards:  13% Completed | 16/121 [00:08<00:19,  5.27it/s]
+Multi-thread loading shards:  15% Completed | 18/121 [00:09<00:25,  3.99it/s]
+Multi-thread loading shards:  16% Completed | 19/121 [00:09<00:25,  4.04it/s]
+Multi-thread loading shards:  17% Completed | 20/121 [00:09<00:24,  4.05it/s]
+Multi-thread loading shards:  18% Completed | 22/121 [00:09<00:17,  5.57it/s]
+Multi-thread loading shards:  20% Completed | 24/121 [00:10<00:16,  5.96it/s]
+Multi-thread loading shards:  21% Completed | 25/121 [00:10<00:16,  5.87it/s]
+Multi-thread loading shards:  21% Completed | 26/121 [00:10<00:15,  6.32it/s]
+Multi-thread loading shards:  23% Completed | 28/121 [00:10<00:12,  7.18it/s]
+Multi-thread loading shards:  24% Completed | 29/121 [00:10<00:12,  7.56it/s]
+Multi-thread loading shards:  25% Completed | 30/121 [00:10<00:13,  6.84it/s]
+Multi-thread loading shards:  26% Completed | 31/121 [00:11<00:13,  6.83it/s]
+Multi-thread loading shards:  27% Completed | 33/121 [00:11<00:12,  7.18it/s]
+Multi-thread loading shards:  28% Completed | 34/121 [00:11<00:12,  7.23it/s]
+Multi-thread loading shards:  29% Completed | 35/121 [00:12<00:20,  4.13it/s]
+Multi-thread loading shards:  31% Completed | 37/121 [00:12<00:14,  5.81it/s]
+Multi-thread loading shards:  32% Completed | 39/121 [00:12<00:11,  6.99it/s]
+Multi-thread loading shards:  33% Completed | 40/121 [00:12<00:11,  6.98it/s]
+Multi-thread loading shards:  34% Completed | 41/121 [00:12<00:12,  6.23it/s]
+Multi-thread loading shards:  35% Completed | 42/121 [00:12<00:13,  5.98it/s]
+Multi-thread loading shards:  36% Completed | 43/121 [00:13<00:11,  6.56it/s]
+Multi-thread loading shards:  37% Completed | 45/121 [00:13<00:09,  8.30it/s]
+Multi-thread loading shards:  38% Completed | 46/121 [00:13<00:09,  8.28it/s]
+Multi-thread loading shards:  39% Completed | 47/121 [00:13<00:08,  8.31it/s]
+Multi-thread loading shards:  40% Completed | 49/121 [00:13<00:07,  9.63it/s]
+Multi-thread loading shards:  42% Completed | 51/121 [00:13<00:06, 10.63it/s]
+Multi-thread loading shards:  44% Completed | 53/121 [00:13<00:06, 10.73it/s]
+Multi-thread loading shards:  45% Completed | 55/121 [00:14<00:05, 11.30it/s]
+Multi-thread loading shards:  47% Completed | 57/121 [00:14<00:10,  6.21it/s]
+Multi-thread loading shards:  49% Completed | 59/121 [00:14<00:08,  7.25it/s]
+Multi-thread loading shards:  50% Completed | 60/121 [00:15<00:08,  7.48it/s]
+Multi-thread loading shards:  51% Completed | 62/121 [00:15<00:06,  8.91it/s]
+Multi-thread loading shards:  54% Completed | 65/121 [00:15<00:04, 11.47it/s]
+Multi-thread loading shards:  56% Completed | 68/121 [00:15<00:05,  8.91it/s]
+Multi-thread loading shards:  58% Completed | 70/121 [00:16<00:09,  5.34it/s]
+Multi-thread loading shards:  60% Completed | 72/121 [00:17<00:09,  5.23it/s]
+Multi-thread loading shards:  60% Completed | 73/121 [00:17<00:08,  5.36it/s]
+Multi-thread loading shards:  61% Completed | 74/121 [00:17<00:08,  5.61it/s]
+Multi-thread loading shards:  62% Completed | 75/121 [00:17<00:07,  5.97it/s]
+Multi-thread loading shards:  63% Completed | 76/121 [00:17<00:08,  5.25it/s]
+Multi-thread loading shards:  64% Completed | 78/121 [00:18<00:09,  4.61it/s]
+Multi-thread loading shards:  66% Completed | 80/121 [00:18<00:06,  6.01it/s]
+Multi-thread loading shards:  68% Completed | 82/121 [00:18<00:05,  6.67it/s]
+Multi-thread loading shards:  69% Completed | 83/121 [00:18<00:05,  6.90it/s]
+Multi-thread loading shards:  69% Completed | 84/121 [00:18<00:05,  7.09it/s]
+Multi-thread loading shards:  70% Completed | 85/121 [00:19<00:09,  3.88it/s]
+Multi-thread loading shards:  71% Completed | 86/121 [00:19<00:07,  4.45it/s]
+Multi-thread loading shards:  72% Completed | 87/121 [00:19<00:06,  5.12it/s]
+Multi-thread loading shards:  73% Completed | 88/121 [00:19<00:05,  5.84it/s]
+Multi-thread loading shards:  74% Completed | 90/121 [00:20<00:04,  7.15it/s]
+Multi-thread loading shards:  75% Completed | 91/121 [00:20<00:03,  7.66it/s]
+Multi-thread loading shards:  76% Completed | 92/121 [00:20<00:03,  7.76it/s]
+Multi-thread loading shards:  77% Completed | 93/121 [00:20<00:03,  7.73it/s]
+Multi-thread loading shards:  78% Completed | 94/121 [00:20<00:03,  7.78it/s]
+Multi-thread loading shards:  79% Completed | 96/121 [00:20<00:02,  9.76it/s]
+Multi-thread loading shards:  81% Completed | 98/121 [00:20<00:02, 10.21it/s]
+Multi-thread loading shards:  83% Completed | 100/121 [00:21<00:01, 11.04it/s]
+Multi-thread loading shards:  84% Completed | 102/121 [00:21<00:01, 10.71it/s]
+Multi-thread loading shards:  86% Completed | 104/121 [00:21<00:01, 11.74it/s]
+Multi-thread loading shards:  88% Completed | 106/121 [00:21<00:01, 13.50it/s]
+Multi-thread loading shards:  90% Completed | 109/121 [00:21<00:00, 16.71it/s]
+Multi-thread loading shards:  92% Completed | 111/121 [00:21<00:00, 14.25it/s]
+Multi-thread loading shards:  93% Completed | 113/121 [00:21<00:00, 13.04it/s]
+Multi-thread loading shards:  95% Completed | 115/121 [00:22<00:00, 13.19it/s]
+Multi-thread loading shards:  97% Completed | 117/121 [00:22<00:00, 11.91it/s]
+Multi-thread loading shards:  98% Completed | 119/121 [00:22<00:00, 12.80it/s]
+Multi-thread loading shards: 100% Completed | 121/121 [00:22<00:00, 12.83it/s]
+Multi-thread loading shards: 100% Completed | 121/121 [00:22<00:00,  5.36it/s]
+
+[2025-12-27 22:13:58 DP1 TP1] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 22:13:58 DP1 TP1] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.41 GB, mem usage=90.80 GB.
+[2025-12-27 22:13:58 DP0 TP0] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 22:13:58 DP0 TP0] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.44 GB, mem usage=90.80 GB.
+[2025-12-27 22:13:59 DP3 TP3] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 22:13:59 DP3 TP3] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.57 GB, mem usage=90.80 GB.
+[2025-12-27 22:14:00 DP2 TP2] Using FP8 KV cache but no scaling factors provided. Defaulting to scaling factors of 1.0. This may lead to less accurate results!
+[2025-12-27 22:14:00 DP2 TP2] Load weight end. type=DeepseekV3ForCausalLM, dtype=torch.bfloat16, avail mem=85.41 GB, mem usage=90.80 GB.
+[2025-12-27 22:14:00 DP0 TP0] Using KV cache dtype: torch.float8_e4m3fn
+[2025-12-27 22:14:00 DP0 TP0] KV Cache is allocated. #tokens: 808896, KV size: 36.21 GB
+[2025-12-27 22:14:00 DP0 TP0] Memory pool end. avail mem=49.31 GB
+[2025-12-27 22:14:00 DP1 TP1] KV Cache is allocated. #tokens: 808896, KV size: 36.21 GB
+[2025-12-27 22:14:00 DP3 TP3] KV Cache is allocated. #tokens: 808896, KV size: 36.21 GB
+[2025-12-27 22:14:00 DP1 TP1] Memory pool end. avail mem=49.27 GB
+[2025-12-27 22:14:00 DP3 TP3] Memory pool end. avail mem=49.43 GB
+[2025-12-27 22:14:00 DP2 TP2] KV Cache is allocated. #tokens: 808896, KV size: 36.21 GB
+[2025-12-27 22:14:00 DP2 TP2] Memory pool end. avail mem=49.27 GB
+[2025-12-27 22:14:00 DP1 TP1] Capture cuda graph begin. This can take up to several minutes. avail mem=48.84 GB
+[2025-12-27 22:14:00 DP3 TP3] Capture cuda graph begin. This can take up to several minutes. avail mem=48.99 GB
+[2025-12-27 22:14:01 DP0 TP0] Capture cuda graph begin. This can take up to several minutes. avail mem=48.87 GB
+[2025-12-27 22:14:01 DP0 TP0] Capture cuda graph bs [1, 2, 4, 8]
+[2025-12-27 22:14:01 DP2 TP2] Capture cuda graph begin. This can take up to several minutes. avail mem=48.84 GB
+  0%|          | 0/4 [00:00<?, ?it/s]Capturing batches (bs=8 avail_mem=48.87 GB):   0%|          | 0/4 [00:00<?, ?it/s]CUDA error (_deps/repo-flashmla-src/csrc/sm100/decode/sparse_fp8/splitkv_mla.cu:589): an illegal memory access was encountered
+terminate called after throwing an instance of 'deep_gemm::DGException'
+  what():  Assertion error (_deps/repo-deepgemm-src/csrc/apis/../jit_kernels/impls/../../jit/handle.hpp:93): error == CUDA_SUCCESS or error == CUDA_ERROR_DEINITIALIZED
+Fatal Python error: Aborted
+
+Thread 0x00007fdf0ffff6c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 359 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 655 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007ff9b74986c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1012 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Current thread 0x00007ffff7ec0740 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_ops.py", line 829 in __call__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/sgl_kernel/flash_mla.py", line 112 in flash_mla_with_kvcache
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1167 in _forward_flashmla_kv
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1032 in forward_decode
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/base_attn_backend.py", line 91 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/radix_attention.py", line 123 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1837 in forward_absorb_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1502 in forward_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1403 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 2822 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3101 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3253 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120 in decorate_context
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728 in run_once
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741 in capture_one_batch_size
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535 in _capture_one_stream
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551 in capture
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034 in init_device_graphs
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491 in initialize
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712 in run_scheduler_process
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 108 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 314 in _bootstrap
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 135 in _main
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 122 in spawn_main
+  File "<string>", line 1 in <module>
+
+Extension modules: numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pybase64._pybase64, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, psutil._psutil_linux, zmq.backend.cython._zmq, PIL._imaging, sentencepiece._sentencepiece, yaml._yaml, regex._regex, markupsafe._speedups, PIL._imagingft, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, _cffi_backend, scipy._lib._ccallback_c, scipy.linalg._fblas, scipy.linalg._flapack, _cyutility, scipy._cyutility, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_schur_sqrtm, scipy.linalg._matfuncs_expm, scipy.linalg._linalg_pythran, scipy.linalg.cython_blas, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.optimize._group_columns, scipy._lib.messagestream, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._slsqplib, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy._lib._uarray._uarray, scipy.special._ufuncs_cxx, scipy.special._ellip_harm_2, scipy.special._special_ufuncs, scipy.special._gufuncs, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.linalg._decomp_interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.spatial._ckdtree, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._hausdorff, scipy.spatial._distance_wrap, scipy.spatial.transform._rotation, scipy.spatial.transform._rigid_transform, scipy.optimize._direct, setproctitle._setproctitle, cuda.bindings._bindings.cydriver, cuda.bindings.cydriver, cuda.bindings.driver, tvm_ffi.core, msgspec._core, cuda.bindings._bindings.cynvrtc, cuda.bindings.cynvrtc, cuda.bindings.nvrtc, cuda.bindings._bindings.cyruntime_ptds, cuda.bindings._bindings.cyruntime, cuda.bindings.cyruntime, cuda.bindings.runtime, cuda_utils, __triton_launcher (total: 110)
+CUDA error (_deps/repo-flashmla-src/csrc/sm100/decode/sparse_fp8/splitkv_mla.cu:589): an illegal memory access was encountered
+terminate called after throwing an instance of 'deep_gemm::DGException'
+  what():  Assertion error (_deps/repo-deepgemm-src/csrc/apis/../jit_kernels/impls/../../jit/handle.hpp:93): error == CUDA_SUCCESS or error == CUDA_ERROR_DEINITIALIZED
+Fatal Python error: Aborted
+
+Thread 0x00007fdf03fff6c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 359 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 655 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007ff9b74986c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1012 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Current thread 0x00007ffff7ec0740 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_ops.py", line 829 in __call__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/sgl_kernel/flash_mla.py", line 112 in flash_mla_with_kvcache
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1167 in _forward_flashmla_kv
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1032 in forward_decode
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/base_attn_backend.py", line 91 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/radix_attention.py", line 123 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1837 in forward_absorb_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1502 in forward_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1403 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 2822 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3101 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3253 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120 in decorate_context
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728 in run_once
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741 in capture_one_batch_size
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535 in _capture_one_stream
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551 in capture
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034 in init_device_graphs
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491 in initialize
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712 in run_scheduler_process
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 108 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 314 in _bootstrap
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 135 in _main
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 122 in spawn_main
+  File "<string>", line 1 in <module>
+
+Extension modules: numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pybase64._pybase64, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, psutil._psutil_linux, zmq.backend.cython._zmq, PIL._imaging, sentencepiece._sentencepiece, yaml._yaml, regex._regex, markupsafe._speedups, PIL._imagingft, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, _cffi_backend, scipy._lib._ccallback_c, scipy.linalg._fblas, scipy.linalg._flapack, _cyutility, scipy._cyutility, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_schur_sqrtm, scipy.linalg._matfuncs_expm, scipy.linalg._linalg_pythran, scipy.linalg.cython_blas, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.optimize._group_columns, scipy._lib.messagestream, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._slsqplib, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy._lib._uarray._uarray, scipy.special._ufuncs_cxx, scipy.special._ellip_harm_2, scipy.special._special_ufuncs, scipy.special._gufuncs, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.linalg._decomp_interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.spatial._ckdtree, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._hausdorff, scipy.spatial._distance_wrap, scipy.spatial.transform._rotation, scipy.spatial.transform._rigid_transform, scipy.optimize._direct, setproctitle._setproctitle, cuda.bindings._bindings.cydriver, cuda.bindings.cydriver, cuda.bindings.driver, tvm_ffi.core, msgspec._core, cuda.bindings._bindings.cynvrtc, cuda.bindings.cynvrtc, cuda.bindings.nvrtc, cuda.bindings._bindings.cyruntime_ptds, cuda.bindings._bindings.cyruntime, cuda.bindings.cyruntime, cuda.bindings.runtime, cuda_utils, __triton_launcher (total: 110)
+CUDA error (_deps/repo-flashmla-src/csrc/sm100/decode/sparse_fp8/splitkv_mla.cu:589): an illegal memory access was encountered
+terminate called after throwing an instance of 'deep_gemm::DGException'
+  what():  Assertion error (_deps/repo-deepgemm-src/csrc/apis/../jit_kernels/impls/../../jit/handle.hpp:93): error == CUDA_SUCCESS or error == CUDA_ERROR_DEINITIALIZED
+Fatal Python error: Aborted
+
+Thread 0x00007fdf03fff6c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 359 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 655 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007ff9b74986c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1012 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Current thread 0x00007ffff7ec0740 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_ops.py", line 829 in __call__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/sgl_kernel/flash_mla.py", line 112 in flash_mla_with_kvcache
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1167 in _forward_flashmla_kv
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1032 in forward_decode
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/base_attn_backend.py", line 91 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/radix_attention.py", line 123 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1837 in forward_absorb_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1502 in forward_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1403 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 2822 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3101 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3253 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120 in decorate_context
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728 in run_once
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741 in capture_one_batch_size
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535 in _capture_one_stream
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551 in capture
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034 in init_device_graphs
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491 in initialize
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712 in run_scheduler_process
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 108 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 314 in _bootstrap
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 135 in _main
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 122 in spawn_main
+  File "<string>", line 1 in <module>
+
+Extension modules: numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pybase64._pybase64, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, psutil._psutil_linux, zmq.backend.cython._zmq, PIL._imaging, sentencepiece._sentencepiece, yaml._yaml, regex._regex, markupsafe._speedups, PIL._imagingft, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, _cffi_backend, scipy._lib._ccallback_c, scipy.linalg._fblas, scipy.linalg._flapack, _cyutility, scipy._cyutility, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_schur_sqrtm, scipy.linalg._matfuncs_expm, scipy.linalg._linalg_pythran, scipy.linalg.cython_blas, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.optimize._group_columns, scipy._lib.messagestream, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._slsqplib, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy._lib._uarray._uarray, scipy.special._ufuncs_cxx, scipy.special._ellip_harm_2, scipy.special._special_ufuncs, scipy.special._gufuncs, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.linalg._decomp_interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.spatial._ckdtree, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._hausdorff, scipy.spatial._distance_wrap, scipy.spatial.transform._rotation, scipy.spatial.transform._rigid_transform, scipy.optimize._direct, setproctitle._setproctitle, cuda.bindings._bindings.cydriver, cuda.bindings.cydriver, cuda.bindings.driver, tvm_ffi.core, msgspec._core, cuda.bindings._bindings.cynvrtc, cuda.bindings.cynvrtc, cuda.bindings.nvrtc, cuda.bindings._bindings.cyruntime_ptds, cuda.bindings._bindings.cyruntime, cuda.bindings.cyruntime, cuda.bindings.runtime, cuda_utils, __triton_launcher (total: 110)
+CUDA error (_deps/repo-flashmla-src/csrc/sm100/decode/sparse_fp8/splitkv_mla.cu:589): an illegal memory access was encountered
+terminate called after throwing an instance of 'deep_gemm::DGException'
+  what():  Assertion error (_deps/repo-deepgemm-src/csrc/apis/../jit_kernels/impls/../../jit/handle.hpp:93): error == CUDA_SUCCESS or error == CUDA_ERROR_DEINITIALIZED
+Fatal Python error: Aborted
+
+Thread 0x00007fae9bfff6c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 359 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 655 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007fbd5bfff6c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 359 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 655 in wait
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Thread 0x00007ff9b74986c0 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1012 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/threading.py", line 1032 in _bootstrap
+
+Current thread 0x00007ffff7ec0740 (most recent call first):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/_ops.py", line 829 in __call__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/sgl_kernel/flash_mla.py", line 112 in flash_mla_with_kvcache
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1167 in _forward_flashmla_kv
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/nsa_backend.py", line 1032 in forward_decode
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/attention/base_attn_backend.py", line 91 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/layers/radix_attention.py", line 123 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1837 in forward_absorb_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1502 in forward_core
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 1403 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 2822 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3101 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784 in _call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773 in _wrapped_call_impl
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/models/deepseek_v2.py", line 3253 in forward
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120 in decorate_context
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 728 in run_once
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 741 in capture_one_batch_size
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 535 in _capture_one_stream
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 551 in capture
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/cuda_graph_runner.py", line 393 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 2034 in init_device_graphs
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 491 in initialize
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/model_executor/model_runner.py", line 324 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/tp_worker.py", line 237 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 312 in __init__
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/scheduler.py", line 2712 in run_scheduler_process
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 108 in run
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/process.py", line 314 in _bootstrap
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 135 in _main
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/spawn.py", line 122 in spawn_main
+  File "<string>", line 1 in <module>
+
+Extension modules: numpy._core._multiarray_umath, numpy.linalg._umath_linalg, pybase64._pybase64, charset_normalizer.md, requests.packages.charset_normalizer.md, requests.packages.chardet.md, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, psutil._psutil_linux, zmq.backend.cython._zmq, PIL._imaging, sentencepiece._sentencepiece, yaml._yaml, regex._regex, markupsafe._speedups, PIL._imagingft, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._mt19937, numpy.random._generator, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, _cffi_backend, scipy._lib._ccallback_c, scipy.linalg._fblas, scipy.linalg._flapack, _cyutility, scipy._cyutility, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_schur_sqrtm, scipy.linalg._matfuncs_expm, scipy.linalg._linalg_pythran, scipy.linalg.cython_blas, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.optimize._group_columns, scipy._lib.messagestream, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._slsqplib, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy._lib._uarray._uarray, scipy.special._ufuncs_cxx, scipy.special._ellip_harm_2, scipy.special._special_ufuncs, scipy.special._gufuncs, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.linalg._decomp_interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.spatial._ckdtree, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._hausdorff, scipy.spatial._distance_wrap, scipy.spatial.transform._rotation, scipy.spatial.transform._rigid_transform, scipy.optimize._direct, setproctitle._setproctitle, cuda.bindings._bindings.cydriver, cuda.bindings.cydriver, cuda.bindings.driver, tvm_ffi.core, msgspec._core, cuda.bindings._bindings.cynvrtc, cuda.bindings.cynvrtc, cuda.bindings.nvrtc, cuda.bindings._bindings.cyruntime_ptds, cuda.bindings._bindings.cyruntime, cuda.bindings.cyruntime, cuda.bindings.runtime, cuda_utils, __triton_launcher (total: 110)
+[2025-12-27 22:14:52] DataParallelController hit an exception: Traceback (most recent call last):
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/data_parallel_controller.py", line 529, in run_data_parallel_controller_process
+    controller = data_parallel_controller_class(server_args, port_args)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/data_parallel_controller.py", line 160, in __init__
+    self.launch_dp_attention_schedulers(server_args, port_args)
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/data_parallel_controller.py", line 366, in launch_dp_attention_schedulers
+    self.launch_tensor_parallel_group(
+  File "/vast/projects/liuv/pennnetworks/jiaheng/sglang_my/python/sglang/srt/managers/data_parallel_controller.py", line 451, in launch_tensor_parallel_group
+    scheduler_info.append(scheduler_pipe_readers[i].recv())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/env312/lib/python3.12/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+
+[2025-12-27 22:14:52] Received sigquit from a child process. It usually means the child failed.

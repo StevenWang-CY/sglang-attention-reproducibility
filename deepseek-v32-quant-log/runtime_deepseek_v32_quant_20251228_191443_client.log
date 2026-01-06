@@ -1,0 +1,27 @@
+[2025-12-28 19:14:43] ==================================================
+[2025-12-28 19:14:43] Starting SGLang with DeepSeek V3.2 (NSA attention)
+[2025-12-28 19:14:43] Log file: deepseek-v32-quant-log/runtime_deepseek_v32_quant_20251228_191443.log
+[2025-12-28 19:14:43] ==================================================
+[2025-12-28 19:14:43] CUDA_VISIBLE_DEVICES=4,5,6,7, using 4 GPU(s)
+[2025-12-28 19:14:43] SGLang server started with PID: 738282
+[2025-12-28 19:14:43] Waiting for server to be ready...
+[2025-12-28 19:14:43] Server not ready yet, waiting... (0s elapsed)
+[2025-12-28 19:14:48] Server not ready yet, waiting... (5s elapsed)
+[2025-12-28 19:14:53] Server not ready yet, waiting... (10s elapsed)
+[2025-12-28 19:14:58] Server not ready yet, waiting... (15s elapsed)
+[2025-12-28 19:15:03] Server not ready yet, waiting... (20s elapsed)
+[2025-12-28 19:15:08] Server not ready yet, waiting... (25s elapsed)
+[2025-12-28 19:15:13] Server not ready yet, waiting... (30s elapsed)
+[2025-12-28 19:15:18] Server not ready yet, waiting... (35s elapsed)
+[2025-12-28 19:15:23] Server not ready yet, waiting... (40s elapsed)
+[2025-12-28 19:15:28] Server not ready yet, waiting... (45s elapsed)
+[2025-12-28 19:15:33] Server not ready yet, waiting... (50s elapsed)
+[2025-12-28 19:15:38] Server not ready yet, waiting... (55s elapsed)
+[2025-12-28 19:15:43] Server not ready yet, waiting... (60s elapsed)
+[2025-12-28 19:15:48] Server not ready yet, waiting... (65s elapsed)
+[2025-12-28 19:15:53] Server not ready yet, waiting... (70s elapsed)
+[2025-12-28 19:15:58] Server not ready yet, waiting... (75s elapsed)
+[2025-12-28 19:16:03] Server not ready yet, waiting... (80s elapsed)
+[2025-12-28 19:16:08] Server not ready yet, waiting... (85s elapsed)
+[2025-12-28 19:16:14] Server not ready yet, waiting... (90s elapsed)
+[2025-12-28 19:16:19] Server not ready yet, waiting... (95s elapsed)

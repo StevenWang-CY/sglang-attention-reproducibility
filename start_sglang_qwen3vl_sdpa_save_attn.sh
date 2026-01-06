@@ -21,6 +21,7 @@ echo "=================================================="
 
 # Start SGLang server with logging
 # --disable-radix-cache \ this argument avoid it forgets to record the previous cached tokens
+# this is a bug here, it is the TODO
 python -m sglang.launch_server \
   --model-path $HF_MODELS/Qwen/Qwen3-VL-30B-A3B-Instruct \
   --served-model-name Qwen3-VL-30B-A3B-Instruct \
