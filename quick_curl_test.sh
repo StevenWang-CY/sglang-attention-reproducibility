@@ -2,30 +2,13 @@
 set -euo pipefail
 
 URL="${1:-http://localhost:8000}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REQ="${2:-$SCRIPT_DIR/html_test_request.json}"
 
-# Create a minimal request JSON in a temp file
-REQ="$(mktemp /tmp/sglang_req.XXXXXX.json)"
-cat > "$REQ" <<'JSON'
-{
-  "model": "Qwen3-VL-30B-A3B-Instruct",
-  "temperature": 0.0,
-  "max_tokens": 32,
-  "messages": [
-    {
-      "role": "system",
-      "content": [
-        { "type": "text", "text": "You are a helpful assistant." }
-      ]
-    },
-    {
-      "role": "user",
-      "content": [
-        { "type": "text", "text": "Say hello." }
-      ]
-    }
-  ]
-}
-JSON
+if [[ ! -f "$REQ" ]]; then
+  echo "Error: JSON file not found: $REQ" >&2
+  exit 1
+fi
 
 echo "==> POST $URL/v1/chat/completions"
 echo "==> Request JSON: $REQ"
@@ -37,5 +20,5 @@ curl -s "$URL/v1/chat/completions" \
   -d @"$REQ" | python -m json.tool
 
 echo
-echo "==> Done. (Temp JSON kept at: $REQ)"
+echo "==> Done."
 
