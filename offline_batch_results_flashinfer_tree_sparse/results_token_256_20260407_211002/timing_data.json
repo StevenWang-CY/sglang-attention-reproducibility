@@ -1,0 +1,26 @@
+{
+  "1": {
+    "batch_size": 1,
+    "decode_latency_ms": 59.0529140625,
+    "breakdown_simple": {
+      "attention_block": 0.0,
+      "mlp_block": 6.581671875,
+      "others": 6.6775390625
+    },
+    "breakdown_detailed": {
+      "attention": 1.9064296875,
+      "begin_forward": 4.25505859375,
+      "input_ln": 1.2638828125,
+      "kv_cache_load": 0.27630468750000003,
+      "kv_cache_save": 1.2000078125,
+      "mlp": 4.80490625,
+      "o_proj": 2.87212109375,
+      "page_plan_build": 7.5788359375,
+      "page_projection": 10.69112109375,
+      "post_attn_ln": 1.58359765625,
+      "qkv_proj": 5.24034765625,
+      "sparse_score_topk": 8.60081640625
+    },
+    "num_samples": 256
+  }
+}

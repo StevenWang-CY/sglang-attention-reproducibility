@@ -1,0 +1,2356 @@
+Loading request from: /vast/projects/liuv/pennnetworks/jiaheng/sglang_log/html_request/request_005_20260316_221014/request.json
+  Found 2 messages: ['system', 'user']
+
+Loading tokenizer from: /vast/projects/liuv/pennnetworks/hf_models/Qwen/Qwen3-VL-8B-Instruct
+  Vocab size: 151643
+
+Applying chat template and tokenizing...
+  Prompt length: 28658 chars
+  Token count: 9661 tokens
+
+Decoding per-token texts...
+
+Parsing ChatML/HTML tree...
+  Root children: 3
+
+================================================================================
+FULL TREE STRUCTURE
+================================================================================
+[root] all [0-9660] (9661 tokens)
+  [chatml] system [0-3672] (3673 tokens)
+    [text] You are an AI agent designed to operate in an i... [3-33] (31 tokens)
+    [html_tag] <intro>
+ [34-109] (76 tokens)
+      [text] You excel at following tasks: [37-42] (6 tokens)
+      [text] 1. Navigating complex websites and extracting p... [43-54] (12 tokens)
+      [text] 2. Automating form submissions and interactive ... [55-65] (11 tokens)
+      [text] 3. Gathering and saving information [66-72] (7 tokens)
+      [text] 4. Using your filesystem effectively to decide ... [73-87] (15 tokens)
+      [text] 5. Operate effectively in an agent loop [88-97] (10 tokens)
+      [text] 6. Efficiently performing diverse web tasks [98-106] (9 tokens)
+    [html_tag] <language_settings>
+ [110-137] (28 tokens)
+      [text] - Default working language: **English** [114-121] (8 tokens)
+      [text] - Always respond in the same language as the us... [122-133] (12 tokens)
+    [html_tag] <input>
+ [138-282] (145 tokens)
+      [text] At every step, your input will consist of: [140-150] (11 tokens)
+      [text] 1. <agent_history>: A chronological event strea... [151-168] (18 tokens)
+      [text] 2. <agent_state>: Current <user_request>, summa... [169-194] (26 tokens)
+      [text] 3. <browser_state>: Current URL, open tabs, int... [195-217] (23 tokens)
+      [text] 4. <browser_vision>: Screenshot of the browser ... [218-248] (31 tokens)
+      [text] 5. <read_state> This will be displayed only if ... [249-279] (31 tokens)
+    [html_tag] <agent_history>
+ [283-363] (81 tokens)
+      [text] Agent history will be given as a list of step i... [287-300] (14 tokens)
+      [html_tag] <step_{step_number}> [301-349] (49 tokens)
+        [text] :
+Evaluation of Previous Step: Assessment of la... [307-317] (11 tokens)
+        [text] Memory: Your memory of this step [318-325] (8 tokens)
+        [text] Next Goal: Your goal for this step [326-334] (9 tokens)
+        [text] Action Results: Your actions and their results [335-343] (9 tokens)
+      [text] and system messages wrapped in <sys> tag. [350-359] (10 tokens)
+    [html_tag] <user_request>
+ [364-435] (72 tokens)
+      [text] USER REQUEST: This is your ultimate objective a... [368-380] (13 tokens)
+      [text] - This has the highest priority. Make the user ... [381-392] (12 tokens)
+      [text] - If the user request is very specific - then c... [393-414] (22 tokens)
+      [text] - If the task is open ended you can plan yourse... [415-431] (17 tokens)
+    [html_tag] <browser_state>
+ [436-768] (333 tokens)
+      [text] 1. Browser State will be given as: [440-448] (9 tokens)
+      [text] Current URL: URL of the page you are currently ... [449-460] (12 tokens)
+      [text] Open Tabs: Open tabs with their ids. [461-469] (9 tokens)
+      [text] Interactive Elements: All interactive elements ... [470-485] (16 tokens)
+      [text] - Format: `[index]<tagname attribute=value />` ... [486-501] (16 tokens)
+      [text] - Text content appears as child nodes on separa... [502-516] (15 tokens)
+      [text] - Indentation with tabs shows parent/child rela... [517-528] (12 tokens)
+      [text] Examples: [529-530] (2 tokens)
+      [text] |SCROLL| [531-534] (4 tokens)
+      [html_tag] <html /> [535-551] (17 tokens)
+        [browser_element] [1501]<div />
+ [553-560] (8 tokens)
+          [browser_element] [1503]<a id=header-logo-wrapper aria-label=Duck... [563-583] (21 tokens)
+          [browser_element] *[1528]<button type=submit aria-label=search />
+ [590-616] (27 tokens)
+    [html_tag] <browser_vision>
+ [769-867] (99 tokens)
+      [text] If you used screenshot before, you will be prov... [774-818] (45 tokens)
+      [text] If an interactive index inside your browser_sta... [819-850] (32 tokens)
+      [text] Use screenshot if you are unsure or simply want... [851-862] (12 tokens)
+    [html_tag] <browser_rules>
+ [868-1564] (697 tokens)
+      [text] Strictly follow these rules while using the bro... [872-885] (14 tokens)
+      [text] - Only interact with elements that have a numer... [886-899] (14 tokens)
+      [text] - Only use indexes that are explicitly provided. [900-908] (9 tokens)
+      [text] - If research is needed, open a **new tab** ins... [909-928] (20 tokens)
+      [text] - If the page changes after, for example, an in... [929-964] (36 tokens)
+      [text] - By default, only elements in the visible view... [965-1008] (44 tokens)
+      [text] - You can scroll by a specific number of pages ... [1009-1042] (34 tokens)
+      [text] - If a captcha appears, attempt solving it if p... [1043-1069] (27 tokens)
+      [text] - If expected elements are missing, try refresh... [1070-1085] (16 tokens)
+      [text] - If the page is not fully loaded, use the wait... [1086-1099] (14 tokens)
+      [text] - You can call extract on specific pages to gat... [1100-1123] (24 tokens)
+      [text] - Call extract only if the information you are ... [1124-1156] (33 tokens)
+      [text] - Calling the extract tool is expensive! DO NOT... [1157-1198] (42 tokens)
+      [text] - If you fill an input field and your action se... [1199-1226] (28 tokens)
+      [text] - If the action sequence was interrupted in pre... [1227-1289] (63 tokens)
+      [text] - If the <user_request> includes specific page ... [1290-1322] (33 tokens)
+      [text] - The <user_request> is the ultimate goal. If t... [1323-1347] (25 tokens)
+      [text] - If you input into a field, you might need to ... [1348-1374] (27 tokens)
+      [text] - Don't login into a page if you don't have to.... [1375-1400] (26 tokens)
+      [text] - There are 2 types of tasks always first think... [1401-1420] (20 tokens)
+      [text] 1. Very specific step by step instructions: [1421-1429] (9 tokens)
+      [text] - Follow them as very precise and don't skip st... [1430-1448] (19 tokens)
+      [text] 2. Open ended tasks. Plan yourself, be creative... [1449-1463] (15 tokens)
+      [text] - If you get stuck e.g. with logins or captcha ... [1464-1520] (57 tokens)
+      [text] - If you reach a PDF viewer, the file is automa... [1521-1560] (40 tokens)
+    [html_tag] <file_system>
+ [1565-1788] (224 tokens)
+      [text] - You have access to a persistent file system w... [1569-1593] (25 tokens)
+      [text] - Your file system is initialized with a `todo.... [1594-1656] (63 tokens)
+      [text] - If you are writing a `csv` file, make sure to... [1657-1679] (23 tokens)
+      [text] - If the file is too large, you are only given ... [1680-1710] (31 tokens)
+      [text] - If exists, <available_file_paths> includes fi... [1711-1746] (36 tokens)
+      [text] - If the task is really long, initialize a `res... [1747-1766] (20 tokens)
+      [text] - DO NOT use the file system if the task is les... [1767-1784] (18 tokens)
+    [html_tag] <task_completion_rules>
+ [1789-2104] (316 tokens)
+      [text] You must call the `done` action in one of two c... [1794-1807] (14 tokens)
+      [text] - When you have fully completed the USER REQUEST. [1808-1817] (10 tokens)
+      [text] - When you reach the final allowed step (`max_s... [1818-1837] (20 tokens)
+      [text] - If it is ABSOLUTELY IMPOSSIBLE to continue. [1838-1852] (15 tokens)
+      [text] The `done` action is your opportunity to termin... [1853-1870] (18 tokens)
+      [text] - Set `success` to `true` only if the full USER... [1871-1893] (23 tokens)
+      [text] - If any part of the request is missing, incomp... [1894-1916] (23 tokens)
+      [text] - You can use the `text` field of the `done` ac... [1917-1958] (42 tokens)
+      [text] - Put ALL the relevant information you found so... [1959-1982] (24 tokens)
+      [text] - Combine `text` and `files_to_display` to prov... [1983-2007] (25 tokens)
+      [text] - You are ONLY ALLOWED to call `done` as a sing... [2008-2032] (25 tokens)
+      [text] - If the user asks for specified format, such a... [2033-2068] (36 tokens)
+      [text] - If the user asks for a structured output, you... [2069-2099] (31 tokens)
+    [html_tag] <action_rules>
+ [2105-2171] (67 tokens)
+      [text] - You are allowed to use a maximum of 3 actions... [2109-2123] (15 tokens)
+      [text] If you are allowed multiple actions, you can sp... [2124-2147] (24 tokens)
+      [text] - If the page changes after an action, the sequ... [2148-2167] (20 tokens)
+    [html_tag] <efficiency_guidelines>
+ [2172-2429] (258 tokens)
+      [text] You can output multiple actions in one step. Tr... [2178-2209] (32 tokens)
+      [text] **Recommended Action Combinations:** [2210-2216] (7 tokens)
+      [text] - `input` + `click` → Fill form field and submi... [2217-2235] (19 tokens)
+      [text] - `input` + `input` → Fill multiple form fields [2236-2249] (14 tokens)
+      [text] - `click` + `click` → Navigate through multi-st... [2250-2273] (24 tokens)
+      [text] - `scroll` with pages 10 + `extract` → Scroll t... [2274-2303] (30 tokens)
+      [text] - File operations + browser actions [2304-2310] (7 tokens)
+      [text] Do not try multiple different paths in one step... [2311-2328] (18 tokens)
+      [text] Its important that you see in the next step if ... [2329-2359] (31 tokens)
+      [text] - do not use click and then navigate, because y... [2360-2381] (22 tokens)
+      [text] - or do not use switch and switch together, bec... [2382-2401] (20 tokens)
+      [text] - do not use input and then scroll, because you... [2402-2423] (22 tokens)
+    [html_tag] <reasoning_rules>
+ [2430-2990] (561 tokens)
+      [text] You must reason explicitly and systematically a... [2435-2450] (16 tokens)
+      [text] Exhibit the following reasoning patterns to suc... [2451-2465] (15 tokens)
+      [text] - Reason about <agent_history> to track progres... [2466-2482] (17 tokens)
+      [text] - Analyze the most recent "Next Goal" and "Acti... [2483-2512] (30 tokens)
+      [text] - Analyze all relevant items in <agent_history>... [2513-2547] (35 tokens)
+      [text] - Explicitly judge success/failure/uncertainty ... [2548-2677] (130 tokens)
+      [text] - If todo.md is empty and the task is multi-ste... [2678-2702] (25 tokens)
+      [text] - Analyze `todo.md` to guide and track your pro... [2703-2716] (14 tokens)
+      [text] - If any todo.md items are finished, mark them ... [2717-2733] (17 tokens)
+      [text] - Analyze whether you are stuck, e.g. when you ... [2734-2779] (46 tokens)
+      [text] - Analyze the <read_state> where one-time infor... [2780-2824] (45 tokens)
+      [text] - If you see information relevant to <user_requ... [2825-2843] (19 tokens)
+      [text] - Before writing data into a file, analyze the ... [2844-2871] (28 tokens)
+      [text] - Decide what concise, actionable context shoul... [2872-2888] (17 tokens)
+      [text] - When ready to finish, state you are preparing... [2889-2909] (21 tokens)
+      [text] - Before done, use read_file to verify file con... [2910-2925] (16 tokens)
+      [text] - Always reason about the <user_request>. Make ... [2926-2985] (60 tokens)
+    [html_tag] <examples>
+ [2991-3503] (513 tokens)
+      [text] Here are examples of good output patterns. Use ... [2994-3011] (18 tokens)
+      [html_tag] <todo_examples>
+ [3012-3238] (227 tokens)
+        [text] "write_file": { [3017-3021] (5 tokens)
+        [text] "file_name": "todo.md", [3023-3030] (8 tokens)
+        [text] "content": "# ArXiv CS.AI Recent Papers Collect... [3032-3232] (201 tokens)
+        [text] } [3234-3234] (1 tokens)
+      [html_tag] <evaluation_examples>
+ [3239-3355] (117 tokens)
+        [text] - Positive Examples: [3243-3246] (4 tokens)
+        [text] "evaluation_previous_goal": "Successfully navig... [3247-3270] (24 tokens)
+        [text] "evaluation_previous_goal": "Clicked the login ... [3271-3291] (21 tokens)
+        [text] - Negative Examples: [3292-3295] (4 tokens)
+        [text] "evaluation_previous_goal": "Failed to input te... [3296-3323] (28 tokens)
+        [text] "evaluation_previous_goal": "Clicked the submit... [3324-3351] (28 tokens)
+      [html_tag] <memory_examples>
+ [3356-3454] (99 tokens)
+        [text] "memory": "Visited 2 of 5 target websites. Coll... [3360-3410] (51 tokens)
+        [text] "memory": "Found many pending reports that need... [3411-3450] (40 tokens)
+      [html_tag] <next_goal_examples>
+ [3455-3500] (46 tokens)
+        [text] "next_goal": "Click on the 'Add to Cart' button... [3460-3480] (21 tokens)
+        [text] "next_goal": "Extract details from the first it... [3481-3495] (15 tokens)
+    [html_tag] <output>
+ [3504-3670] (167 tokens)
+      [text] You must ALWAYS respond with a valid JSON in th... [3507-3519] (13 tokens)
+      [text] {
+  "thinking": "A structured [3520-3528] (9 tokens)
+      [html_tag] <think> [3529-3529] (1 tokens)
+        [text] -style reasoning block that applies the <reason... [3530-3543] (14 tokens)
+        [text] "evaluation_previous_goal": "Concise one-senten... [3545-3571] (27 tokens)
+        [text] "memory": "1-3 sentences of specific memory of ... [3573-3615] (43 tokens)
+        [text] "next_goal": "State the next immediate goal and... [3617-3637] (21 tokens)
+        [text] "action":[{"navigate": { "url": "url_value"}}, ... [3639-3659] (21 tokens)
+        [text] }
+Action list should NEVER be empty. [3660-3667] (8 tokens)
+    [browser_element] [49]<a />
+ [4275-4280] (6 tokens)
+    [browser_element] [52]<a />
+ [4284-4290] (7 tokens)
+    [browser_element] [55]<a />
+ [4292-4299] (8 tokens)
+    [browser_element] [58]<a />
+ [4301-4308] (8 tokens)
+    [browser_element] [61]<span />
+ [4310-4315] (6 tokens)
+      [browser_element] [62]<a />
+ [4317-4322] (6 tokens)
+    [browser_element] [69]<td />
+ [4326-4331] (6 tokens)
+      [browser_element] [70]<span />
+ [4333-4338] (6 tokens)
+    [browser_element] [72]<td />
+ [4343-4348] (6 tokens)
+      [browser_element] [74]<a id=up_47406779 />
+ [4350-4367] (18 tokens)
+    [browser_element] [78]<a />
+ [4368-4373] (6 tokens)
+    [browser_element] [82]<a />
+ [4384-4392] (9 tokens)
+    [browser_element] [90]<span id=score_47406779 />
+ [4394-4411] (18 tokens)
+    [browser_element] [93]<a />
+ [4420-4429] (10 tokens)
+      [browser_element] [97]<a />
+ [4470-4475] (6 tokens)
+    [browser_element] [102]<a />
+ [4482-4488] (7 tokens)
+    [browser_element] [105]<a />
+ [4492-4498] (7 tokens)
+    [browser_element] [109]<td />
+ [4506-4512] (7 tokens)
+      [browser_element] [110]<span />
+ [4514-4520] (7 tokens)
+    [browser_element] [112]<td />
+ [4525-4531] (7 tokens)
+      [browser_element] [114]<a id=up_47404796 />
+ [4533-4551] (19 tokens)
+    [browser_element] [118]<a />
+ [4552-4558] (7 tokens)
+    [browser_element] [122]<a />
+ [4574-4584] (11 tokens)
+    [browser_element] [130]<span id=score_47404796 />
+ [4586-4604] (19 tokens)
+    [browser_element] [133]<a />
+ [4613-4623] (11 tokens)
+      [browser_element] [137]<a />
+ [4665-4671] (7 tokens)
+    [browser_element] [142]<a />
+ [4678-4684] (7 tokens)
+    [browser_element] [145]<a />
+ [4688-4694] (7 tokens)
+    [browser_element] [149]<td />
+ [4701-4707] (7 tokens)
+      [browser_element] [150]<span />
+ [4709-4715] (7 tokens)
+    [browser_element] [152]<td />
+ [4720-4726] (7 tokens)
+      [browser_element] [154]<a id=up_47402640 />
+ [4728-4746] (19 tokens)
+    [browser_element] [158]<a />
+ [4747-4762] (16 tokens)
+    [browser_element] [160]<span />
+ [4764-4770] (7 tokens)
+      [browser_element] [162]<a />
+ [4772-4778] (7 tokens)
+    [browser_element] [170]<span id=score_47402640 />
+ [4784-4802] (19 tokens)
+    [browser_element] [173]<a />
+ [4811-4822] (12 tokens)
+      [browser_element] [177]<a />
+ [4864-4870] (7 tokens)
+    [browser_element] [182]<a />
+ [4877-4883] (7 tokens)
+    [browser_element] [185]<a />
+ [4887-4893] (7 tokens)
+    [browser_element] [189]<td />
+ [4901-4907] (7 tokens)
+      [browser_element] [190]<span />
+ [4909-4915] (7 tokens)
+    [browser_element] [192]<td />
+ [4920-4926] (7 tokens)
+      [browser_element] [194]<a id=up_47401809 />
+ [4928-4946] (19 tokens)
+    [browser_element] [198]<a />
+ [4947-4953] (7 tokens)
+    [browser_element] [202]<a />
+ [4972-4985] (14 tokens)
+    [browser_element] [210]<span id=score_47401809 />
+ [4987-5005] (19 tokens)
+    [browser_element] [213]<a />
+ [5014-5023] (10 tokens)
+      [browser_element] [217]<a />
+ [5065-5071] (7 tokens)
+    [browser_element] [222]<a />
+ [5078-5084] (7 tokens)
+    [browser_element] [225]<a />
+ [5088-5094] (7 tokens)
+    [browser_element] [229]<td />
+ [5102-5108] (7 tokens)
+      [browser_element] [230]<span />
+ [5110-5116] (7 tokens)
+    [browser_element] [232]<td />
+ [5121-5127] (7 tokens)
+      [browser_element] [234]<a id=up_47401879 />
+ [5129-5147] (19 tokens)
+    [browser_element] [238]<a />
+ [5148-5165] (18 tokens)
+    [browser_element] [242]<a />
+ [5167-5173] (7 tokens)
+    [browser_element] [250]<span id=score_47401879 />
+ [5181-5199] (19 tokens)
+    [browser_element] [253]<a />
+ [5208-5218] (11 tokens)
+      [browser_element] [257]<a />
+ [5260-5266] (7 tokens)
+    [browser_element] [262]<a />
+ [5273-5279] (7 tokens)
+    [browser_element] [265]<a />
+ [5283-5289] (7 tokens)
+    [browser_element] [269]<td />
+ [5297-5303] (7 tokens)
+      [browser_element] [270]<span />
+ [5305-5311] (7 tokens)
+    [browser_element] [272]<td />
+ [5316-5322] (7 tokens)
+      [browser_element] [274]<a id=up_47398534 />
+ [5324-5342] (19 tokens)
+    [browser_element] [278]<a />
+ [5343-5366] (24 tokens)
+    [browser_element] [282]<a />
+ [5367-5373] (7 tokens)
+    [browser_element] [290]<span id=score_47398534 />
+ [5380-5398] (19 tokens)
+    [browser_element] [7]<a />
+ [5407-5414] (8 tokens)
+    [browser_element] [296]<a />
+ [5416-5422] (7 tokens)
+    [browser_element] [301]<a />
+ [5429-5435] (7 tokens)
+    [browser_element] [304]<a />
+ [5439-5445] (7 tokens)
+    [browser_element] [308]<td />
+ [5452-5458] (7 tokens)
+      [browser_element] [309]<span />
+ [5460-5466] (7 tokens)
+    [browser_element] [311]<td />
+ [5471-5477] (7 tokens)
+      [browser_element] [313]<a id=up_47359010 />
+ [5479-5497] (19 tokens)
+    [browser_element] [317]<a />
+ [5498-5514] (17 tokens)
+    [browser_element] [321]<a />
+ [5516-5525] (10 tokens)
+    [browser_element] [329]<span id=score_47359010 />
+ [5527-5545] (19 tokens)
+    [browser_element] [6]<a />
+ [5553-5562] (10 tokens)
+      [browser_element] [335]<a />
+ [5604-5610] (7 tokens)
+    [browser_element] [340]<a />
+ [5617-5623] (7 tokens)
+    [browser_element] [343]<a />
+ [5627-5633] (7 tokens)
+    [browser_element] [347]<td />
+ [5639-5645] (7 tokens)
+      [browser_element] [348]<span />
+ [5647-5653] (7 tokens)
+    [browser_element] [350]<td />
+ [5658-5664] (7 tokens)
+      [browser_element] [352]<a id=up_47364260 />
+ [5666-5684] (19 tokens)
+    [browser_element] [356]<a />
+ [5685-5691] (7 tokens)
+    [browser_element] [360]<a />
+ [5712-5726] (15 tokens)
+    [browser_element] [368]<span id=score_47364260 />
+ [5728-5746] (19 tokens)
+    [browser_element] [371]<a />
+ [5754-5765] (12 tokens)
+      [browser_element] [375]<a />
+ [5807-5813] (7 tokens)
+    [browser_element] [380]<a />
+ [5820-5826] (7 tokens)
+    [browser_element] [383]<a />
+ [5830-5836] (7 tokens)
+    [browser_element] [387]<td />
+ [5843-5849] (7 tokens)
+      [browser_element] [388]<span />
+ [5851-5857] (7 tokens)
+    [browser_element] [390]<td />
+ [5862-5868] (7 tokens)
+      [browser_element] [392]<a id=up_47355100 />
+ [5870-5888] (19 tokens)
+    [browser_element] [396]<a />
+ [5889-5902] (14 tokens)
+    [browser_element] [400]<a />
+ [5904-5912] (9 tokens)
+    [browser_element] [408]<span id=score_47355100 />
+ [5914-5932] (19 tokens)
+    [browser_element] [411]<a />
+ [5940-5949] (10 tokens)
+      [browser_element] [415]<a />
+ [5991-5997] (7 tokens)
+    [browser_element] [420]<a />
+ [6004-6010] (7 tokens)
+    [browser_element] [423]<a />
+ [6014-6020] (7 tokens)
+    [browser_element] [427]<td />
+ [6026-6032] (7 tokens)
+      [browser_element] [428]<span />
+ [6034-6040] (7 tokens)
+    [browser_element] [430]<td />
+ [6046-6052] (7 tokens)
+      [browser_element] [432]<a id=up_47366766 />
+ [6054-6072] (19 tokens)
+    [browser_element] [436]<a />
+ [6073-6079] (7 tokens)
+    [browser_element] [440]<a />
+ [6095-6107] (13 tokens)
+    [browser_element] [448]<span id=score_47366766 />
+ [6109-6127] (19 tokens)
+    [browser_element] [451]<a />
+ [6135-6141] (7 tokens)
+      [browser_element] [455]<a />
+ [6186-6192] (7 tokens)
+    [browser_element] [460]<a />
+ [6199-6205] (7 tokens)
+    [browser_element] [463]<a />
+ [6209-6215] (7 tokens)
+    [browser_element] [467]<td />
+ [6222-6228] (7 tokens)
+      [browser_element] [468]<span />
+ [6230-6236] (7 tokens)
+    [browser_element] [470]<td />
+ [6242-6248] (7 tokens)
+      [browser_element] [472]<a id=up_47397574 />
+ [6250-6268] (19 tokens)
+    [browser_element] [476]<a />
+ [6269-6275] (7 tokens)
+    [browser_element] [480]<a />
+ [6282-6292] (11 tokens)
+    [browser_element] [488]<span id=score_47397574 />
+ [6294-6312] (19 tokens)
+    [browser_element] [491]<a />
+ [6321-6327] (7 tokens)
+    [browser_element] [495]<a />
+ [6331-6337] (7 tokens)
+    [browser_element] [500]<a />
+ [6344-6350] (7 tokens)
+    [browser_element] [503]<a />
+ [6354-6360] (7 tokens)
+    [browser_element] [507]<td />
+ [6368-6374] (7 tokens)
+      [browser_element] [508]<span />
+ [6376-6382] (7 tokens)
+    [browser_element] [510]<td />
+ [6388-6394] (7 tokens)
+      [browser_element] [512]<a id=up_47407458 />
+ [6396-6414] (19 tokens)
+    [browser_element] [516]<a />
+ [6415-6434] (20 tokens)
+    [browser_element] [520]<a />
+ [6436-6442] (7 tokens)
+    [browser_element] [528]<span id=score_47407458 />
+ [6448-6466] (19 tokens)
+    [browser_element] [531]<a />
+ [6474-6483] (10 tokens)
+    [browser_element] [535]<a />
+ [6485-6491] (7 tokens)
+    [browser_element] [540]<a />
+ [6498-6504] (7 tokens)
+    [browser_element] [543]<a />
+ [6508-6514] (7 tokens)
+    [browser_element] [547]<td />
+ [6520-6526] (7 tokens)
+      [browser_element] [548]<span />
+ [6528-6534] (7 tokens)
+    [browser_element] [550]<td />
+ [6540-6546] (7 tokens)
+      [browser_element] [552]<a id=up_47396264 />
+ [6548-6566] (19 tokens)
+    [browser_element] [556]<a />
+ [6567-6573] (7 tokens)
+    [browser_element] [560]<a />
+ [6583-6595] (13 tokens)
+    [browser_element] [568]<span id=score_47396264 />
+ [6597-6615] (19 tokens)
+    [browser_element] [571]<a />
+ [6624-6633] (10 tokens)
+    [browser_element] [575]<a />
+ [6635-6641] (7 tokens)
+    [browser_element] [580]<a />
+ [6648-6654] (7 tokens)
+    [browser_element] [583]<a />
+ [6658-6664] (7 tokens)
+    [browser_element] [587]<td />
+ [6672-6678] (7 tokens)
+      [browser_element] [588]<span />
+ [6680-6686] (7 tokens)
+    [browser_element] [590]<td />
+ [6692-6698] (7 tokens)
+      [browser_element] [592]<a id=up_47401901 />
+ [6700-6718] (19 tokens)
+    [browser_element] [596]<a />
+ [6719-6725] (7 tokens)
+    [browser_element] [600]<a />
+ [6737-6746] (10 tokens)
+    [browser_element] [608]<span id=score_47401901 />
+ [6748-6766] (19 tokens)
+    [browser_element] [611]<a />
+ [6774-6783] (10 tokens)
+      [browser_element] [615]<a />
+ [6825-6831] (7 tokens)
+    [browser_element] [620]<a />
+ [6838-6844] (7 tokens)
+    [browser_element] [623]<a />
+ [6848-6854] (7 tokens)
+    [browser_element] [627]<td />
+ [6861-6867] (7 tokens)
+      [browser_element] [628]<span />
+ [6869-6875] (7 tokens)
+    [browser_element] [630]<td />
+ [6881-6887] (7 tokens)
+      [browser_element] [632]<a id=up_47398681 />
+ [6889-6907] (19 tokens)
+    [browser_element] [636]<a />
+ [6908-6921] (14 tokens)
+    [browser_element] [640]<a />
+ [6923-6929] (7 tokens)
+    [browser_element] [648]<span id=score_47398681 />
+ [6934-6952] (19 tokens)
+    [browser_element] [651]<a />
+ [6961-6970] (10 tokens)
+    [browser_element] [655]<a />
+ [6972-6978] (7 tokens)
+    [browser_element] [660]<a />
+ [6985-6991] (7 tokens)
+    [browser_element] [663]<a />
+ [6995-7001] (7 tokens)
+    [browser_element] [667]<td />
+ [7009-7015] (7 tokens)
+      [browser_element] [668]<span />
+ [7017-7023] (7 tokens)
+    [browser_element] [674]<a />
+ [7029-7035] (7 tokens)
+    [browser_element] [678]<a />
+ [7048-7059] (12 tokens)
+      [browser_element] [686]<a />
+ [7101-7107] (7 tokens)
+    [browser_element] [689]<a />
+ [7114-7120] (7 tokens)
+    [browser_element] [693]<td />
+ [7124-7130] (7 tokens)
+      [browser_element] [694]<span />
+ [7132-7138] (7 tokens)
+    [browser_element] [696]<td />
+ [7144-7150] (7 tokens)
+      [browser_element] [698]<a id=up_47397822 />
+ [7152-7170] (19 tokens)
+    [browser_element] [702]<a />
+ [7171-7191] (21 tokens)
+    [browser_element] [706]<a />
+ [7193-7205] (13 tokens)
+    [browser_element] [714]<span id=score_47397822 />
+ [7207-7225] (19 tokens)
+    [browser_element] [717]<a />
+ [7235-7243] (9 tokens)
+    [browser_element] [721]<a />
+ [7245-7251] (7 tokens)
+    [browser_element] [726]<a />
+ [7258-7264] (7 tokens)
+    [browser_element] [729]<a />
+ [7268-7274] (7 tokens)
+    [browser_element] [733]<td />
+ [7282-7288] (7 tokens)
+      [browser_element] [734]<span />
+ [7290-7296] (7 tokens)
+    [browser_element] [736]<td />
+ [7302-7308] (7 tokens)
+      [browser_element] [738]<a id=up_47401042 />
+ [7310-7328] (19 tokens)
+    [browser_element] [742]<a />
+ [7329-7335] (7 tokens)
+    [browser_element] [748]<span id=score_47401042 />
+ [7360-7378] (19 tokens)
+    [browser_element] [751]<a />
+ [7386-7392] (7 tokens)
+      [browser_element] [755]<a />
+ [7438-7444] (7 tokens)
+    [browser_element] [760]<a />
+ [7451-7457] (7 tokens)
+    [browser_element] [763]<a />
+ [7461-7467] (7 tokens)
+    [browser_element] [767]<td />
+ [7474-7480] (7 tokens)
+      [browser_element] [768]<span />
+ [7482-7488] (7 tokens)
+    [browser_element] [770]<td />
+ [7494-7500] (7 tokens)
+      [browser_element] [772]<a id=up_47400261 />
+ [7502-7520] (19 tokens)
+    [browser_element] [776]<a />
+ [7521-7527] (7 tokens)
+    [browser_element] [780]<a />
+ [7546-7556] (11 tokens)
+    [browser_element] [788]<span id=score_47400261 />
+ [7558-7576] (19 tokens)
+    [browser_element] [791]<a />
+ [7585-7597] (13 tokens)
+    [browser_element] [795]<a />
+ [7599-7605] (7 tokens)
+    [browser_element] [800]<a />
+ [7612-7618] (7 tokens)
+    [browser_element] [803]<a />
+ [7622-7628] (7 tokens)
+    [browser_element] [807]<td />
+ [7636-7642] (7 tokens)
+      [browser_element] [808]<span />
+ [7644-7650] (7 tokens)
+    [browser_element] [810]<td />
+ [7656-7662] (7 tokens)
+      [browser_element] [812]<a id=up_47348652 />
+ [7664-7682] (19 tokens)
+    [browser_element] [816]<a />
+ [7683-7689] (7 tokens)
+    [browser_element] [820]<a />
+ [7697-7707] (11 tokens)
+    [browser_element] [828]<span id=score_47348652 />
+ [7709-7727] (19 tokens)
+    [browser_element] [831]<a />
+ [7736-7747] (12 tokens)
+    [browser_element] [835]<a />
+ [7749-7755] (7 tokens)
+    [browser_element] [840]<a />
+ [7762-7768] (7 tokens)
+    [browser_element] [843]<a />
+ [7772-7778] (7 tokens)
+    [browser_element] [847]<td />
+ [7786-7792] (7 tokens)
+      [browser_element] [848]<span />
+ [7794-7800] (7 tokens)
+    [browser_element] [850]<td />
+ [7806-7812] (7 tokens)
+      [browser_element] [852]<a id=up_47344821 />
+ [7814-7832] (19 tokens)
+    [browser_element] [856]<a />
+ [7833-7844] (12 tokens)
+    [browser_element] [860]<a />
+ [7846-7859] (14 tokens)
+    [browser_element] [868]<span id=score_47344821 />
+ [7861-7879] (19 tokens)
+    [browser_element] [871]<a />
+ [7887-7895] (9 tokens)
+      [browser_element] [875]<a />
+ [7937-7943] (7 tokens)
+    [browser_element] [880]<a />
+ [7950-7956] (7 tokens)
+    [browser_element] [883]<a />
+ [7960-7966] (7 tokens)
+    [browser_element] [887]<td />
+ [7973-7979] (7 tokens)
+      [browser_element] [888]<span />
+ [7981-7987] (7 tokens)
+    [browser_element] [890]<td />
+ [7993-7999] (7 tokens)
+      [browser_element] [892]<a id=up_47390345 />
+ [8001-8019] (19 tokens)
+    [browser_element] [896]<a />
+ [8020-8034] (15 tokens)
+    [browser_element] [900]<a />
+ [8036-8050] (15 tokens)
+    [browser_element] [908]<span id=score_47390345 />
+ [8052-8070] (19 tokens)
+    [browser_element] [911]<a />
+ [8078-8085] (8 tokens)
+    [browser_element] [915]<a />
+ [8087-8093] (7 tokens)
+    [browser_element] [920]<a />
+ [8100-8106] (7 tokens)
+    [browser_element] [923]<a />
+ [8110-8116] (7 tokens)
+    [browser_element] [927]<td />
+ [8124-8130] (7 tokens)
+      [browser_element] [928]<span />
+ [8132-8138] (7 tokens)
+    [browser_element] [930]<td />
+ [8144-8150] (7 tokens)
+      [browser_element] [932]<a id=up_47397593 />
+ [8152-8170] (19 tokens)
+    [browser_element] [936]<a />
+ [8171-8193] (23 tokens)
+    [browser_element] [940]<a />
+ [8195-8206] (12 tokens)
+    [browser_element] [948]<span id=score_47397593 />
+ [8208-8226] (19 tokens)
+    [browser_element] [951]<a />
+ [8235-8246] (12 tokens)
+    [browser_element] [955]<a />
+ [8248-8254] (7 tokens)
+    [browser_element] [960]<a />
+ [8261-8267] (7 tokens)
+    [browser_element] [963]<a />
+ [8271-8277] (7 tokens)
+    [browser_element] [967]<td />
+ [8285-8291] (7 tokens)
+      [browser_element] [968]<span />
+ [8293-8299] (7 tokens)
+    [browser_element] [970]<td />
+ [8305-8311] (7 tokens)
+      [browser_element] [972]<a id=up_47400868 />
+ [8313-8331] (19 tokens)
+    [browser_element] [976]<a />
+ [8332-8338] (7 tokens)
+    [browser_element] [980]<a />
+ [8354-8366] (13 tokens)
+    [browser_element] [988]<span id=score_47400868 />
+ [8368-8386] (19 tokens)
+    [browser_element] [991]<a />
+ [8395-8401] (7 tokens)
+    [browser_element] [995]<a />
+ [8406-8412] (7 tokens)
+    [browser_element] [1000]<a />
+ [8419-8426] (8 tokens)
+    [browser_element] [1003]<a />
+ [8430-8437] (8 tokens)
+    [browser_element] [1007]<td />
+ [8445-8452] (8 tokens)
+      [browser_element] [1008]<span />
+ [8454-8461] (8 tokens)
+    [browser_element] [1010]<td />
+ [8467-8474] (8 tokens)
+      [browser_element] [1012]<a id=up_47353169 />
+ [8476-8495] (20 tokens)
+    [browser_element] [1016]<a />
+ [8496-8503] (8 tokens)
+    [browser_element] [1020]<a />
+ [8527-8537] (11 tokens)
+    [browser_element] [1028]<span id=score_47353169 />
+ [8539-8558] (20 tokens)
+    [browser_element] [1031]<a />
+ [8565-8572] (8 tokens)
+      [browser_element] [1035]<a />
+ [8620-8627] (8 tokens)
+    [browser_element] [1040]<a />
+ [8634-8641] (8 tokens)
+    [browser_element] [1043]<a />
+ [8645-8652] (8 tokens)
+    [browser_element] [1047]<td />
+ [8658-8665] (8 tokens)
+      [browser_element] [1048]<span />
+ [8667-8674] (8 tokens)
+    [browser_element] [1050]<td />
+ [8680-8687] (8 tokens)
+      [browser_element] [1052]<a id=up_47359712 />
+ [8689-8708] (20 tokens)
+    [browser_element] [1056]<a />
+ [8709-8736] (28 tokens)
+    [browser_element] [1060]<a />
+ [8738-8748] (11 tokens)
+    [browser_element] [1068]<span id=score_47359712 />
+ [8750-8769] (20 tokens)
+    [browser_element] [1071]<a />
+ [8778-8785] (8 tokens)
+    [browser_element] [1075]<a />
+ [8789-8796] (8 tokens)
+    [browser_element] [1080]<a />
+ [8803-8810] (8 tokens)
+    [browser_element] [1083]<a />
+ [8814-8821] (8 tokens)
+    [browser_element] [1087]<td />
+ [8828-8835] (8 tokens)
+      [browser_element] [1088]<span />
+ [8837-8844] (8 tokens)
+    [browser_element] [1090]<td />
+ [8850-8857] (8 tokens)
+      [browser_element] [1092]<a id=up_47342185 />
+ [8859-8878] (20 tokens)
+    [browser_element] [1096]<a />
+ [8879-8891] (13 tokens)
+    [browser_element] [1100]<a />
+ [8893-8900] (8 tokens)
+    [browser_element] [1108]<span id=score_47342185 />
+ [8908-8927] (20 tokens)
+    [browser_element] [1111]<a />
+ [8936-8943] (8 tokens)
+    [browser_element] [1115]<a />
+ [8949-8956] (8 tokens)
+    [browser_element] [1120]<a />
+ [8963-8970] (8 tokens)
+    [browser_element] [1123]<a />
+ [8974-8981] (8 tokens)
+    [browser_element] [1127]<td />
+ [8988-8995] (8 tokens)
+      [browser_element] [1128]<span />
+ [8997-9004] (8 tokens)
+    [browser_element] [1130]<td />
+ [9010-9017] (8 tokens)
+      [browser_element] [1132]<a id=up_47397857 />
+ [9019-9038] (20 tokens)
+    [browser_element] [1136]<a />
+ [9039-9060] (22 tokens)
+    [browser_element] [1140]<a />
+ [9062-9077] (16 tokens)
+    [browser_element] [1148]<span id=score_47397857 />
+ [9079-9098] (20 tokens)
+    [browser_element] [1151]<a />
+ [9107-9117] (11 tokens)
+    [browser_element] [1155]<a />
+ [9119-9126] (8 tokens)
+    [browser_element] [1160]<a />
+ [9133-9140] (8 tokens)
+    [browser_element] [1163]<a />
+ [9144-9151] (8 tokens)
+    [browser_element] [1167]<td />
+ [9158-9165] (8 tokens)
+      [browser_element] [1168]<span />
+ [9167-9174] (8 tokens)
+    [browser_element] [1170]<td />
+ [9180-9187] (8 tokens)
+      [browser_element] [1172]<a id=up_47404074 />
+ [9189-9208] (20 tokens)
+    [browser_element] [1176]<a />
+ [9209-9230] (22 tokens)
+    [browser_element] [1180]<a />
+ [9232-9242] (11 tokens)
+    [browser_element] [1188]<span id=score_47404074 />
+ [9244-9263] (20 tokens)
+    [browser_element] [8]<a />
+ [9272-9276] (5 tokens)
+      [browser_element] [1194]<a />
+ [9325-9332] (8 tokens)
+    [browser_element] [1199]<a />
+ [9339-9346] (8 tokens)
+    [browser_element] [1202]<a />
+ [9350-9357] (8 tokens)
+    [browser_element] [1206]<td />
+ [9364-9371] (8 tokens)
+      [browser_element] [1207]<span />
+ [9373-9380] (8 tokens)
+    [browser_element] [1209]<td />
+ [9386-9393] (8 tokens)
+      [browser_element] [1211]<a id=up_47392510 />
+ [9395-9414] (20 tokens)
+    [browser_element] [1215]<a />
+ [9415-9431] (17 tokens)
+    [browser_element] [1219]<a />
+ [9433-9444] (12 tokens)
+    [browser_element] [1227]<span id=score_47392510 />
+ [9446-9465] (20 tokens)
+    [browser_element] [1230]<a />
+ [9473-9482] (10 tokens)
+    [browser_element] [1234]<a />
+ [9484-9491] (8 tokens)
+    [browser_element] [1239]<a />
+ [9498-9505] (8 tokens)
+    [browser_element] [1242]<a />
+ [9509-9516] (8 tokens)
+    [browser_element] [1249]<a />
+ [9524-9531] (8 tokens)
+    [browser_element] [1262]<a />
+ [9535-9545] (11 tokens)
+    [browser_element] [1265]<a />
+ [9547-9554] (8 tokens)
+    [browser_element] [1268]<a />
+ [9558-9567] (10 tokens)
+    [browser_element] [1271]<a />
+ [9569-9576] (8 tokens)
+    [browser_element] [1274]<a />
+ [9580-9589] (10 tokens)
+    [browser_element] [1277]<a />
+ [9591-9600] (10 tokens)
+    [browser_element] [1280]<a />
+ [9602-9609] (8 tokens)
+    [browser_element] [1283]<a />
+ [9616-9623] (8 tokens)
+    [browser_element] [10]<input type=text name=q autocomplete=off />
+ [9634-9651] (18 tokens)
+  [chatml] user [3673-9657] (5985 tokens)
+    [html_tag] <agent_history>
+ [3676-4018] (343 tokens)
+      [text] Agent initialized [3680-3682] (3 tokens)
+      [html_tag] <step>
+ [3683-3708] (26 tokens)
+        [text] Result [3686-3687] (2 tokens)
+        [text] Found initial url and automatically loaded it. ... [3688-3708] (21 tokens)
+      [html_tag] <step>
+ [3709-3779] (71 tokens)
+        [text] Successfully navigated to the Hacker News homep... [3712-3725] (14 tokens)
+        [text] Currently viewing the first 30 posts on Hacker ... [3726-3750] (25 tokens)
+        [text] Scroll down the page to load more posts and loc... [3751-3767] (17 tokens)
+        [text] Result [3768-3769] (2 tokens)
+        [text] Scrolled down 1080px [3770-3779] (10 tokens)
+      [html_tag] <step>
+ [3780-3850] (71 tokens)
+        [text] Successfully scrolled down the page to load mor... [3783-3797] (15 tokens)
+        [text] Currently viewing posts 1-30 on Hacker News. Ne... [3798-3821] (24 tokens)
+        [text] Scroll down the page to load more posts and loc... [3822-3838] (17 tokens)
+        [text] Result [3839-3840] (2 tokens)
+        [text] Scrolled down 1080px [3841-3850] (10 tokens)
+      [html_tag] <step>
+ [3851-3926] (76 tokens)
+        [text] Successfully scrolled down the page twice, load... [3854-3873] (20 tokens)
+        [text] Currently viewing posts 1-30 on Hacker News. Ne... [3874-3897] (24 tokens)
+        [text] Scroll down the page to load more posts and loc... [3898-3914] (17 tokens)
+        [text] Result [3915-3916] (2 tokens)
+        [text] Scrolled down 1080px [3917-3926] (10 tokens)
+      [html_tag] <step>
+ [3927-4014] (88 tokens)
+        [text] Successfully scrolled down the page twice, load... [3930-3949] (20 tokens)
+        [text] Currently viewing posts 1-30 on Hacker News. Ne... [3950-3985] (36 tokens)
+        [text] Scroll down the page to load more posts and loc... [3986-4002] (17 tokens)
+        [text] Result [4003-4004] (2 tokens)
+        [text] Scrolled down 1080px [4005-4014] (10 tokens)
+    [html_tag] <agent_state>
+ [4019-4105] (87 tokens)
+      [html_tag] <user_request>
+ [4023-4047] (25 tokens)
+        [text] Find the number 50 post on https://news.ycombin... [4027-4043] (17 tokens)
+      [html_tag] <file_system>
+
+ [4048-4055] (8 tokens)
+      [html_tag] <todo_contents>
+ [4056-4073] (18 tokens)
+        [text] [empty todo.md, fill it when applicable] [4060-4069] (10 tokens)
+      [html_tag] <step_info> [4074-4101] (28 tokens)
+        [text] Step5 maximum:100 [4078-4085] (8 tokens)
+        [text] Today:2026-03-16 [4086-4097] (12 tokens)
+    [html_tag] <browser_state>
+ [4106-9655] (5550 tokens)
+      [html_tag] <page_stats> [4110-4160] (51 tokens)
+        [text] 225 links, 361 interactive, 0 iframes, 0 scroll... [4114-4156] (43 tokens)
+      [text] Current tab: F849 [4161-4168] (8 tokens)
+      [text] Available tabs: [4169-4171] (3 tokens)
+      [text] Tab F849: https://news.ycombinator.com/ - news.... [4172-4194] (23 tokens)
+      [html_tag] <page_info> [4195-4221] (27 tokens)
+        [text] 0.1 pages above, 0.0 pages below, 1.1 total pages [4199-4217] (19 tokens)
+      [text] Interactive elements: [4222-4224] (3 tokens)
+      [text] ... 0.1 pages above ... [4225-4232] (8 tokens)
+      [text] [33]<a /> [4233-4238] (6 tokens)
+      [text] [38]<a /> [4239-4244] (6 tokens)
+      [text] Hacker News [4245-4248] (4 tokens)
+      [text] [40]<a /> [4249-4254] (6 tokens)
+      [text] new [4255-4256] (2 tokens)
+      [text] [43]<a /> [4257-4262] (6 tokens)
+      [text] past [4263-4265] (3 tokens)
+      [text] [46]<a /> [4266-4271] (6 tokens)
+  [chatml] assistant [9658-9660] (3 tokens)
+
+================================================================================
+LEAF CHUNKS (min=16, max=256)
+================================================================================
+  Total chunks: 359
+  Tokens covered: 9661/9661
+
+  chunk_  0: [    0-   33] (  34 tokens) gap+You are an AI agent designed to operate in an i...
+  chunk_  1: [   34-   54] (  21 tokens) gap+You excel at following tasks:+1. Navigating complex websites and extracting p...
+  chunk_  2: [   55-   72] (  18 tokens) 2. Automating form submissions and interactive ...+3. Gathering and saving information
+  chunk_  3: [   73-   97] (  25 tokens) 4. Using your filesystem effectively to decide ...+5. Operate effectively in an agent loop
+  chunk_  4: [   98-  113] (  16 tokens) 6. Efficiently performing diverse web tasks+gap
+  chunk_  5: [  114-  133] (  20 tokens) - Default working language: **English**+- Always respond in the same language as the us...
+  chunk_  6: [  134-  150] (  17 tokens) gap+At every step, your input will consist of:
+  chunk_  7: [  151-  168] (  18 tokens) 1. <agent_history>: A chronological event strea...
+  chunk_  8: [  169-  194] (  26 tokens) 2. <agent_state>: Current <user_request>, summa...
+  chunk_  9: [  195-  217] (  23 tokens) 3. <browser_state>: Current URL, open tabs, int...
+  chunk_ 10: [  218-  248] (  31 tokens) 4. <browser_vision>: Screenshot of the browser ...
+  chunk_ 11: [  249-  279] (  31 tokens) 5. <read_state> This will be displayed only if ...
+  chunk_ 12: [  280-  300] (  21 tokens) gap+Agent history will be given as a list of step i...
+  chunk_ 13: [  301-  317] (  17 tokens) gap+:
+Evaluation of Previous Step: Assessment of la...
+  chunk_ 14: [  318-  334] (  17 tokens) Memory: Your memory of this step+Next Goal: Your goal for this step
+  chunk_ 15: [  335-  359] (  25 tokens) Action Results: Your actions and their results+gap+and system messages wrapped in <sys> tag.
+  chunk_ 16: [  360-  380] (  21 tokens) gap+USER REQUEST: This is your ultimate objective a...
+  chunk_ 17: [  381-  414] (  34 tokens) - This has the highest priority. Make the user ...+- If the user request is very specific - then c...
+  chunk_ 18: [  415-  431] (  17 tokens) - If the task is open ended you can plan yourse...
+  chunk_ 19: [  432-  448] (  17 tokens) gap+1. Browser State will be given as:
+  chunk_ 20: [  449-  469] (  21 tokens) Current URL: URL of the page you are currently ...+Open Tabs: Open tabs with their ids.
+  chunk_ 21: [  470-  485] (  16 tokens) Interactive Elements: All interactive elements ...
+  chunk_ 22: [  486-  501] (  16 tokens) - Format: `[index]<tagname attribute=value />` ...
+  chunk_ 23: [  502-  528] (  27 tokens) - Text content appears as child nodes on separa...+- Indentation with tabs shows parent/child rela...
+  chunk_ 24: [  529-  562] (  34 tokens) Examples:+|SCROLL|+gap
+  chunk_ 25: [  563-  583] (  21 tokens) [1503]<a id=header-logo-wrapper aria-label=Duck...
+  chunk_ 26: [  584-  616] (  33 tokens) gap+*[1528]<button type=submit aria-label=search />
+
+  chunk_ 27: [  617-  773] ( 157 tokens) gap
+  chunk_ 28: [  774-  818] (  45 tokens) If you used screenshot before, you will be prov...
+  chunk_ 29: [  819-  850] (  32 tokens) If an interactive index inside your browser_sta...
+  chunk_ 30: [  851-  871] (  21 tokens) Use screenshot if you are unsure or simply want...+gap
+  chunk_ 31: [  872-  899] (  28 tokens) Strictly follow these rules while using the bro...+- Only interact with elements that have a numer...
+  chunk_ 32: [  900-  928] (  29 tokens) - Only use indexes that are explicitly provided.+- If research is needed, open a **new tab** ins...
+  chunk_ 33: [  929-  964] (  36 tokens) - If the page changes after, for example, an in...
+  chunk_ 34: [  965- 1008] (  44 tokens) - By default, only elements in the visible view...
+  chunk_ 35: [ 1009- 1042] (  34 tokens) - You can scroll by a specific number of pages ...
+  chunk_ 36: [ 1043- 1069] (  27 tokens) - If a captcha appears, attempt solving it if p...
+  chunk_ 37: [ 1070- 1085] (  16 tokens) - If expected elements are missing, try refresh...
+  chunk_ 38: [ 1086- 1123] (  38 tokens) - If the page is not fully loaded, use the wait...+- You can call extract on specific pages to gat...
+  chunk_ 39: [ 1124- 1156] (  33 tokens) - Call extract only if the information you are ...
+  chunk_ 40: [ 1157- 1198] (  42 tokens) - Calling the extract tool is expensive! DO NOT...
+  chunk_ 41: [ 1199- 1226] (  28 tokens) - If you fill an input field and your action se...
+  chunk_ 42: [ 1227- 1289] (  63 tokens) - If the action sequence was interrupted in pre...
+  chunk_ 43: [ 1290- 1322] (  33 tokens) - If the <user_request> includes specific page ...
+  chunk_ 44: [ 1323- 1347] (  25 tokens) - The <user_request> is the ultimate goal. If t...
+  chunk_ 45: [ 1348- 1374] (  27 tokens) - If you input into a field, you might need to ...
+  chunk_ 46: [ 1375- 1400] (  26 tokens) - Don't login into a page if you don't have to....
+  chunk_ 47: [ 1401- 1420] (  20 tokens) - There are 2 types of tasks always first think...
+  chunk_ 48: [ 1421- 1448] (  28 tokens) 1. Very specific step by step instructions:+- Follow them as very precise and don't skip st...
+  chunk_ 49: [ 1449- 1520] (  72 tokens) 2. Open ended tasks. Plan yourself, be creative...+- If you get stuck e.g. with logins or captcha ...
+  chunk_ 50: [ 1521- 1560] (  40 tokens) - If you reach a PDF viewer, the file is automa...
+  chunk_ 51: [ 1561- 1593] (  33 tokens) gap+- You have access to a persistent file system w...
+  chunk_ 52: [ 1594- 1656] (  63 tokens) - Your file system is initialized with a `todo....
+  chunk_ 53: [ 1657- 1679] (  23 tokens) - If you are writing a `csv` file, make sure to...
+  chunk_ 54: [ 1680- 1710] (  31 tokens) - If the file is too large, you are only given ...
+  chunk_ 55: [ 1711- 1746] (  36 tokens) - If exists, <available_file_paths> includes fi...
+  chunk_ 56: [ 1747- 1766] (  20 tokens) - If the task is really long, initialize a `res...
+  chunk_ 57: [ 1767- 1784] (  18 tokens) - DO NOT use the file system if the task is les...
+  chunk_ 58: [ 1785- 1807] (  23 tokens) gap+You must call the `done` action in one of two c...
+  chunk_ 59: [ 1808- 1837] (  30 tokens) - When you have fully completed the USER REQUEST.+- When you reach the final allowed step (`max_s...
+  chunk_ 60: [ 1838- 1870] (  33 tokens) - If it is ABSOLUTELY IMPOSSIBLE to continue.+The `done` action is your opportunity to termin...
+  chunk_ 61: [ 1871- 1893] (  23 tokens) - Set `success` to `true` only if the full USER...
+  chunk_ 62: [ 1894- 1916] (  23 tokens) - If any part of the request is missing, incomp...
+  chunk_ 63: [ 1917- 1958] (  42 tokens) - You can use the `text` field of the `done` ac...
+  chunk_ 64: [ 1959- 1982] (  24 tokens) - Put ALL the relevant information you found so...
+  chunk_ 65: [ 1983- 2007] (  25 tokens) - Combine `text` and `files_to_display` to prov...
+  chunk_ 66: [ 2008- 2032] (  25 tokens) - You are ONLY ALLOWED to call `done` as a sing...
+  chunk_ 67: [ 2033- 2068] (  36 tokens) - If the user asks for specified format, such a...
+  chunk_ 68: [ 2069- 2099] (  31 tokens) - If the user asks for a structured output, you...
+  chunk_ 69: [ 2100- 2123] (  24 tokens) gap+- You are allowed to use a maximum of 3 actions...
+  chunk_ 70: [ 2124- 2147] (  24 tokens) If you are allowed multiple actions, you can sp...
+  chunk_ 71: [ 2148- 2167] (  20 tokens) - If the page changes after an action, the sequ...
+  chunk_ 72: [ 2168- 2209] (  42 tokens) gap+You can output multiple actions in one step. Tr...
+  chunk_ 73: [ 2210- 2235] (  26 tokens) **Recommended Action Combinations:**+- `input` + `click` → Fill form field and submi...
+  chunk_ 74: [ 2236- 2273] (  38 tokens) - `input` + `input` → Fill multiple form fields+- `click` + `click` → Navigate through multi-st...
+  chunk_ 75: [ 2274- 2303] (  30 tokens) - `scroll` with pages 10 + `extract` → Scroll t...
+  chunk_ 76: [ 2304- 2328] (  25 tokens) - File operations + browser actions+Do not try multiple different paths in one step...
+  chunk_ 77: [ 2329- 2359] (  31 tokens) Its important that you see in the next step if ...
+  chunk_ 78: [ 2360- 2381] (  22 tokens) - do not use click and then navigate, because y...
+  chunk_ 79: [ 2382- 2401] (  20 tokens) - or do not use switch and switch together, bec...
+  chunk_ 80: [ 2402- 2423] (  22 tokens) - do not use input and then scroll, because you...
+  chunk_ 81: [ 2424- 2450] (  27 tokens) gap+You must reason explicitly and systematically a...
+  chunk_ 82: [ 2451- 2482] (  32 tokens) Exhibit the following reasoning patterns to suc...+- Reason about <agent_history> to track progres...
+  chunk_ 83: [ 2483- 2512] (  30 tokens) - Analyze the most recent "Next Goal" and "Acti...
+  chunk_ 84: [ 2513- 2547] (  35 tokens) - Analyze all relevant items in <agent_history>...
+  chunk_ 85: [ 2548- 2677] ( 130 tokens) - Explicitly judge success/failure/uncertainty ...
+  chunk_ 86: [ 2678- 2702] (  25 tokens) - If todo.md is empty and the task is multi-ste...
+  chunk_ 87: [ 2703- 2733] (  31 tokens) - Analyze `todo.md` to guide and track your pro...+- If any todo.md items are finished, mark them ...
+  chunk_ 88: [ 2734- 2779] (  46 tokens) - Analyze whether you are stuck, e.g. when you ...
+  chunk_ 89: [ 2780- 2824] (  45 tokens) - Analyze the <read_state> where one-time infor...
+  chunk_ 90: [ 2825- 2843] (  19 tokens) - If you see information relevant to <user_requ...
+  chunk_ 91: [ 2844- 2871] (  28 tokens) - Before writing data into a file, analyze the ...
+  chunk_ 92: [ 2872- 2888] (  17 tokens) - Decide what concise, actionable context shoul...
+  chunk_ 93: [ 2889- 2909] (  21 tokens) - When ready to finish, state you are preparing...
+  chunk_ 94: [ 2910- 2925] (  16 tokens) - Before done, use read_file to verify file con...
+  chunk_ 95: [ 2926- 2985] (  60 tokens) - Always reason about the <user_request>. Make ...
+  chunk_ 96: [ 2986- 3011] (  26 tokens) gap+Here are examples of good output patterns. Use ...
+  chunk_ 97: [ 3012- 3030] (  19 tokens) gap+"write_file": {+gap+"file_name": "todo.md",
+  chunk_ 98: [ 3031- 3232] ( 202 tokens) gap+"content": "# ArXiv CS.AI Recent Papers Collect...
+  chunk_ 99: [ 3233- 3270] (  38 tokens) gap+}+gap+- Positive Examples:+"evaluation_previous_goal": "Successfully navig...
+  chunk_100: [ 3271- 3291] (  21 tokens) "evaluation_previous_goal": "Clicked the login ...
+  chunk_101: [ 3292- 3323] (  32 tokens) - Negative Examples:+"evaluation_previous_goal": "Failed to input te...
+  chunk_102: [ 3324- 3351] (  28 tokens) "evaluation_previous_goal": "Clicked the submit...
+  chunk_103: [ 3352- 3410] (  59 tokens) gap+"memory": "Visited 2 of 5 target websites. Coll...
+  chunk_104: [ 3411- 3450] (  40 tokens) "memory": "Found many pending reports that need...
+  chunk_105: [ 3451- 3480] (  30 tokens) gap+"next_goal": "Click on the 'Add to Cart' button...
+  chunk_106: [ 3481- 3506] (  26 tokens) "next_goal": "Extract details from the first it...+gap
+  chunk_107: [ 3507- 3528] (  22 tokens) You must ALWAYS respond with a valid JSON in th...+{
+  "thinking": "A structured
+  chunk_108: [ 3529- 3544] (  16 tokens) gap+-style reasoning block that applies the <reason...+gap
+  chunk_109: [ 3545- 3571] (  27 tokens) "evaluation_previous_goal": "Concise one-senten...
+  chunk_110: [ 3572- 3615] (  44 tokens) gap+"memory": "1-3 sentences of specific memory of ...
+  chunk_111: [ 3616- 3637] (  22 tokens) gap+"next_goal": "State the next immediate goal and...
+  chunk_112: [ 3638- 3659] (  22 tokens) gap+"action":[{"navigate": { "url": "url_value"}}, ...
+  chunk_113: [ 3660- 3679] (  20 tokens) }
+Action list should NEVER be empty.+gap
+  chunk_114: [ 3680- 3708] (  29 tokens) Agent initialized+gap+Result+Found initial url and automatically loaded it. ...
+  chunk_115: [ 3709- 3725] (  17 tokens) gap+Successfully navigated to the Hacker News homep...
+  chunk_116: [ 3726- 3750] (  25 tokens) Currently viewing the first 30 posts on Hacker ...
+  chunk_117: [ 3751- 3767] (  17 tokens) Scroll down the page to load more posts and loc...
+  chunk_118: [ 3768- 3797] (  30 tokens) Result+Scrolled down 1080px+gap+Successfully scrolled down the page to load mor...
+  chunk_119: [ 3798- 3821] (  24 tokens) Currently viewing posts 1-30 on Hacker News. Ne...
+  chunk_120: [ 3822- 3838] (  17 tokens) Scroll down the page to load more posts and loc...
+  chunk_121: [ 3839- 3873] (  35 tokens) Result+Scrolled down 1080px+gap+Successfully scrolled down the page twice, load...
+  chunk_122: [ 3874- 3897] (  24 tokens) Currently viewing posts 1-30 on Hacker News. Ne...
+  chunk_123: [ 3898- 3914] (  17 tokens) Scroll down the page to load more posts and loc...
+  chunk_124: [ 3915- 3949] (  35 tokens) Result+Scrolled down 1080px+gap+Successfully scrolled down the page twice, load...
+  chunk_125: [ 3950- 3985] (  36 tokens) Currently viewing posts 1-30 on Hacker News. Ne...
+  chunk_126: [ 3986- 4002] (  17 tokens) Scroll down the page to load more posts and loc...
+  chunk_127: [ 4003- 4026] (  24 tokens) Result+Scrolled down 1080px+gap
+  chunk_128: [ 4027- 4043] (  17 tokens) Find the number 50 post on https://news.ycombin...
+  chunk_129: [ 4044- 4059] (  16 tokens) gap+<file_system>
+
++gap
+  chunk_130: [ 4060- 4077] (  18 tokens) [empty todo.md, fill it when applicable]+gap
+  chunk_131: [ 4078- 4097] (  20 tokens) Step5 maximum:100+Today:2026-03-16
+  chunk_132: [ 4098- 4113] (  16 tokens) gap
+  chunk_133: [ 4114- 4156] (  43 tokens) 225 links, 361 interactive, 0 iframes, 0 scroll...
+  chunk_134: [ 4157- 4194] (  38 tokens) gap+Current tab: F849+Available tabs:+Tab F849: https://news.ycombinator.com/ - news....
+  chunk_135: [ 4195- 4217] (  23 tokens) gap+0.1 pages above, 0.0 pages below, 1.1 total pages
+  chunk_136: [ 4218- 4238] (  21 tokens) gap+Interactive elements:+... 0.1 pages above ...+[33]<a />
+  chunk_137: [ 4239- 4254] (  16 tokens) [38]<a />+Hacker News+[40]<a />
+  chunk_138: [ 4255- 4271] (  17 tokens) new+[43]<a />+past+[46]<a />
+  chunk_139: [ 4272- 4290] (  19 tokens) gap+[49]<a />
++gap+[52]<a />
+
+  chunk_140: [ 4291- 4308] (  18 tokens) gap+[55]<a />
++gap+[58]<a />
+
+  chunk_141: [ 4309- 4332] (  24 tokens) gap+[62]<a />
++gap
+  chunk_142: [ 4333- 4349] (  17 tokens) [70]<span />
++gap
+  chunk_143: [ 4350- 4367] (  18 tokens) [74]<a id=up_47406779 />
+
+  chunk_144: [ 4368- 4383] (  16 tokens) [78]<a />
++gap
+  chunk_145: [ 4384- 4411] (  28 tokens) [82]<a />
++gap+[90]<span id=score_47406779 />
+
+  chunk_146: [ 4412- 4469] (  58 tokens) gap
+  chunk_147: [ 4470- 4488] (  19 tokens) [97]<a />
++gap+[102]<a />
+
+  chunk_148: [ 4489- 4513] (  25 tokens) gap+[105]<a />
++gap
+  chunk_149: [ 4514- 4532] (  19 tokens) [110]<span />
++gap
+  chunk_150: [ 4533- 4551] (  19 tokens) [114]<a id=up_47404796 />
+
+  chunk_151: [ 4552- 4573] (  22 tokens) [118]<a />
++gap
+  chunk_152: [ 4574- 4604] (  31 tokens) [122]<a />
++gap+[130]<span id=score_47404796 />
+
+  chunk_153: [ 4605- 4664] (  60 tokens) gap
+  chunk_154: [ 4665- 4684] (  20 tokens) [137]<a />
++gap+[142]<a />
+
+  chunk_155: [ 4685- 4708] (  24 tokens) gap+[145]<a />
++gap
+  chunk_156: [ 4709- 4727] (  19 tokens) [150]<span />
++gap
+  chunk_157: [ 4728- 4746] (  19 tokens) [154]<a id=up_47402640 />
+
+  chunk_158: [ 4747- 4762] (  16 tokens) [158]<a />
+
+  chunk_159: [ 4763- 4778] (  16 tokens) gap+[162]<a />
+
+  chunk_160: [ 4779- 4802] (  24 tokens) gap+[170]<span id=score_47402640 />
+
+  chunk_161: [ 4803- 4863] (  61 tokens) gap
+  chunk_162: [ 4864- 4883] (  20 tokens) [177]<a />
++gap+[182]<a />
+
+  chunk_163: [ 4884- 4908] (  25 tokens) gap+[185]<a />
++gap
+  chunk_164: [ 4909- 4927] (  19 tokens) [190]<span />
++gap
+  chunk_165: [ 4928- 4946] (  19 tokens) [194]<a id=up_47401809 />
+
+  chunk_166: [ 4947- 4971] (  25 tokens) [198]<a />
++gap
+  chunk_167: [ 4972- 5005] (  34 tokens) [202]<a />
++gap+[210]<span id=score_47401809 />
+
+  chunk_168: [ 5006- 5064] (  59 tokens) gap
+  chunk_169: [ 5065- 5084] (  20 tokens) [217]<a />
++gap+[222]<a />
+
+  chunk_170: [ 5085- 5109] (  25 tokens) gap+[225]<a />
++gap
+  chunk_171: [ 5110- 5128] (  19 tokens) [230]<span />
++gap
+  chunk_172: [ 5129- 5147] (  19 tokens) [234]<a id=up_47401879 />
+
+  chunk_173: [ 5148- 5165] (  18 tokens) [238]<a />
+
+  chunk_174: [ 5166- 5199] (  34 tokens) gap+[242]<a />
++gap+[250]<span id=score_47401879 />
+
+  chunk_175: [ 5200- 5259] (  60 tokens) gap
+  chunk_176: [ 5260- 5279] (  20 tokens) [257]<a />
++gap+[262]<a />
+
+  chunk_177: [ 5280- 5304] (  25 tokens) gap+[265]<a />
++gap
+  chunk_178: [ 5305- 5323] (  19 tokens) [270]<span />
++gap
+  chunk_179: [ 5324- 5342] (  19 tokens) [274]<a id=up_47398534 />
+
+  chunk_180: [ 5343- 5366] (  24 tokens) [278]<a />
+
+  chunk_181: [ 5367- 5398] (  32 tokens) [282]<a />
++gap+[290]<span id=score_47398534 />
+
+  chunk_182: [ 5399- 5414] (  16 tokens) gap+[7]<a />
+
+  chunk_183: [ 5415- 5435] (  21 tokens) gap+[296]<a />
++gap+[301]<a />
+
+  chunk_184: [ 5436- 5459] (  24 tokens) gap+[304]<a />
++gap
+  chunk_185: [ 5460- 5478] (  19 tokens) [309]<span />
++gap
+  chunk_186: [ 5479- 5497] (  19 tokens) [313]<a id=up_47359010 />
+
+  chunk_187: [ 5498- 5514] (  17 tokens) [317]<a />
+
+  chunk_188: [ 5515- 5545] (  31 tokens) gap+[321]<a />
++gap+[329]<span id=score_47359010 />
+
+  chunk_189: [ 5546- 5603] (  58 tokens) gap
+  chunk_190: [ 5604- 5623] (  20 tokens) [335]<a />
++gap+[340]<a />
+
+  chunk_191: [ 5624- 5646] (  23 tokens) gap+[343]<a />
++gap
+  chunk_192: [ 5647- 5665] (  19 tokens) [348]<span />
++gap
+  chunk_193: [ 5666- 5684] (  19 tokens) [352]<a id=up_47364260 />
+
+  chunk_194: [ 5685- 5711] (  27 tokens) [356]<a />
++gap
+  chunk_195: [ 5712- 5727] (  16 tokens) [360]<a />
++gap
+  chunk_196: [ 5728- 5746] (  19 tokens) [368]<span id=score_47364260 />
+
+  chunk_197: [ 5747- 5806] (  60 tokens) gap
+  chunk_198: [ 5807- 5826] (  20 tokens) [375]<a />
++gap+[380]<a />
+
+  chunk_199: [ 5827- 5850] (  24 tokens) gap+[383]<a />
++gap
+  chunk_200: [ 5851- 5869] (  19 tokens) [388]<span />
++gap
+  chunk_201: [ 5870- 5888] (  19 tokens) [392]<a id=up_47355100 />
+
+  chunk_202: [ 5889- 5912] (  24 tokens) [396]<a />
++gap+[400]<a />
+
+  chunk_203: [ 5913- 5932] (  20 tokens) gap+[408]<span id=score_47355100 />
+
+  chunk_204: [ 5933- 5990] (  58 tokens) gap
+  chunk_205: [ 5991- 6010] (  20 tokens) [415]<a />
++gap+[420]<a />
+
+  chunk_206: [ 6011- 6033] (  23 tokens) gap+[423]<a />
++gap
+  chunk_207: [ 6034- 6053] (  20 tokens) [428]<span />
++gap
+  chunk_208: [ 6054- 6072] (  19 tokens) [432]<a id=up_47366766 />
+
+  chunk_209: [ 6073- 6094] (  22 tokens) [436]<a />
++gap
+  chunk_210: [ 6095- 6127] (  33 tokens) [440]<a />
++gap+[448]<span id=score_47366766 />
+
+  chunk_211: [ 6128- 6185] (  58 tokens) gap
+  chunk_212: [ 6186- 6205] (  20 tokens) [455]<a />
++gap+[460]<a />
+
+  chunk_213: [ 6206- 6229] (  24 tokens) gap+[463]<a />
++gap
+  chunk_214: [ 6230- 6249] (  20 tokens) [468]<span />
++gap
+  chunk_215: [ 6250- 6268] (  19 tokens) [472]<a id=up_47397574 />
+
+  chunk_216: [ 6269- 6292] (  24 tokens) [476]<a />
++gap+[480]<a />
+
+  chunk_217: [ 6293- 6312] (  20 tokens) gap+[488]<span id=score_47397574 />
+
+  chunk_218: [ 6313- 6330] (  18 tokens) gap+[491]<a />
++gap
+  chunk_219: [ 6331- 6350] (  20 tokens) [495]<a />
++gap+[500]<a />
+
+  chunk_220: [ 6351- 6375] (  25 tokens) gap+[503]<a />
++gap
+  chunk_221: [ 6376- 6395] (  20 tokens) [508]<span />
++gap
+  chunk_222: [ 6396- 6414] (  19 tokens) [512]<a id=up_47407458 />
+
+  chunk_223: [ 6415- 6434] (  20 tokens) [516]<a />
+
+  chunk_224: [ 6435- 6466] (  32 tokens) gap+[520]<a />
++gap+[528]<span id=score_47407458 />
+
+  chunk_225: [ 6467- 6483] (  17 tokens) gap+[531]<a />
+
+  chunk_226: [ 6484- 6504] (  21 tokens) gap+[535]<a />
++gap+[540]<a />
+
+  chunk_227: [ 6505- 6527] (  23 tokens) gap+[543]<a />
++gap
+  chunk_228: [ 6528- 6547] (  20 tokens) [548]<span />
++gap
+  chunk_229: [ 6548- 6566] (  19 tokens) [552]<a id=up_47396264 />
+
+  chunk_230: [ 6567- 6582] (  16 tokens) [556]<a />
++gap
+  chunk_231: [ 6583- 6615] (  33 tokens) [560]<a />
++gap+[568]<span id=score_47396264 />
+
+  chunk_232: [ 6616- 6633] (  18 tokens) gap+[571]<a />
+
+  chunk_233: [ 6634- 6654] (  21 tokens) gap+[575]<a />
++gap+[580]<a />
+
+  chunk_234: [ 6655- 6679] (  25 tokens) gap+[583]<a />
++gap
+  chunk_235: [ 6680- 6699] (  20 tokens) [588]<span />
++gap
+  chunk_236: [ 6700- 6718] (  19 tokens) [592]<a id=up_47401901 />
+
+  chunk_237: [ 6719- 6736] (  18 tokens) [596]<a />
++gap
+  chunk_238: [ 6737- 6766] (  30 tokens) [600]<a />
++gap+[608]<span id=score_47401901 />
+
+  chunk_239: [ 6767- 6824] (  58 tokens) gap
+  chunk_240: [ 6825- 6844] (  20 tokens) [615]<a />
++gap+[620]<a />
+
+  chunk_241: [ 6845- 6868] (  24 tokens) gap+[623]<a />
++gap
+  chunk_242: [ 6869- 6888] (  20 tokens) [628]<span />
++gap
+  chunk_243: [ 6889- 6907] (  19 tokens) [632]<a id=up_47398681 />
+
+  chunk_244: [ 6908- 6929] (  22 tokens) [636]<a />
++gap+[640]<a />
+
+  chunk_245: [ 6930- 6952] (  23 tokens) gap+[648]<span id=score_47398681 />
+
+  chunk_246: [ 6953- 6970] (  18 tokens) gap+[651]<a />
+
+  chunk_247: [ 6971- 6991] (  21 tokens) gap+[655]<a />
++gap+[660]<a />
+
+  chunk_248: [ 6992- 7016] (  25 tokens) gap+[663]<a />
++gap
+  chunk_249: [ 7017- 7035] (  19 tokens) [668]<span />
++gap+[674]<a />
+
+  chunk_250: [ 7036- 7100] (  65 tokens) gap
+  chunk_251: [ 7101- 7120] (  20 tokens) [686]<a />
++gap+[689]<a />
+
+  chunk_252: [ 7121- 7138] (  18 tokens) gap+[694]<span />
+
+  chunk_253: [ 7139- 7170] (  32 tokens) gap+[698]<a id=up_47397822 />
+
+  chunk_254: [ 7171- 7191] (  21 tokens) [702]<a />
+
+  chunk_255: [ 7192- 7225] (  34 tokens) gap+[706]<a />
++gap+[714]<span id=score_47397822 />
+
+  chunk_256: [ 7226- 7243] (  18 tokens) gap+[717]<a />
+
+  chunk_257: [ 7244- 7264] (  21 tokens) gap+[721]<a />
++gap+[726]<a />
+
+  chunk_258: [ 7265- 7289] (  25 tokens) gap+[729]<a />
++gap
+  chunk_259: [ 7290- 7309] (  20 tokens) [734]<span />
++gap
+  chunk_260: [ 7310- 7328] (  19 tokens) [738]<a id=up_47401042 />
+
+  chunk_261: [ 7329- 7359] (  31 tokens) [742]<a />
++gap
+  chunk_262: [ 7360- 7378] (  19 tokens) [748]<span id=score_47401042 />
+
+  chunk_263: [ 7379- 7437] (  59 tokens) gap
+  chunk_264: [ 7438- 7457] (  20 tokens) [755]<a />
++gap+[760]<a />
+
+  chunk_265: [ 7458- 7481] (  24 tokens) gap+[763]<a />
++gap
+  chunk_266: [ 7482- 7501] (  20 tokens) [768]<span />
++gap
+  chunk_267: [ 7502- 7520] (  19 tokens) [772]<a id=up_47400261 />
+
+  chunk_268: [ 7521- 7545] (  25 tokens) [776]<a />
++gap
+  chunk_269: [ 7546- 7576] (  31 tokens) [780]<a />
++gap+[788]<span id=score_47400261 />
+
+  chunk_270: [ 7577- 7597] (  21 tokens) gap+[791]<a />
+
+  chunk_271: [ 7598- 7618] (  21 tokens) gap+[795]<a />
++gap+[800]<a />
+
+  chunk_272: [ 7619- 7643] (  25 tokens) gap+[803]<a />
++gap
+  chunk_273: [ 7644- 7663] (  20 tokens) [808]<span />
++gap
+  chunk_274: [ 7664- 7682] (  19 tokens) [812]<a id=up_47348652 />
+
+  chunk_275: [ 7683- 7707] (  25 tokens) [816]<a />
++gap+[820]<a />
+
+  chunk_276: [ 7708- 7727] (  20 tokens) gap+[828]<span id=score_47348652 />
+
+  chunk_277: [ 7728- 7747] (  20 tokens) gap+[831]<a />
+
+  chunk_278: [ 7748- 7768] (  21 tokens) gap+[835]<a />
++gap+[840]<a />
+
+  chunk_279: [ 7769- 7793] (  25 tokens) gap+[843]<a />
++gap
+  chunk_280: [ 7794- 7813] (  20 tokens) [848]<span />
++gap
+  chunk_281: [ 7814- 7832] (  19 tokens) [852]<a id=up_47344821 />
+
+  chunk_282: [ 7833- 7859] (  27 tokens) [856]<a />
++gap+[860]<a />
+
+  chunk_283: [ 7860- 7879] (  20 tokens) gap+[868]<span id=score_47344821 />
+
+  chunk_284: [ 7880- 7936] (  57 tokens) gap
+  chunk_285: [ 7937- 7956] (  20 tokens) [875]<a />
++gap+[880]<a />
+
+  chunk_286: [ 7957- 7980] (  24 tokens) gap+[883]<a />
++gap
+  chunk_287: [ 7981- 8000] (  20 tokens) [888]<span />
++gap
+  chunk_288: [ 8001- 8019] (  19 tokens) [892]<a id=up_47390345 />
+
+  chunk_289: [ 8020- 8035] (  16 tokens) [896]<a />
++gap
+  chunk_290: [ 8036- 8051] (  16 tokens) [900]<a />
++gap
+  chunk_291: [ 8052- 8070] (  19 tokens) [908]<span id=score_47390345 />
+
+  chunk_292: [ 8071- 8086] (  16 tokens) gap+[911]<a />
++gap
+  chunk_293: [ 8087- 8106] (  20 tokens) [915]<a />
++gap+[920]<a />
+
+  chunk_294: [ 8107- 8131] (  25 tokens) gap+[923]<a />
++gap
+  chunk_295: [ 8132- 8151] (  20 tokens) [928]<span />
++gap
+  chunk_296: [ 8152- 8170] (  19 tokens) [932]<a id=up_47397593 />
+
+  chunk_297: [ 8171- 8193] (  23 tokens) [936]<a />
+
+  chunk_298: [ 8194- 8226] (  33 tokens) gap+[940]<a />
++gap+[948]<span id=score_47397593 />
+
+  chunk_299: [ 8227- 8246] (  20 tokens) gap+[951]<a />
+
+  chunk_300: [ 8247- 8267] (  21 tokens) gap+[955]<a />
++gap+[960]<a />
+
+  chunk_301: [ 8268- 8292] (  25 tokens) gap+[963]<a />
++gap
+  chunk_302: [ 8293- 8312] (  20 tokens) [968]<span />
++gap
+  chunk_303: [ 8313- 8331] (  19 tokens) [972]<a id=up_47400868 />
+
+  chunk_304: [ 8332- 8353] (  22 tokens) [976]<a />
++gap
+  chunk_305: [ 8354- 8386] (  33 tokens) [980]<a />
++gap+[988]<span id=score_47400868 />
+
+  chunk_306: [ 8387- 8405] (  19 tokens) gap+[991]<a />
++gap
+  chunk_307: [ 8406- 8426] (  21 tokens) [995]<a />
++gap+[1000]<a />
+
+  chunk_308: [ 8427- 8453] (  27 tokens) gap+[1003]<a />
++gap
+  chunk_309: [ 8454- 8475] (  22 tokens) [1008]<span />
++gap
+  chunk_310: [ 8476- 8495] (  20 tokens) [1012]<a id=up_47353169 />
+
+  chunk_311: [ 8496- 8526] (  31 tokens) [1016]<a />
++gap
+  chunk_312: [ 8527- 8558] (  32 tokens) [1020]<a />
++gap+[1028]<span id=score_47353169 />
+
+  chunk_313: [ 8559- 8619] (  61 tokens) gap
+  chunk_314: [ 8620- 8641] (  22 tokens) [1035]<a />
++gap+[1040]<a />
+
+  chunk_315: [ 8642- 8666] (  25 tokens) gap+[1043]<a />
++gap
+  chunk_316: [ 8667- 8688] (  22 tokens) [1048]<span />
++gap
+  chunk_317: [ 8689- 8708] (  20 tokens) [1052]<a id=up_47359712 />
+
+  chunk_318: [ 8709- 8736] (  28 tokens) [1056]<a />
+
+  chunk_319: [ 8737- 8769] (  33 tokens) gap+[1060]<a />
++gap+[1068]<span id=score_47359712 />
+
+  chunk_320: [ 8770- 8785] (  16 tokens) gap+[1071]<a />
+
+  chunk_321: [ 8786- 8802] (  17 tokens) gap+[1075]<a />
++gap
+  chunk_322: [ 8803- 8821] (  19 tokens) [1080]<a />
++gap+[1083]<a />
+
+  chunk_323: [ 8822- 8844] (  23 tokens) gap+[1088]<span />
+
+  chunk_324: [ 8845- 8878] (  34 tokens) gap+[1092]<a id=up_47342185 />
+
+  chunk_325: [ 8879- 8900] (  22 tokens) [1096]<a />
++gap+[1100]<a />
+
+  chunk_326: [ 8901- 8927] (  27 tokens) gap+[1108]<span id=score_47342185 />
+
+  chunk_327: [ 8928- 8943] (  16 tokens) gap+[1111]<a />
+
+  chunk_328: [ 8944- 8962] (  19 tokens) gap+[1115]<a />
++gap
+  chunk_329: [ 8963- 8981] (  19 tokens) [1120]<a />
++gap+[1123]<a />
+
+  chunk_330: [ 8982- 9004] (  23 tokens) gap+[1128]<span />
+
+  chunk_331: [ 9005- 9038] (  34 tokens) gap+[1132]<a id=up_47397857 />
+
+  chunk_332: [ 9039- 9060] (  22 tokens) [1136]<a />
+
+  chunk_333: [ 9061- 9077] (  17 tokens) gap+[1140]<a />
+
+  chunk_334: [ 9078- 9098] (  21 tokens) gap+[1148]<span id=score_47397857 />
+
+  chunk_335: [ 9099- 9117] (  19 tokens) gap+[1151]<a />
+
+  chunk_336: [ 9118- 9140] (  23 tokens) gap+[1155]<a />
++gap+[1160]<a />
+
+  chunk_337: [ 9141- 9166] (  26 tokens) gap+[1163]<a />
++gap
+  chunk_338: [ 9167- 9188] (  22 tokens) [1168]<span />
++gap
+  chunk_339: [ 9189- 9208] (  20 tokens) [1172]<a id=up_47404074 />
+
+  chunk_340: [ 9209- 9230] (  22 tokens) [1176]<a />
+
+  chunk_341: [ 9231- 9263] (  33 tokens) gap+[1180]<a />
++gap+[1188]<span id=score_47404074 />
+
+  chunk_342: [ 9264- 9324] (  61 tokens) gap
+  chunk_343: [ 9325- 9346] (  22 tokens) [1194]<a />
++gap+[1199]<a />
+
+  chunk_344: [ 9347- 9372] (  26 tokens) gap+[1202]<a />
++gap
+  chunk_345: [ 9373- 9394] (  22 tokens) [1207]<span />
++gap
+  chunk_346: [ 9395- 9414] (  20 tokens) [1211]<a id=up_47392510 />
+
+  chunk_347: [ 9415- 9431] (  17 tokens) [1215]<a />
+
+  chunk_348: [ 9432- 9465] (  34 tokens) gap+[1219]<a />
++gap+[1227]<span id=score_47392510 />
+
+  chunk_349: [ 9466- 9482] (  17 tokens) gap+[1230]<a />
+
+  chunk_350: [ 9483- 9505] (  23 tokens) gap+[1234]<a />
++gap+[1239]<a />
+
+  chunk_351: [ 9506- 9523] (  18 tokens) gap+[1242]<a />
++gap
+  chunk_352: [ 9524- 9545] (  22 tokens) [1249]<a />
++gap+[1262]<a />
+
+  chunk_353: [ 9546- 9567] (  22 tokens) gap+[1265]<a />
++gap+[1268]<a />
+
+  chunk_354: [ 9568- 9589] (  22 tokens) gap+[1271]<a />
++gap+[1274]<a />
+
+  chunk_355: [ 9590- 9609] (  20 tokens) gap+[1277]<a />
++gap+[1280]<a />
+
+  chunk_356: [ 9610- 9633] (  24 tokens) gap+[1283]<a />
++gap
+  chunk_357: [ 9634- 9651] (  18 tokens) [10]<input type=text name=q autocomplete=off />
+
+  chunk_358: [ 9652- 9660] (   9 tokens) gap+assistant
+
+================================================================================
+CHUNK CONTENT PREVIEW (first 5 tokens of each chunk)
+================================================================================
+  chunk_  0: '<|im_start|>system\nYou are'...
+  chunk_  1: '<intro>\nYou excel'...
+  chunk_  2: '2. Automating form'...
+  chunk_  3: '4. Using your filesystem'...
+  chunk_  4: '6. Efficiently performing'...
+  chunk_  5: '- Default working language:'...
+  chunk_  6: '</language_settings>\n<input'...
+  chunk_  7: '1. <agent_history'...
+  chunk_  8: '2. <agent_state'...
+  chunk_  9: '3. <browser_state'...
+  chunk_ 10: '4. <browser_v'...
+  chunk_ 11: '5. <read_state'...
+  chunk_ 12: '</input>\n<agent'...
+  chunk_ 13: '<step_{step_number'...
+  chunk_ 14: 'Memory: Your memory of'...
+  chunk_ 15: 'Action Results: Your actions'...
+  chunk_ 16: '</agent_history>\n<'...
+  chunk_ 17: '- This has the highest'...
+  chunk_ 18: '- If the task is'...
+  chunk_ 19: '</user_request>\n<'...
+  chunk_ 20: 'Current URL: URL of'...
+  chunk_ 21: 'Interactive Elements: All interactive'...
+  chunk_ 22: '- Format: `[index'...
+  chunk_ 23: '- Text content appears as'...
+  chunk_ 24: 'Examples:\n|SCROLL'...
+  chunk_ 25: '[1503'...
+  chunk_ 26: '\t\tUser form\n\t'...
+  chunk_ 27: '\n- (stacked'...
+  chunk_ 28: 'If you used screenshot before'...
+  chunk_ 29: 'If an interactive index inside'...
+  chunk_ 30: 'Use screenshot if you are'...
+  chunk_ 31: 'Strictly follow these rules'...
+  chunk_ 32: '- Only use indexes that'...
+  chunk_ 33: '- If the page changes'...
+  chunk_ 34: '- By default, only'...
+  chunk_ 35: '- You can scroll by'...
+  chunk_ 36: '- If a captcha appears'...
+  chunk_ 37: '- If expected elements are'...
+  chunk_ 38: '- If the page is'...
+  chunk_ 39: '- Call extract only if'...
+  chunk_ 40: '- Calling the extract tool'...
+  chunk_ 41: '- If you fill an'...
+  chunk_ 42: '- If the action sequence'...
+  chunk_ 43: '- If the <user'...
+  chunk_ 44: '- The <user_request'...
+  chunk_ 45: '- If you input into'...
+  chunk_ 46: "- Don't login into"...
+  chunk_ 47: '- There are 2'...
+  chunk_ 48: '1. Very specific step'...
+  chunk_ 49: '2. Open ended tasks'...
+  chunk_ 50: '- If you reach a'...
+  chunk_ 51: '</browser_rules>\n<'...
+  chunk_ 52: '- Your file system is'...
+  chunk_ 53: '- If you are writing'...
+  chunk_ 54: '- If the file is'...
+  chunk_ 55: '- If exists, <'...
+  chunk_ 56: '- If the task is'...
+  chunk_ 57: '- DO NOT use the'...
+  chunk_ 58: '</file_system>\n<'...
+  chunk_ 59: '- When you have fully'...
+  chunk_ 60: '- If it is ABS'...
+  chunk_ 61: '- Set `success`'...
+  chunk_ 62: '- If any part of'...
+  chunk_ 63: '- You can use the'...
+  chunk_ 64: '- Put ALL the relevant'...
+  chunk_ 65: '- Combine `text`'...
+  chunk_ 66: '- You are ONLY ALLOW'...
+  chunk_ 67: '- If the user asks'...
+  chunk_ 68: '- If the user asks'...
+  chunk_ 69: '</task_completion_rules>\n'...
+  chunk_ 70: 'If you are allowed multiple'...
+  chunk_ 71: '- If the page changes'...
+  chunk_ 72: '</action_rules>\n<'...
+  chunk_ 73: '**Recommended Action Combinations'...
+  chunk_ 74: '- `input` +'...
+  chunk_ 75: '- `scroll` with'...
+  chunk_ 76: '- File operations + browser'...
+  chunk_ 77: 'Its important that you see'...
+  chunk_ 78: '- do not use click'...
+  chunk_ 79: '- or do not use'...
+  chunk_ 80: '- do not use input'...
+  chunk_ 81: '</efficiency_guidelines'...
+  chunk_ 82: 'Exhibit the following reasoning'...
+  chunk_ 83: '- Analyze the most'...
+  chunk_ 84: '- Analyze all relevant'...
+  chunk_ 85: '- Explicitly judge success'...
+  chunk_ 86: '- If todo.md is'...
+  chunk_ 87: '- Analyze `todo'...
+  chunk_ 88: '- Analyze whether you'...
+  chunk_ 89: '- Analyze the <'...
+  chunk_ 90: '- If you see information'...
+  chunk_ 91: '- Before writing data into'...
+  chunk_ 92: '- Decide what concise,'...
+  chunk_ 93: '- When ready to finish'...
+  chunk_ 94: '- Before done, use'...
+  chunk_ 95: '- Always reason about the'...
+  chunk_ 96: '</reasoning_rules>\n'...
+  chunk_ 97: '<todo_examples>\n '...
+  chunk_ 98: '    "content": "#'...
+  chunk_ 99: '  }\n</todo_examples'...
+  chunk_100: '"evaluation_previous_goal":'...
+  chunk_101: '- Negative Examples:\n"'...
+  chunk_102: '"evaluation_previous_goal":'...
+  chunk_103: '</evaluation_examples>\n<m'...
+  chunk_104: '"memory": "Found'...
+  chunk_105: '</memory_examples>\n<'...
+  chunk_106: '"next_goal": "'...
+  chunk_107: 'You must ALWAYS respond with'...
+  chunk_108: '<think>-style reasoning block that'...
+  chunk_109: ' "evaluation_previous_goal":'...
+  chunk_110: '  "memory": "'...
+  chunk_111: '  "next_goal":'...
+  chunk_112: '  "action":[{"navigate'...
+  chunk_113: '}\nAction list should NEVER'...
+  chunk_114: 'Agent initialized\n<step'...
+  chunk_115: '<step>\nSuccessfully navig'...
+  chunk_116: 'Currently viewing the first '...
+  chunk_117: 'Scroll down the page to'...
+  chunk_118: 'Result\nScrolled down'...
+  chunk_119: 'Currently viewing posts 1'...
+  chunk_120: 'Scroll down the page to'...
+  chunk_121: 'Result\nScrolled down'...
+  chunk_122: 'Currently viewing posts 1'...
+  chunk_123: 'Scroll down the page to'...
+  chunk_124: 'Result\nScrolled down'...
+  chunk_125: 'Currently viewing posts 1'...
+  chunk_126: 'Scroll down the page to'...
+  chunk_127: 'Result\nScrolled down'...
+  chunk_128: 'Find the number 5'...
+  chunk_129: '</user_request>\n<'...
+  chunk_130: '[empty todo.md,'...
+  chunk_131: 'Step5 maximum:1'...
+  chunk_132: '</step_info>\n</'...
+  chunk_133: '225 links,'...
+  chunk_134: '</page_stats>\nCurrent'...
+  chunk_135: '<page_info>0'...
+  chunk_136: '</page_info>\n\nInteractive'...
+  chunk_137: '[38]<a'...
+  chunk_138: '\tnew\n[43'...
+  chunk_139: '\tcomments\n[4'...
+  chunk_140: '\n[55]<'...
+  chunk_141: '\n[61]<'...
+  chunk_142: '[70]<span'...
+  chunk_143: '[74]<a'...
+  chunk_144: '[78]<a'...
+  chunk_145: '[82]<a'...
+  chunk_146: '\t254 points'...
+  chunk_147: '[97]<a'...
+  chunk_148: '\thide\n[1'...
+  chunk_149: '[110]<'...
+  chunk_150: '[114]<'...
+  chunk_151: '[118]<'...
+  chunk_152: '[122]<'...
+  chunk_153: '\t306 points'...
+  chunk_154: '[137]<'...
+  chunk_155: '\thide\n[1'...
+  chunk_156: '[150]<'...
+  chunk_157: '[154]<'...
+  chunk_158: '[158]<'...
+  chunk_159: '\n[160'...
+  chunk_160: '\t\tfb.com\n'...
+  chunk_161: '\t344 points'...
+  chunk_162: '[177]<'...
+  chunk_163: '\thide\n[1'...
+  chunk_164: '[190]<'...
+  chunk_165: '[194]<'...
+  chunk_166: '[198]<'...
+  chunk_167: '[202]<'...
+  chunk_168: '\t234 points'...
+  chunk_169: '[217]<'...
+  chunk_170: '\thide\n[2'...
+  chunk_171: '[230]<'...
+  chunk_172: '[234]<'...
+  chunk_173: '[238]<'...
+  chunk_174: '\n[242'...
+  chunk_175: '\t315 points'...
+  chunk_176: '[257]<'...
+  chunk_177: '\thide\n[2'...
+  chunk_178: '[270]<'...
+  chunk_179: '[274]<'...
+  chunk_180: '[278]<'...
+  chunk_181: '[282]<'...
+  chunk_182: '\t318 points'...
+  chunk_183: '\n[296'...
+  chunk_184: '\thide\n[3'...
+  chunk_185: '[309]<'...
+  chunk_186: '[313]<'...
+  chunk_187: '[317]<'...
+  chunk_188: '\n[321'...
+  chunk_189: '\t26 points\n'...
+  chunk_190: '[335]<'...
+  chunk_191: '\thide\n[3'...
+  chunk_192: '[348]<'...
+  chunk_193: '[352]<'...
+  chunk_194: '[356]<'...
+  chunk_195: '[360]<'...
+  chunk_196: '[368]<'...
+  chunk_197: '\t63 points\n'...
+  chunk_198: '[375]<'...
+  chunk_199: '\thide\n[3'...
+  chunk_200: '[388]<'...
+  chunk_201: '[392]<'...
+  chunk_202: '[396]<'...
+  chunk_203: '\n[408'...
+  chunk_204: '\t10 points\n'...
+  chunk_205: '[415]<'...
+  chunk_206: '\thide\n[4'...
+  chunk_207: '[428]<'...
+  chunk_208: '[432]<'...
+  chunk_209: '[436]<'...
+  chunk_210: '[440]<'...
+  chunk_211: '\t33 points\n'...
+  chunk_212: '[455]<'...
+  chunk_213: '\thide\n[4'...
+  chunk_214: '[468]<'...
+  chunk_215: '[472]<'...
+  chunk_216: '[476]<'...
+  chunk_217: '\n[488'...
+  chunk_218: '\t355 points'...
+  chunk_219: '[495]<'...
+  chunk_220: '\thide\n[5'...
+  chunk_221: '[508]<'...
+  chunk_222: '[512]<'...
+  chunk_223: '[516]<'...
+  chunk_224: '\n[520'...
+  chunk_225: '\t26 points\n'...
+  chunk_226: '\n[535'...
+  chunk_227: '\thide\n[5'...
+  chunk_228: '[548]<'...
+  chunk_229: '[552]<'...
+  chunk_230: '[556]<'...
+  chunk_231: '[560]<'...
+  chunk_232: '\t200 points'...
+  chunk_233: '\n[575'...
+  chunk_234: '\thide\n[5'...
+  chunk_235: '[588]<'...
+  chunk_236: '[592]<'...
+  chunk_237: '[596]<'...
+  chunk_238: '[600]<'...
+  chunk_239: '\t71 points\n'...
+  chunk_240: '[615]<'...
+  chunk_241: '\thide\n[6'...
+  chunk_242: '[628]<'...
+  chunk_243: '[632]<'...
+  chunk_244: '[636]<'...
+  chunk_245: '\tapple.com\n['...
+  chunk_246: '\t213 points'...
+  chunk_247: '\n[655'...
+  chunk_248: '\thide\n[6'...
+  chunk_249: '[668]<'...
+  chunk_250: '\tAnswerThis (YC'...
+  chunk_251: '[686]<'...
+  chunk_252: '\thide\n[6'...
+  chunk_253: '\t\t17.\n'...
+  chunk_254: '[702]<'...
+  chunk_255: '\n[706'...
+  chunk_256: '\t1350'...
+  chunk_257: '\n[721'...
+  chunk_258: '\thide\n[7'...
+  chunk_259: '[734]<'...
+  chunk_260: '[738]<'...
+  chunk_261: '[742]<'...
+  chunk_262: '[748]<'...
+  chunk_263: '\t65 points\n'...
+  chunk_264: '[755]<'...
+  chunk_265: '\thide\n[7'...
+  chunk_266: '[768]<'...
+  chunk_267: '[772]<'...
+  chunk_268: '[776]<'...
+  chunk_269: '[780]<'...
+  chunk_270: '\t122 points'...
+  chunk_271: '\n[795'...
+  chunk_272: '\thide\n[8'...
+  chunk_273: '[808]<'...
+  chunk_274: '[812]<'...
+  chunk_275: '[816]<'...
+  chunk_276: '\n[828'...
+  chunk_277: '\t252 points'...
+  chunk_278: '\n[835'...
+  chunk_279: '\thide\n[8'...
+  chunk_280: '[848]<'...
+  chunk_281: '[852]<'...
+  chunk_282: '[856]<'...
+  chunk_283: '\n[868'...
+  chunk_284: '\t86 points\n'...
+  chunk_285: '[875]<'...
+  chunk_286: '\thide\n[8'...
+  chunk_287: '[888]<'...
+  chunk_288: '[892]<'...
+  chunk_289: '[896]<'...
+  chunk_290: '[900]<'...
+  chunk_291: '[908]<'...
+  chunk_292: '\t93 points\n'...
+  chunk_293: '[915]<'...
+  chunk_294: '\thide\n[9'...
+  chunk_295: '[928]<'...
+  chunk_296: '[932]<'...
+  chunk_297: '[936]<'...
+  chunk_298: '\n[940'...
+  chunk_299: '\t664 points'...
+  chunk_300: '\n[955'...
+  chunk_301: '\thide\n[9'...
+  chunk_302: '[968]<'...
+  chunk_303: '[972]<'...
+  chunk_304: '[976]<'...
+  chunk_305: '[980]<'...
+  chunk_306: '\t169 points'...
+  chunk_307: '[995]<'...
+  chunk_308: '\thide\n[1'...
+  chunk_309: '[1008'...
+  chunk_310: '[1012'...
+  chunk_311: '[1016'...
+  chunk_312: '[1020'...
+  chunk_313: '\t4 points\nby'...
+  chunk_314: '[1035'...
+  chunk_315: '\thide\n[1'...
+  chunk_316: '[1048'...
+  chunk_317: '[1052'...
+  chunk_318: '[1056'...
+  chunk_319: '\n[106'...
+  chunk_320: '\t203 points'...
+  chunk_321: '\tantics\n[1'...
+  chunk_322: '[1080'...
+  chunk_323: '\t99\xa0comments'...
+  chunk_324: '\t\t27.\n'...
+  chunk_325: '[1096'...
+  chunk_326: '\ttechno-fandom'...
+  chunk_327: '\t120 points'...
+  chunk_328: '\tAnnikaL\n'...
+  chunk_329: '[1120'...
+  chunk_330: '\t68\xa0comments'...
+  chunk_331: '\t\t28.\n'...
+  chunk_332: '[1136'...
+  chunk_333: '\n[114'...
+  chunk_334: '\n[114'...
+  chunk_335: '\t155 points'...
+  chunk_336: '\n[115'...
+  chunk_337: '\thide\n[1'...
+  chunk_338: '[1168'...
+  chunk_339: '[1172'...
+  chunk_340: '[1176'...
+  chunk_341: '\n[118'...
+  chunk_342: '\t130 points'...
+  chunk_343: '[1194'...
+  chunk_344: '\thide\n[1'...
+  chunk_345: '[1207'...
+  chunk_346: '[1211'...
+  chunk_347: '[1215'...
+  chunk_348: '\n[121'...
+  chunk_349: '\t88 points\n'...
+  chunk_350: '\n[123'...
+  chunk_351: '\thide\n[1'...
+  chunk_352: '[1249'...
+  chunk_353: '\n[126'...
+  chunk_354: '\n[127'...
+  chunk_355: '\n[127'...
+  chunk_356: '\tApply to YC'...
+  chunk_357: '[10]<input'...
+  chunk_358: '</browser_state>\n<|im_end|>'...
+
+================================================================================
+RUNTIME TRACE COMPARISON: req_2_20260317_120118.json
+================================================================================
+
+  Token text comparison: 9661 tokens compared, 0 mismatches
+  Token texts are IDENTICAL between offline and runtime
+
+  Metric                            Offline    Runtime  Match
+  ------------------------------------------------------------
+  seq_len                               ---       9661
+  num_chunks                            359        359     OK
+
+  Chunk       Offline Start  Runtime Start  Offline End  Runtime End  Match
+  ------------------------------------------------------------------------
+  0                       0              0           33           33     OK
+  1                      34             34           54           54     OK
+  2                      55             55           72           72     OK
+  3                      73             73           97           97     OK
+  4                      98             98          113          113     OK
+  5                     114            114          133          133     OK
+  6                     134            134          150          150     OK
+  7                     151            151          168          168     OK
+  8                     169            169          194          194     OK
+  9                     195            195          217          217     OK
+  10                    218            218          248          248     OK
+  11                    249            249          279          279     OK
+  12                    280            280          300          300     OK
+  13                    301            301          317          317     OK
+  14                    318            318          334          334     OK
+  15                    335            335          359          359     OK
+  16                    360            360          380          380     OK
+  17                    381            381          414          414     OK
+  18                    415            415          431          431     OK
+  19                    432            432          448          448     OK
+  20                    449            449          469          469     OK
+  21                    470            470          485          485     OK
+  22                    486            486          501          501     OK
+  23                    502            502          528          528     OK
+  24                    529            529          562          562     OK
+  25                    563            563          583          583     OK
+  26                    584            584          616          616     OK
+  27                    617            617          773          773     OK
+  28                    774            774          818          818     OK
+  29                    819            819          850          850     OK
+  30                    851            851          871          871     OK
+  31                    872            872          899          899     OK
+  32                    900            900          928          928     OK
+  33                    929            929          964          964     OK
+  34                    965            965         1008         1008     OK
+  35                   1009           1009         1042         1042     OK
+  36                   1043           1043         1069         1069     OK
+  37                   1070           1070         1085         1085     OK
+  38                   1086           1086         1123         1123     OK
+  39                   1124           1124         1156         1156     OK
+  40                   1157           1157         1198         1198     OK
+  41                   1199           1199         1226         1226     OK
+  42                   1227           1227         1289         1289     OK
+  43                   1290           1290         1322         1322     OK
+  44                   1323           1323         1347         1347     OK
+  45                   1348           1348         1374         1374     OK
+  46                   1375           1375         1400         1400     OK
+  47                   1401           1401         1420         1420     OK
+  48                   1421           1421         1448         1448     OK
+  49                   1449           1449         1520         1520     OK
+  50                   1521           1521         1560         1560     OK
+  51                   1561           1561         1593         1593     OK
+  52                   1594           1594         1656         1656     OK
+  53                   1657           1657         1679         1679     OK
+  54                   1680           1680         1710         1710     OK
+  55                   1711           1711         1746         1746     OK
+  56                   1747           1747         1766         1766     OK
+  57                   1767           1767         1784         1784     OK
+  58                   1785           1785         1807         1807     OK
+  59                   1808           1808         1837         1837     OK
+  60                   1838           1838         1870         1870     OK
+  61                   1871           1871         1893         1893     OK
+  62                   1894           1894         1916         1916     OK
+  63                   1917           1917         1958         1958     OK
+  64                   1959           1959         1982         1982     OK
+  65                   1983           1983         2007         2007     OK
+  66                   2008           2008         2032         2032     OK
+  67                   2033           2033         2068         2068     OK
+  68                   2069           2069         2099         2099     OK
+  69                   2100           2100         2123         2123     OK
+  70                   2124           2124         2147         2147     OK
+  71                   2148           2148         2167         2167     OK
+  72                   2168           2168         2209         2209     OK
+  73                   2210           2210         2235         2235     OK
+  74                   2236           2236         2273         2273     OK
+  75                   2274           2274         2303         2303     OK
+  76                   2304           2304         2328         2328     OK
+  77                   2329           2329         2359         2359     OK
+  78                   2360           2360         2381         2381     OK
+  79                   2382           2382         2401         2401     OK
+  80                   2402           2402         2423         2423     OK
+  81                   2424           2424         2450         2450     OK
+  82                   2451           2451         2482         2482     OK
+  83                   2483           2483         2512         2512     OK
+  84                   2513           2513         2547         2547     OK
+  85                   2548           2548         2677         2677     OK
+  86                   2678           2678         2702         2702     OK
+  87                   2703           2703         2733         2733     OK
+  88                   2734           2734         2779         2779     OK
+  89                   2780           2780         2824         2824     OK
+  90                   2825           2825         2843         2843     OK
+  91                   2844           2844         2871         2871     OK
+  92                   2872           2872         2888         2888     OK
+  93                   2889           2889         2909         2909     OK
+  94                   2910           2910         2925         2925     OK
+  95                   2926           2926         2985         2985     OK
+  96                   2986           2986         3011         3011     OK
+  97                   3012           3012         3030         3030     OK
+  98                   3031           3031         3232         3232     OK
+  99                   3233           3233         3270         3270     OK
+  100                  3271           3271         3291         3291     OK
+  101                  3292           3292         3323         3323     OK
+  102                  3324           3324         3351         3351     OK
+  103                  3352           3352         3410         3410     OK
+  104                  3411           3411         3450         3450     OK
+  105                  3451           3451         3480         3480     OK
+  106                  3481           3481         3506         3506     OK
+  107                  3507           3507         3528         3528     OK
+  108                  3529           3529         3544         3544     OK
+  109                  3545           3545         3571         3571     OK
+  110                  3572           3572         3615         3615     OK
+  111                  3616           3616         3637         3637     OK
+  112                  3638           3638         3659         3659     OK
+  113                  3660           3660         3679         3679     OK
+  114                  3680           3680         3708         3708     OK
+  115                  3709           3709         3725         3725     OK
+  116                  3726           3726         3750         3750     OK
+  117                  3751           3751         3767         3767     OK
+  118                  3768           3768         3797         3797     OK
+  119                  3798           3798         3821         3821     OK
+  120                  3822           3822         3838         3838     OK
+  121                  3839           3839         3873         3873     OK
+  122                  3874           3874         3897         3897     OK
+  123                  3898           3898         3914         3914     OK
+  124                  3915           3915         3949         3949     OK
+  125                  3950           3950         3985         3985     OK
+  126                  3986           3986         4002         4002     OK
+  127                  4003           4003         4026         4026     OK
+  128                  4027           4027         4043         4043     OK
+  129                  4044           4044         4059         4059     OK
+  130                  4060           4060         4077         4077     OK
+  131                  4078           4078         4097         4097     OK
+  132                  4098           4098         4113         4113     OK
+  133                  4114           4114         4156         4156     OK
+  134                  4157           4157         4194         4194     OK
+  135                  4195           4195         4217         4217     OK
+  136                  4218           4218         4238         4238     OK
+  137                  4239           4239         4254         4254     OK
+  138                  4255           4255         4271         4271     OK
+  139                  4272           4272         4290         4290     OK
+  140                  4291           4291         4308         4308     OK
+  141                  4309           4309         4332         4332     OK
+  142                  4333           4333         4349         4349     OK
+  143                  4350           4350         4367         4367     OK
+  144                  4368           4368         4383         4383     OK
+  145                  4384           4384         4411         4411     OK
+  146                  4412           4412         4469         4469     OK
+  147                  4470           4470         4488         4488     OK
+  148                  4489           4489         4513         4513     OK
+  149                  4514           4514         4532         4532     OK
+  150                  4533           4533         4551         4551     OK
+  151                  4552           4552         4573         4573     OK
+  152                  4574           4574         4604         4604     OK
+  153                  4605           4605         4664         4664     OK
+  154                  4665           4665         4684         4684     OK
+  155                  4685           4685         4708         4708     OK
+  156                  4709           4709         4727         4727     OK
+  157                  4728           4728         4746         4746     OK
+  158                  4747           4747         4762         4762     OK
+  159                  4763           4763         4778         4778     OK
+  160                  4779           4779         4802         4802     OK
+  161                  4803           4803         4863         4863     OK
+  162                  4864           4864         4883         4883     OK
+  163                  4884           4884         4908         4908     OK
+  164                  4909           4909         4927         4927     OK
+  165                  4928           4928         4946         4946     OK
+  166                  4947           4947         4971         4971     OK
+  167                  4972           4972         5005         5005     OK
+  168                  5006           5006         5064         5064     OK
+  169                  5065           5065         5084         5084     OK
+  170                  5085           5085         5109         5109     OK
+  171                  5110           5110         5128         5128     OK
+  172                  5129           5129         5147         5147     OK
+  173                  5148           5148         5165         5165     OK
+  174                  5166           5166         5199         5199     OK
+  175                  5200           5200         5259         5259     OK
+  176                  5260           5260         5279         5279     OK
+  177                  5280           5280         5304         5304     OK
+  178                  5305           5305         5323         5323     OK
+  179                  5324           5324         5342         5342     OK
+  180                  5343           5343         5366         5366     OK
+  181                  5367           5367         5398         5398     OK
+  182                  5399           5399         5414         5414     OK
+  183                  5415           5415         5435         5435     OK
+  184                  5436           5436         5459         5459     OK
+  185                  5460           5460         5478         5478     OK
+  186                  5479           5479         5497         5497     OK
+  187                  5498           5498         5514         5514     OK
+  188                  5515           5515         5545         5545     OK
+  189                  5546           5546         5603         5603     OK
+  190                  5604           5604         5623         5623     OK
+  191                  5624           5624         5646         5646     OK
+  192                  5647           5647         5665         5665     OK
+  193                  5666           5666         5684         5684     OK
+  194                  5685           5685         5711         5711     OK
+  195                  5712           5712         5727         5727     OK
+  196                  5728           5728         5746         5746     OK
+  197                  5747           5747         5806         5806     OK
+  198                  5807           5807         5826         5826     OK
+  199                  5827           5827         5850         5850     OK
+  200                  5851           5851         5869         5869     OK
+  201                  5870           5870         5888         5888     OK
+  202                  5889           5889         5912         5912     OK
+  203                  5913           5913         5932         5932     OK
+  204                  5933           5933         5990         5990     OK
+  205                  5991           5991         6010         6010     OK
+  206                  6011           6011         6033         6033     OK
+  207                  6034           6034         6053         6053     OK
+  208                  6054           6054         6072         6072     OK
+  209                  6073           6073         6094         6094     OK
+  210                  6095           6095         6127         6127     OK
+  211                  6128           6128         6185         6185     OK
+  212                  6186           6186         6205         6205     OK
+  213                  6206           6206         6229         6229     OK
+  214                  6230           6230         6249         6249     OK
+  215                  6250           6250         6268         6268     OK
+  216                  6269           6269         6292         6292     OK
+  217                  6293           6293         6312         6312     OK
+  218                  6313           6313         6330         6330     OK
+  219                  6331           6331         6350         6350     OK
+  220                  6351           6351         6375         6375     OK
+  221                  6376           6376         6395         6395     OK
+  222                  6396           6396         6414         6414     OK
+  223                  6415           6415         6434         6434     OK
+  224                  6435           6435         6466         6466     OK
+  225                  6467           6467         6483         6483     OK
+  226                  6484           6484         6504         6504     OK
+  227                  6505           6505         6527         6527     OK
+  228                  6528           6528         6547         6547     OK
+  229                  6548           6548         6566         6566     OK
+  230                  6567           6567         6582         6582     OK
+  231                  6583           6583         6615         6615     OK
+  232                  6616           6616         6633         6633     OK
+  233                  6634           6634         6654         6654     OK
+  234                  6655           6655         6679         6679     OK
+  235                  6680           6680         6699         6699     OK
+  236                  6700           6700         6718         6718     OK
+  237                  6719           6719         6736         6736     OK
+  238                  6737           6737         6766         6766     OK
+  239                  6767           6767         6824         6824     OK
+  240                  6825           6825         6844         6844     OK
+  241                  6845           6845         6868         6868     OK
+  242                  6869           6869         6888         6888     OK
+  243                  6889           6889         6907         6907     OK
+  244                  6908           6908         6929         6929     OK
+  245                  6930           6930         6952         6952     OK
+  246                  6953           6953         6970         6970     OK
+  247                  6971           6971         6991         6991     OK
+  248                  6992           6992         7016         7016     OK
+  249                  7017           7017         7035         7035     OK
+  250                  7036           7036         7100         7100     OK
+  251                  7101           7101         7120         7120     OK
+  252                  7121           7121         7138         7138     OK
+  253                  7139           7139         7170         7170     OK
+  254                  7171           7171         7191         7191     OK
+  255                  7192           7192         7225         7225     OK
+  256                  7226           7226         7243         7243     OK
+  257                  7244           7244         7264         7264     OK
+  258                  7265           7265         7289         7289     OK
+  259                  7290           7290         7309         7309     OK
+  260                  7310           7310         7328         7328     OK
+  261                  7329           7329         7359         7359     OK
+  262                  7360           7360         7378         7378     OK
+  263                  7379           7379         7437         7437     OK
+  264                  7438           7438         7457         7457     OK
+  265                  7458           7458         7481         7481     OK
+  266                  7482           7482         7501         7501     OK
+  267                  7502           7502         7520         7520     OK
+  268                  7521           7521         7545         7545     OK
+  269                  7546           7546         7576         7576     OK
+  270                  7577           7577         7597         7597     OK
+  271                  7598           7598         7618         7618     OK
+  272                  7619           7619         7643         7643     OK
+  273                  7644           7644         7663         7663     OK
+  274                  7664           7664         7682         7682     OK
+  275                  7683           7683         7707         7707     OK
+  276                  7708           7708         7727         7727     OK
+  277                  7728           7728         7747         7747     OK
+  278                  7748           7748         7768         7768     OK
+  279                  7769           7769         7793         7793     OK
+  280                  7794           7794         7813         7813     OK
+  281                  7814           7814         7832         7832     OK
+  282                  7833           7833         7859         7859     OK
+  283                  7860           7860         7879         7879     OK
+  284                  7880           7880         7936         7936     OK
+  285                  7937           7937         7956         7956     OK
+  286                  7957           7957         7980         7980     OK
+  287                  7981           7981         8000         8000     OK
+  288                  8001           8001         8019         8019     OK
+  289                  8020           8020         8035         8035     OK
+  290                  8036           8036         8051         8051     OK
+  291                  8052           8052         8070         8070     OK
+  292                  8071           8071         8086         8086     OK
+  293                  8087           8087         8106         8106     OK
+  294                  8107           8107         8131         8131     OK
+  295                  8132           8132         8151         8151     OK
+  296                  8152           8152         8170         8170     OK
+  297                  8171           8171         8193         8193     OK
+  298                  8194           8194         8226         8226     OK
+  299                  8227           8227         8246         8246     OK
+  300                  8247           8247         8267         8267     OK
+  301                  8268           8268         8292         8292     OK
+  302                  8293           8293         8312         8312     OK
+  303                  8313           8313         8331         8331     OK
+  304                  8332           8332         8353         8353     OK
+  305                  8354           8354         8386         8386     OK
+  306                  8387           8387         8405         8405     OK
+  307                  8406           8406         8426         8426     OK
+  308                  8427           8427         8453         8453     OK
+  309                  8454           8454         8475         8475     OK
+  310                  8476           8476         8495         8495     OK
+  311                  8496           8496         8526         8526     OK
+  312                  8527           8527         8558         8558     OK
+  313                  8559           8559         8619         8619     OK
+  314                  8620           8620         8641         8641     OK
+  315                  8642           8642         8666         8666     OK
+  316                  8667           8667         8688         8688     OK
+  317                  8689           8689         8708         8708     OK
+  318                  8709           8709         8736         8736     OK
+  319                  8737           8737         8769         8769     OK
+  320                  8770           8770         8785         8785     OK
+  321                  8786           8786         8802         8802     OK
+  322                  8803           8803         8821         8821     OK
+  323                  8822           8822         8844         8844     OK
+  324                  8845           8845         8878         8878     OK
+  325                  8879           8879         8900         8900     OK
+  326                  8901           8901         8927         8927     OK
+  327                  8928           8928         8943         8943     OK
+  328                  8944           8944         8962         8962     OK
+  329                  8963           8963         8981         8981     OK
+  330                  8982           8982         9004         9004     OK
+  331                  9005           9005         9038         9038     OK
+  332                  9039           9039         9060         9060     OK
+  333                  9061           9061         9077         9077     OK
+  334                  9078           9078         9098         9098     OK
+  335                  9099           9099         9117         9117     OK
+  336                  9118           9118         9140         9140     OK
+  337                  9141           9141         9166         9166     OK
+  338                  9167           9167         9188         9188     OK
+  339                  9189           9189         9208         9208     OK
+  340                  9209           9209         9230         9230     OK
+  341                  9231           9231         9263         9263     OK
+  342                  9264           9264         9324         9324     OK
+  343                  9325           9325         9346         9346     OK
+  344                  9347           9347         9372         9372     OK
+  345                  9373           9373         9394         9394     OK
+  346                  9395           9395         9414         9414     OK
+  347                  9415           9415         9431         9431     OK
+  348                  9432           9432         9465         9465     OK
+  349                  9466           9466         9482         9482     OK
+  350                  9483           9483         9505         9505     OK
+  351                  9506           9506         9523         9523     OK
+  352                  9524           9524         9545         9545     OK
+  353                  9546           9546         9567         9567     OK
+  354                  9568           9568         9589         9589     OK
+  355                  9590           9590         9609         9609     OK
+  356                  9610           9610         9633         9633     OK
+  357                  9634           9634         9651         9651     OK
+  358                  9652           9652         9660         9660     OK
+
+  Chunk boundary matches: 359/359
+
+  Tree structure match (full):         YES
+  Prompt-internal diffs:               0
+  Boundary diffs (assistant expected):  0
+  Tree structure match (prompt only):  YES
+
+  Decode steps recorded: 161
+  Sparsity range: 0.9676 - 0.9719
+  Average sparsity: 0.9703
+
+Results saved to: /vast/projects/liuv/pennnetworks/jiaheng/sglang_log/html_request/request_005_20260316_221014/request.tree_verify.json
+
+================================================================================
+SUMMARY
+================================================================================
+  Total tokens:    9661
+  Tree children:   3
+  Total chunks:    359
+  Tokens covered:  9661/9661
+  Coverage:        100.0%
+  Chunk sizes:     min=9, max=202, avg=26.9

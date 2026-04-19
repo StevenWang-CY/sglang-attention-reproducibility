@@ -1,0 +1,48 @@
+Latency Measurement - 20260325_152102
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: tree_sparse
+Tree sparse: top_k=8, min_seq_len=512, recent=128
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 3 (3 successful)
+Output tokens (median): 494
+============================================================
+
+[Run 1] TTFT (time to first token):    1571.5 ms
+[Run 1] ITL mean:                       42.19 ms
+[Run 1] ITL median (P50):               41.44 ms
+[Run 1] ITL P99:                        70.01 ms
+[Run 1] Total time:                     22.58 s
+[Run 1] Tokens generated:                 498
+[Run 1] Throughput:                      22.1 tok/s
+[Run 1] Output preview: It looks like you’ve shared a browser state dump — likely from a web scraping or automation tool — that captures the HTM...
+
+[Run 2] TTFT (time to first token):     235.9 ms
+[Run 2] ITL mean:                       42.49 ms
+[Run 2] ITL median (P50):               41.54 ms
+[Run 2] ITL P99:                        73.45 ms
+[Run 2] Total time:                     21.22 s
+[Run 2] Tokens generated:                 494
+[Run 2] Throughput:                      23.3 tok/s
+[Run 2] Output preview: The page you’ve provided appears to be a **Y Combinator (YC)** landing page or index, likely from the early 2000s or mid...
+
+[Run 3] TTFT (time to first token):     162.6 ms
+[Run 3] ITL mean:                       42.50 ms
+[Run 3] ITL median (P50):               41.78 ms
+[Run 3] ITL P99:                        65.32 ms
+[Run 3] Total time:                     14.65 s
+[Run 3] Tokens generated:                 341
+[Run 3] Throughput:                      23.3 tok/s
+[Run 3] Output preview: The page you’ve provided appears to be a **Y Combinator (YC)** landing page or index, with a navigation menu and search ...
+
+============================================================
+SUMMARY (3 successful runs)
+============================================================
+Median TTFT:          235.9 ms  (min=162.6, max=1571.5)
+Median ITL mean:      42.49 ms
+Median ITL P50:       41.54 ms
+Median ITL P99:       70.01 ms
+Median throughput:     23.3 tok/s
+Median total time:    21.22 s
+Median tokens:          494

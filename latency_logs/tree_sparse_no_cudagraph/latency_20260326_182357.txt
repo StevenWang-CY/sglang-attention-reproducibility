@@ -1,0 +1,139 @@
+Latency Measurement - 20260326_182357
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: tree_sparse
+CUDA graph: disabled
+Tree sparse: top_k=8, min_seq_len=512, recent=128, selection=shared
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 10 (10 successful)
+Input tokens: 9661
+Output tokens (median): 256
+============================================================
+
+[Run 1] TTFT (time to first token):    2366.2 ms
+[Run 1] ITL mean:                       10.60 ms
+[Run 1] ITL median (P50):                9.95 ms
+[Run 1] ITL P99:                        33.70 ms
+[Run 1] Total time:                      5.07 s
+[Run 1] Tokens generated:                 256
+[Run 1] Prompt tokens (input):           9661
+[Run 1] Completion tokens (output):       256
+[Run 1] Throughput:                      50.5 tok/s
+[Run 1] Output preview: The browser state you've provided appears to be a raw, structured representation of a web page — likely from a web scrap...
+
+[Run 2] TTFT (time to first token):     120.9 ms
+[Run 2] ITL mean:                       10.71 ms
+[Run 2] ITL median (P50):                9.96 ms
+[Run 2] ITL P99:                        31.41 ms
+[Run 2] Total time:                      2.85 s
+[Run 2] Tokens generated:                 256
+[Run 2] Prompt tokens (input):           9661
+[Run 2] Completion tokens (output):       256
+[Run 2] Throughput:                      89.7 tok/s
+[Run 2] Output preview: Based on the provided browser state, here's a breakdown of what's happening:
+
+---
+
+### **1. Current Page:**
+You are on t...
+
+[Run 3] TTFT (time to first token):     161.4 ms
+[Run 3] ITL mean:                       10.71 ms
+[Run 3] ITL median (P50):               10.01 ms
+[Run 3] ITL P99:                        34.40 ms
+[Run 3] Total time:                      2.88 s
+[Run 3] Tokens generated:                 255
+[Run 3] Prompt tokens (input):           9661
+[Run 3] Completion tokens (output):       256
+[Run 3] Throughput:                      88.5 tok/s
+[Run 3] Output preview: It seems you've provided a browser state dump, likely from a web scraping or automation tool (like Selenium or a similar...
+
+[Run 4] TTFT (time to first token):     125.6 ms
+[Run 4] ITL mean:                       10.74 ms
+[Run 4] ITL median (P50):                9.99 ms
+[Run 4] ITL P99:                        33.85 ms
+[Run 4] Total time:                      2.86 s
+[Run 4] Tokens generated:                 256
+[Run 4] Prompt tokens (input):           9661
+[Run 4] Completion tokens (output):       256
+[Run 4] Throughput:                      89.4 tok/s
+[Run 4] Output preview: The page you've provided appears to be a **Y Combinator (YC)** website snippet — likely the main navigation or footer se...
+
+[Run 5] TTFT (time to first token):     171.5 ms
+[Run 5] ITL mean:                       10.76 ms
+[Run 5] ITL median (P50):                9.97 ms
+[Run 5] ITL P99:                        33.07 ms
+[Run 5] Total time:                      2.91 s
+[Run 5] Tokens generated:                 256
+[Run 5] Prompt tokens (input):           9661
+[Run 5] Completion tokens (output):       256
+[Run 5] Throughput:                      87.8 tok/s
+[Run 5] Output preview: The page you're viewing appears to be the **Y Combinator (YC) website homepage**, specifically the navigation and search...
+
+[Run 6] TTFT (time to first token):     116.3 ms
+[Run 6] ITL mean:                       10.65 ms
+[Run 6] ITL median (P50):                9.99 ms
+[Run 6] ITL P99:                        31.10 ms
+[Run 6] Total time:                      2.83 s
+[Run 6] Tokens generated:                 256
+[Run 6] Prompt tokens (input):           9661
+[Run 6] Completion tokens (output):       256
+[Run 6] Throughput:                      90.4 tok/s
+[Run 6] Output preview: The provided text appears to be a **browser state dump** (likely from a web scraping or automation tool) that includes:
+...
+
+[Run 7] TTFT (time to first token):     116.5 ms
+[Run 7] ITL mean:                       10.86 ms
+[Run 7] ITL median (P50):               10.07 ms
+[Run 7] ITL P99:                        32.03 ms
+[Run 7] Total time:                      2.89 s
+[Run 7] Tokens generated:                 256
+[Run 7] Prompt tokens (input):           9661
+[Run 7] Completion tokens (output):       256
+[Run 7] Throughput:                      88.7 tok/s
+[Run 7] Output preview: The provided text appears to be a **browser state dump** or **web scraping output**, likely from a tool or script that c...
+
+[Run 8] TTFT (time to first token):     119.1 ms
+[Run 8] ITL mean:                       10.70 ms
+[Run 8] ITL median (P50):               10.01 ms
+[Run 8] ITL P99:                        33.52 ms
+[Run 8] Total time:                      2.85 s
+[Run 8] Tokens generated:                 256
+[Run 8] Prompt tokens (input):           9661
+[Run 8] Completion tokens (output):       256
+[Run 8] Throughput:                      89.9 tok/s
+[Run 8] Output preview: The provided text appears to be a **browser state dump** (likely from a web scraping or automation tool like Selenium or...
+
+[Run 9] TTFT (time to first token):     115.2 ms
+[Run 9] ITL mean:                       10.72 ms
+[Run 9] ITL median (P50):               10.01 ms
+[Run 9] ITL P99:                        33.42 ms
+[Run 9] Total time:                      2.85 s
+[Run 9] Tokens generated:                 256
+[Run 9] Prompt tokens (input):           9661
+[Run 9] Completion tokens (output):       256
+[Run 9] Throughput:                      89.8 tok/s
+[Run 9] Output preview: The browser state you've provided appears to be a raw, possibly parsed or intercepted, representation of a webpage — lik...
+
+[Run 10] TTFT (time to first token):     115.6 ms
+[Run 10] ITL mean:                       10.80 ms
+[Run 10] ITL median (P50):               10.05 ms
+[Run 10] ITL P99:                        33.50 ms
+[Run 10] Total time:                      2.87 s
+[Run 10] Tokens generated:                 256
+[Run 10] Prompt tokens (input):           9661
+[Run 10] Completion tokens (output):       256
+[Run 10] Throughput:                      89.2 tok/s
+[Run 10] Output preview: The page you've provided appears to be a **Y Combinator (YC)** website page, likely the main navigation or footer sectio...
+
+============================================================
+SUMMARY (10 successful runs)
+============================================================
+Median TTFT:          120.0 ms  (min=115.2, max=2366.2)
+Median ITL mean:      10.72 ms
+Median ITL P50:       10.00 ms
+Median ITL P99:       33.46 ms
+Median throughput:     89.3 tok/s
+Median total time:     2.87 s
+Median tokens:          256

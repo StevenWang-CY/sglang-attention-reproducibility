@@ -1,0 +1,142 @@
+Latency Measurement - 20260327_205718
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: trtllm_mha
+CUDA graph: disabled
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 10 (10 successful)
+Input tokens: 9661
+Output tokens (median): 220
+============================================================
+
+[Run 1] TTFT (time to first token):    1076.6 ms
+[Run 1] ITL mean:                        8.82 ms
+[Run 1] ITL median (P50):                8.81 ms
+[Run 1] ITL P99:                         9.14 ms
+[Run 1] Total time:                      3.10 s
+[Run 1] Tokens generated:                 229
+[Run 1] Prompt tokens (input):           9661
+[Run 1] Completion tokens (output):       230
+[Run 1] Throughput:                      74.0 tok/s
+[Run 1] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 2] TTFT (time to first token):      53.0 ms
+[Run 2] ITL mean:                        8.83 ms
+[Run 2] ITL median (P50):                8.83 ms
+[Run 2] ITL P99:                         9.18 ms
+[Run 2] Total time:                      1.86 s
+[Run 2] Tokens generated:                 205
+[Run 2] Prompt tokens (input):           9661
+[Run 2] Completion tokens (output):       206
+[Run 2] Throughput:                     110.0 tok/s
+[Run 2] Output preview: {
+  "thinking": "I have scrolled down the page multiple times, but I am still only seeing posts 1-30. The user request i...
+
+[Run 3] TTFT (time to first token):      44.9 ms
+[Run 3] ITL mean:                        8.82 ms
+[Run 3] ITL median (P50):                8.83 ms
+[Run 3] ITL P99:                         9.09 ms
+[Run 3] Total time:                      2.02 s
+[Run 3] Tokens generated:                 224
+[Run 3] Prompt tokens (input):           9661
+[Run 3] Completion tokens (output):       225
+[Run 3] Throughput:                     110.8 tok/s
+[Run 3] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 4] TTFT (time to first token):      44.4 ms
+[Run 4] ITL mean:                        8.81 ms
+[Run 4] ITL median (P50):                8.81 ms
+[Run 4] ITL P99:                         9.13 ms
+[Run 4] Total time:                      2.02 s
+[Run 4] Tokens generated:                 224
+[Run 4] Prompt tokens (input):           9661
+[Run 4] Completion tokens (output):       225
+[Run 4] Throughput:                     111.0 tok/s
+[Run 4] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 5] TTFT (time to first token):      44.9 ms
+[Run 5] ITL mean:                        8.80 ms
+[Run 5] ITL median (P50):                8.81 ms
+[Run 5] ITL P99:                         9.29 ms
+[Run 5] Total time:                      2.01 s
+[Run 5] Tokens generated:                 223
+[Run 5] Prompt tokens (input):           9661
+[Run 5] Completion tokens (output):       224
+[Run 5] Throughput:                     111.0 tok/s
+[Run 5] Output preview: {
+  "thinking": "I need to find the 50th post on Hacker News. Currently, I can only see posts 1-30. I have already scrol...
+
+[Run 6] TTFT (time to first token):      44.9 ms
+[Run 6] ITL mean:                        8.78 ms
+[Run 6] ITL median (P50):                8.77 ms
+[Run 6] ITL P99:                         9.02 ms
+[Run 6] Total time:                      1.95 s
+[Run 6] Tokens generated:                 217
+[Run 6] Prompt tokens (input):           9661
+[Run 6] Completion tokens (output):       218
+[Run 6] Throughput:                     111.2 tok/s
+[Run 6] Output preview: {
+  "thinking": "I need to find the 50th post on Hacker News. Currently, I am viewing posts 1-30. I have already scrolle...
+
+[Run 7] TTFT (time to first token):      43.2 ms
+[Run 7] ITL mean:                        8.79 ms
+[Run 7] ITL median (P50):                8.80 ms
+[Run 7] ITL P99:                         9.02 ms
+[Run 7] Total time:                      1.75 s
+[Run 7] Tokens generated:                 194
+[Run 7] Prompt tokens (input):           9661
+[Run 7] Completion tokens (output):       195
+[Run 7] Throughput:                     110.9 tok/s
+[Run 7] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 8] TTFT (time to first token):      42.8 ms
+[Run 8] ITL mean:                        8.80 ms
+[Run 8] ITL median (P50):                8.80 ms
+[Run 8] ITL P99:                         9.18 ms
+[Run 8] Total time:                      1.72 s
+[Run 8] Tokens generated:                 190
+[Run 8] Prompt tokens (input):           9661
+[Run 8] Completion tokens (output):       191
+[Run 8] Throughput:                     110.7 tok/s
+[Run 8] Output preview: {
+  "thinking": "I have scrolled down the page multiple times but still only see the first 30 posts. The 50th post shoul...
+
+[Run 9] TTFT (time to first token):      43.4 ms
+[Run 9] ITL mean:                        8.80 ms
+[Run 9] ITL median (P50):                8.81 ms
+[Run 9] ITL P99:                         9.11 ms
+[Run 9] Total time:                      2.01 s
+[Run 9] Tokens generated:                 223
+[Run 9] Prompt tokens (input):           9661
+[Run 9] Completion tokens (output):       224
+[Run 9] Throughput:                     111.1 tok/s
+[Run 9] Output preview: {
+  "thinking": "I need to find the 50th post on Hacker News. Currently, I can see posts 1 through 30, and I have alread...
+
+[Run 10] TTFT (time to first token):      43.6 ms
+[Run 10] ITL mean:                        8.79 ms
+[Run 10] ITL median (P50):                8.80 ms
+[Run 10] ITL P99:                         9.05 ms
+[Run 10] Total time:                      1.83 s
+[Run 10] Tokens generated:                 203
+[Run 10] Prompt tokens (input):           9661
+[Run 10] Completion tokens (output):       204
+[Run 10] Throughput:                     111.0 tok/s
+[Run 10] Output preview: {
+  "thinking": "I have scrolled down the page multiple times, but I am still only seeing posts 1-30. The 50th post is n...
+
+============================================================
+SUMMARY (10 successful runs)
+============================================================
+Median TTFT:           44.6 ms  (min=42.8, max=1076.6)
+Median ITL mean:       8.80 ms
+Median ITL P50:        8.81 ms
+Median ITL P99:        9.12 ms
+Median throughput:    111.0 tok/s
+Median total time:     1.98 s
+Median tokens:          220

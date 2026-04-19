@@ -1,0 +1,10 @@
+TPOT Summary (Time Per Output Token)
+==================================================
+Model: Qwen3-VL-8B-Instruct
+Attention: tree_sparse (top_k=8)
+Max tokens: 256
+Timestamp: 20260403_002706
+==================================================
+
+BS=1:  TPOT=69.98ms (±0.09)  TTFT=202.9ms  Throughput=14.2 tok/s
+

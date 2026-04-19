@@ -1,0 +1,17 @@
+{
+  "1": {
+    "batch_size": 1,
+    "repetitions": 5,
+    "tokens_generated": 256,
+    "tpot_mean_ms": 62.49974589256168,
+    "tpot_std_ms": 0.24540717392972172,
+    "tpot_min_ms": 62.093823396272086,
+    "tpot_max_ms": 62.73436290942425,
+    "ttft_mean_ms": 215.263102366589,
+    "ttft_std_ms": 74.84631286806817,
+    "decode_time_mean_ms": 15937.435202603228,
+    "decode_time_std_ms": 62.57882935207955,
+    "total_time_mean_ms": 16152.698304969817,
+    "throughput_tokens_per_sec": 15.848745216843097
+  }
+}

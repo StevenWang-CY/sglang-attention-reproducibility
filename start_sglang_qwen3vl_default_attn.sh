@@ -11,7 +11,7 @@ export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 # Skip FlashInfer JIT compilation if it fails (use pre-compiled kernels)
 export FLASHINFER_ALLOW_JIT_FAILURE=1
-export CUDA_LAUNCH_BLOCKING=1
+# export CUDA_LAUNCH_BLOCKING=1
 
 # Optional: Enable token ID debug prints (uncomment to enable)
 # export SGLANG_TOKEN_ID_DEBUG=1
@@ -35,7 +35,10 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] Log file: ${LOG_FILE}"
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
 
 # Configuration variables
-MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-30B-A3B-Instruct"
+MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-8B-Instruct"
+MODEL_NAME=$(basename ${MODEL_PATH})
+
+# MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-30B-A3B-Instruct"
 
 # Auto-detect number of visible GPUs from CUDA_VISIBLE_DEVICES
 if [ -n "${CUDA_VISIBLE_DEVICES}" ]; then
@@ -57,7 +60,7 @@ CONTEXT_LENGTH=40960  # Qwen3-VL supports large context
 # Note: --disable-radix-cache can be added to avoid cache-related token recording issues (TODO)
 python -m sglang.launch_server \
   --model-path ${MODEL_PATH} \
-  --served-model-name Qwen3-VL-30B-A3B-Instruct \
+  --served-model-name ${MODEL_NAME} \
   --host ${HOST} \
   --port ${PORT} \
   --context-length ${CONTEXT_LENGTH} \
@@ -87,9 +90,9 @@ while [ ${WAIT_TIME} -lt ${MAX_WAIT} ]; do
     exit 1
   fi
 
-  # Check log file for the definitive ready message
-  if grep -q "The server is fired up and ready to roll!" ${LOG_FILE} 2>/dev/null; then
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Server is ready! (warmup completed)"
+  # Check log file for the server ready message (Uvicorn is accepting connections)
+  if grep -q "Uvicorn running on" ${LOG_FILE} 2>/dev/null; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Server is ready! (HTTP server up, warmup may still be running)"
     break
   fi
 
@@ -105,19 +108,19 @@ if [ ${WAIT_TIME} -ge ${MAX_WAIT} ]; then
   exit 1
 fi
 
-# Execute the Python request script
-echo ""
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Executing send_sglang_request.py"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
-python send_sglang_request.py
+# # Execute the Python request script
+# echo ""
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] Executing send_sglang_request.py"
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
+# python send_sglang_request.py
 
-# Execute the Python request script again
-echo ""
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Executing send_sglang_request.py again"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
-python send_sglang_request.py
+# # Execute the Python request script again
+# echo ""
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] Executing send_sglang_request.py again"
+# echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
+# python send_sglang_request.py
 
 
 # Keep the server running

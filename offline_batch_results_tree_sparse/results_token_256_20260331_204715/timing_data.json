@@ -1,0 +1,29 @@
+{
+  "1": {
+    "batch_size": 1,
+    "decode_latency_ms": 48.68365625,
+    "breakdown_simple": {
+      "attention_block": 37.55156640625,
+      "mlp_block": 4.9105625,
+      "others": 5.94764453125
+    },
+    "breakdown_detailed": {
+      "attention": 1.8440234375,
+      "begin_forward": 4.426,
+      "centroid_update": 6.44886328125,
+      "input_ln": 0.522359375,
+      "kv_cache_load": 0.30175390625,
+      "kv_cache_save": 1.16440234375,
+      "mlp": 3.6335078125,
+      "o_proj": 2.25519921875,
+      "post_attn_ln": 1.136609375,
+      "qkv_proj": 4.08091015625,
+      "sparse_batch_meta": 3.0939375,
+      "sparse_build_mask": 2.9985625,
+      "sparse_extract_indices": 2.4221171875,
+      "sparse_get_centroids": 0.2544140625,
+      "sparse_score_topk": 6.421765625
+    },
+    "num_samples": 256
+  }
+}

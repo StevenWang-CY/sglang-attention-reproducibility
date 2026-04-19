@@ -1,0 +1,78 @@
+Latency Measurement - 20260330_145407
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: tree_sparse
+CUDA graph: disabled
+Tree sparse: top_k=8, min_seq_len=512, recent=128, selection=per-layer
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 5 (5 successful)
+Input tokens: 9661
+Output tokens (median): 256
+============================================================
+
+[Run 1] TTFT (time to first token):    1119.0 ms
+[Run 1] ITL mean:                       66.33 ms
+[Run 1] ITL median (P50):               65.79 ms
+[Run 1] ITL P99:                        80.07 ms
+[Run 1] Total time:                     18.03 s
+[Run 1] Tokens generated:                 256
+[Run 1] Prompt tokens (input):           9661
+[Run 1] Completion tokens (output):       256
+[Run 1] Throughput:                      14.2 tok/s
+[Run 1] Output preview: The browser state you've provided appears to be a raw, possibly scraped or logged HTML snapshot of a webpage — likely fr...
+
+[Run 2] TTFT (time to first token):     202.8 ms
+[Run 2] ITL mean:                       65.79 ms
+[Run 2] ITL median (P50):               65.84 ms
+[Run 2] ITL P99:                        79.73 ms
+[Run 2] Total time:                     16.98 s
+[Run 2] Tokens generated:                 256
+[Run 2] Prompt tokens (input):           9661
+[Run 2] Completion tokens (output):       256
+[Run 2] Throughput:                      15.1 tok/s
+[Run 2] Output preview: The provided text appears to be a **browser state dump** or **web scraping output** from a tool like Selenium or a simil...
+
+[Run 3] TTFT (time to first token):     199.3 ms
+[Run 3] ITL mean:                       66.87 ms
+[Run 3] ITL median (P50):               66.28 ms
+[Run 3] ITL P99:                        95.54 ms
+[Run 3] Total time:                     17.18 s
+[Run 3] Tokens generated:                 255
+[Run 3] Prompt tokens (input):           9661
+[Run 3] Completion tokens (output):       256
+[Run 3] Throughput:                      14.8 tok/s
+[Run 3] Output preview: The browser state you’ve provided appears to be a raw, possibly malformed or corrupted HTML snippet, likely from a web s...
+
+[Run 4] TTFT (time to first token):     197.1 ms
+[Run 4] ITL mean:                       67.14 ms
+[Run 4] ITL median (P50):               66.61 ms
+[Run 4] ITL P99:                        91.00 ms
+[Run 4] Total time:                     17.25 s
+[Run 4] Tokens generated:                 255
+[Run 4] Prompt tokens (input):           9661
+[Run 4] Completion tokens (output):       256
+[Run 4] Throughput:                      14.8 tok/s
+[Run 4] Output preview: The browser state you've provided appears to be a raw, possibly parsed or intercepted, representation of a web page — li...
+
+[Run 5] TTFT (time to first token):     179.8 ms
+[Run 5] ITL mean:                       66.96 ms
+[Run 5] ITL median (P50):               66.39 ms
+[Run 5] ITL P99:                        89.92 ms
+[Run 5] Total time:                     17.25 s
+[Run 5] Tokens generated:                 256
+[Run 5] Prompt tokens (input):           9661
+[Run 5] Completion tokens (output):       256
+[Run 5] Throughput:                      14.8 tok/s
+[Run 5] Output preview: It seems you’ve provided a browser state dump — likely from a web scraping or browser automation tool — showing the HTML...
+
+============================================================
+SUMMARY (5 successful runs)
+============================================================
+Median TTFT:          199.3 ms  (min=179.8, max=1119.0)
+Median ITL mean:      66.87 ms
+Median ITL P50:       66.28 ms
+Median ITL P99:       89.92 ms
+Median throughput:     14.8 tok/s
+Median total time:    17.25 s
+Median tokens:          256

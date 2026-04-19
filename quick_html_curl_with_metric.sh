@@ -1,0 +1,1 @@
+python measure_latency.py html_request/request_005_20260316_221014/request.json    --max-tokens 256 --ignore-eos --model Qwen3-VL-8B-Instruct --repeat 5 --log-dir latency_logs

@@ -1,0 +1,17 @@
+{
+  "32": {
+    "batch_size": 32,
+    "repetitions": 1,
+    "tokens_generated": 10,
+    "tpot_mean_ms": 57752.09415722121,
+    "tpot_std_ms": 0.0,
+    "tpot_min_ms": 57752.09415722121,
+    "tpot_max_ms": 57752.09415722121,
+    "ttft_mean_ms": 101455.25150100002,
+    "ttft_std_ms": 0.0,
+    "decode_time_mean_ms": 519768.8474149909,
+    "decode_time_std_ms": 0.0,
+    "total_time_mean_ms": 621224.0989159909,
+    "throughput_tokens_per_sec": 0.5151120192510016
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "timestamp": "20260326_154243",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0,
+    "attention_backend": "tree_sparse",
+    "enable_tree_sparse": true,
+    "tree_sparse_top_k": 8,
+    "tree_sparse_min_seq_len": 512,
+    "tree_sparse_recent_tokens": 128,
+    "disable_cuda_graph": true,
+    "context_length": 40960,
+    "dtype": "auto"
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 3.8283596839755774,
+      "itl_mean": 0.035980269047734645,
+      "itl_p50": 0.03469153493642807,
+      "itl_p99": 0.05950030207168311,
+      "total_time": 14.371054663904943,
+      "num_tokens": 293,
+      "tokens_per_sec": 20.38820440478272,
+      "output_text": "Based on the provided browser state, here's a summary of the information:\n\n---\n\n### **Current Page:**\nYou are on the **Y Combinator (YC)** website homepage, which is a well-known startup accelerator based in Silicon Valley. The page includes navigation links and a search bar.\n\n---\n\n### **Key Elements Observed:**\n\n#### **Navigation Menu (Top Right):**\n- **Apply to YC** \u2013 For startups to apply to the accelerator program.\n- **Contact** \u2013 Likely for general inquiries or media.\n- **Login / Sign Up** \u2013 For users to access their accounts or register.\n\n#### **Main Content Area:**\n- **\u201cAbout YC\u201d** \u2013 A section explaining what YC is and its mission.\n- **\u201cLatest News\u201d** \u2013 Updates on YC\u2019s activities, startups, and events.\n- **\u201cResources\u201d** \u2013 Tools, guides, and materials for entrepreneurs.\n- **\u201cSuccess Stories\u201d** \u2013 Case studies of startups that have benefited from YC.\n\n#### **Footer:**\n- **Legal & Privacy** \u2013 Links to terms of service, privacy policy, and other legal documents.\n- **Social Media** \u2013 Icons for following YC on platforms like Twitter, LinkedIn, and Facebook.\n- **Contact Information** \u2013 Email and phone number for inquiries.\n\nThis layout provides a comprehensive overview of YC\u2019s offerings and resources, making it easy for visitors to navigate and find the information they need.",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 292
+    },
+    {
+      "ttft": 0.1413794580148533,
+      "itl_mean": 0.03567195364231908,
+      "itl_p50": 0.03459318703971803,
+      "itl_p99": 0.07777194201480597,
+      "total_time": 38.774645364959724,
+      "num_tokens": 1083,
+      "tokens_per_sec": 27.930622957513798,
+      "output_text": "Based on the provided browser state, here's an analysis of the current page:\n\n**Page Identification:**\nThis appears to be the homepage or main landing page of **Y Combinator (YC)**, a well-known startup accelerator based in Silicon Valley. The page includes standard navigation links and a search bar.\n\n**Key Elements Observed:**\n\n1. **Navigation Menu:**\n   - \"About\"\n   - \"Programs\"\n   - \"Apply\"\n   - \"News\"\n   - \"Investors\"\n   - \"Careers\"\n   - \"Contact\"\n   - \"Blog\"\n\n2. **Search Bar:**\n   - Located at the top of the page, with placeholder text \"Search...\"\n   - Likely used to search the YC website for information.\n\n3. **Footer:**\n   - Includes copyright information: \"\u00a9 2023 Y Combinator. All rights reserved.\"\n   - Links to \"Privacy Policy\" and \"Terms of Service\"\n\n4. **Logo:**\n   - \"Y Combinator\" logo prominently displayed at the top left corner.\n\n5. **Navigation:**\n   - Horizontal navigation bar with links to various sections of the website.\n   - Mobile responsiveness indicated by the hamburger menu icon on smaller screens.\n\n6. **Contact Information:**\n   - \"Contact Us\" link in the footer.\n\n7. **Social Media:**\n   - Icons for social media platforms (Twitter, LinkedIn, etc.) in the footer.\n\n8. **Search Functionality:**\n   - Search bar located in the top right corner.\n\n9. **Language Selector:**\n   - Language options available in the top right corner.\n\n10. **Accessibility Options:**\n    - Accessibility settings link in the footer.\n\n11. **Legal Information:**\n    - Links to terms of service, privacy policy, and other legal documents in the footer.\n\n12. **Newsletter Signup:**\n    - Newsletter signup form in the footer.\n\n13. **Contact Information:**\n    - Contact form or contact details in the footer.\n\n14. **Social Media Links:**\n    - Social media icons in the footer.\n\n15. **Site Map:**\n    - Site map link in the footer.\n\n16. **Search Functionality:**\n    - Search bar on the homepage.\n\n17. **Language Selector:**\n    - Language selector on the homepage.\n\n18. **Accessibility Options:**\n    - Accessibility options on the homepage.\n\n19. **Privacy Policy:**\n    - Privacy policy link in the footer.\n\n20. **Terms of Service:**\n    - Terms of service link in the footer.\n\n21. **Contact Us:**\n    - Contact us link in the footer.\n\n22. **About Us:**\n    - About us link in the footer.\n\n23. **Careers:**\n    - Careers link in the footer.\n\n24. **Blog:**\n    - Blog link in the footer.\n\n25. **FAQ:**\n    - FAQ link in the footer.\n\n26. **Support:**\n    - Support link in the footer.\n\n27. **Privacy Policy:**\n    - Privacy policy link in the footer.\n\n28. **Terms of Service:**\n    - Terms of service link in the footer.\n\n29. **Cookie Policy:**\n    - Cookie policy link in the footer.\n\n30. **Accessibility Statement:**\n    - Accessibility statement link in the footer.\n\n31. **Contact Us:**\n    - Contact us link in the footer.\n\n32. **Sitemap:**\n    - Sitemap link in the footer.\n\n33. **Disclaimer:**\n    - Disclaimer link in the footer.\n\n34. **Copyright Notice:**\n    - Copyright notice link in the footer.\n\n35. **Privacy Policy:**\n    - Privacy policy link in the footer.\n\n36. **Terms of Service:**\n    - Terms of service link in the footer.\n\n37. **Cookie Policy:**\n    - Cookie policy link in the footer.\n\n38. **Accessibility Statement:**\n    - Accessibility statement link in the footer.\n\n39. **Contact Us:**\n    - Contact us link in the footer.\n\n40. **Sitemap:**\n    - Sitemap link in the footer.\n\n41. **FAQ:**\n    - FAQ link in the footer.\n\n42. **Blog:**\n    - Blog link in the footer.\n\n43. **About Us:**\n    - About us link in the footer.\n\n44. **Careers:**\n    - Careers link in the footer.\n\n45. **Privacy Policy:**\n    - Privacy policy link in the footer.\n\n46. **Terms of Service:**\n    - Terms of service link in the footer.\n\n47. **Cookie Policy:**\n    - Cookie policy link in the footer.\n\n48. **Contact Us:**\n    - Contact us link in the footer.\n\n49. **FAQ:**\n    - FAQ link in the footer.\n\n50. **Sitemap:**\n    - Sitemap link in the footer.\n\nThese are common links you might find in the footer of a website. The exact links can vary depending on the website's purpose, industry, and design. Some websites may also include social media icons, newsletter signup forms, or additional navigation links.",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 1082
+    },
+    {
+      "ttft": 0.15374893904663622,
+      "itl_mean": 0.03593368174078744,
+      "itl_p50": 0.03483773104380816,
+      "itl_p99": 0.05595347099006176,
+      "total_time": 7.124822915066034,
+      "num_tokens": 194,
+      "tokens_per_sec": 27.228746919417574,
+      "output_text": "It seems you've pasted a browser state dump, likely from a web scraping or browser automation tool, showing the HTML structure of a page (possibly from Y Combinator, given the links like \u201cApply to YC\u201d and \u201cContact\u201d). The page includes a search input field (`<input type=text name=q autocomplete=off />`) and navigation links.\n\nIf you\u2019re asking for help with something specific \u2014 such as:\n\n- **Extracting data** from this page?\n- **Automating interaction** with this page?\n- **Understanding what this page does**?\n- **Fixing or modifying** the HTML or automation script?\n\n\ud83d\udc49 **Please clarify your question**, and I\u2019ll help you with the exact task you need.\n\nFor example:\n- \u201cHow do I scrape the links from this page?\u201d\n- \u201cHow can I automate filling the search bar?\u201d\n- \u201cWhat does this HTML snippet do?\u201d\n\nJust tell me what you want to do next!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 193
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 153.74893904663622,
+    "median_itl_mean_ms": 35.93368174078744,
+    "median_itl_p50_ms": 34.69153493642807,
+    "median_itl_p99_ms": 59.50030207168311,
+    "median_throughput_tps": 27.228746919417574,
+    "median_total_time_s": 14.371054663904943,
+    "median_tokens": 293,
+    "min_ttft_ms": 141.3794580148533,
+    "max_ttft_ms": 3828.3596839755774
+  }
+}

@@ -1,0 +1,50 @@
+Latency Measurement - 20260326_151518
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: unknown
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 3 (3 successful)
+Output tokens (median): 209
+============================================================
+
+[Run 1] TTFT (time to first token):  103046.5 ms
+[Run 1] ITL mean:                       16.17 ms
+[Run 1] ITL median (P50):                8.93 ms
+[Run 1] ITL P99:                        55.28 ms
+[Run 1] Total time:                    106.45 s
+[Run 1] Tokens generated:                 211
+[Run 1] Throughput:                       2.0 tok/s
+[Run 1] Output preview: {
+  "thinking": "I have scrolled down multiple times but still only see the first 30 posts on Hacker News. The user requ...
+
+[Run 2] TTFT (time to first token):      56.5 ms
+[Run 2] ITL mean:                        8.98 ms
+[Run 2] ITL median (P50):                8.91 ms
+[Run 2] ITL P99:                        10.66 ms
+[Run 2] Total time:                      1.93 s
+[Run 2] Tokens generated:                 209
+[Run 2] Throughput:                     108.1 tok/s
+[Run 2] Output preview: {
+  "thinking": "I have scrolled down the page multiple times, but the current view only shows posts 1-30. The user requ...
+
+[Run 3] TTFT (time to first token):      49.1 ms
+[Run 3] ITL mean:                        9.20 ms
+[Run 3] ITL median (P50):                8.89 ms
+[Run 3] ITL P99:                        13.39 ms
+[Run 3] Total time:                      1.94 s
+[Run 3] Tokens generated:                 206
+[Run 3] Throughput:                     105.9 tok/s
+[Run 3] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+============================================================
+SUMMARY (3 successful runs)
+============================================================
+Median TTFT:           56.5 ms  (min=49.1, max=103046.5)
+Median ITL mean:       9.20 ms
+Median ITL P50:        8.91 ms
+Median ITL P99:       13.39 ms
+Median throughput:    105.9 tok/s
+Median total time:     1.94 s
+Median tokens:          209

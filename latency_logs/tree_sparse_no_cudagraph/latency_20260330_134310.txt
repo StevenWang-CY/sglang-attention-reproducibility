@@ -1,0 +1,175 @@
+Latency Measurement - 20260330_134310
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Attention backend: tree_sparse
+CUDA graph: disabled
+Tree sparse: top_k=8, min_seq_len=512, recent=128, selection=per-layer
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 10 (10 successful)
+Input tokens: 9661
+Output tokens (median): 256
+============================================================
+
+[Run 1] TTFT (time to first token):     253.9 ms
+[Run 1] ITL mean:                       68.84 ms
+[Run 1] ITL median (P50):               65.50 ms
+[Run 1] ITL P99:                        87.86 ms
+[Run 1] Total time:                     17.81 s
+[Run 1] Tokens generated:                 256
+[Run 1] Prompt tokens (input):           9661
+[Run 1] Completion tokens (output):       256
+[Run 1] Throughput:                      14.4 tok/s
+[Run 1] Output preview: ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devi...
+
+[Run 2] TTFT (time to first token):     192.3 ms
+[Run 2] ITL mean:                       67.13 ms
+[Run 2] ITL median (P50):               66.20 ms
+[Run 2] ITL P99:                        94.06 ms
+[Run 2] Total time:                     17.31 s
+[Run 2] Tokens generated:                 256
+[Run 2] Prompt tokens (input):           9661
+[Run 2] Completion tokens (output):       256
+[Run 2] Throughput:                      14.8 tok/s
+[Run 2] Output preview: ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devi...
+
+[Run 3] TTFT (time to first token):     202.8 ms
+[Run 3] ITL mean:                       66.99 ms
+[Run 3] ITL median (P50):               66.00 ms
+[Run 3] ITL P99:                        91.50 ms
+[Run 3] Total time:                     10.72 s
+[Run 3] Tokens generated:                 157
+[Run 3] Prompt tokens (input):           9661
+[Run 3] Completion tokens (output):       158
+[Run 3] Throughput:                      14.6 tok/s
+[Run 3] Output preview: ```json
+{
+  "error": "Invalid JSON structure"
+}
+```
+
+The provided text appears to be a malformed JSON object, likely due...
+
+[Run 4] TTFT (time to first token):     182.5 ms
+[Run 4] ITL mean:                       70.73 ms
+[Run 4] ITL median (P50):               66.18 ms
+[Run 4] ITL P99:                       449.34 ms
+[Run 4] Total time:                      7.25 s
+[Run 4] Tokens generated:                 100
+[Run 4] Prompt tokens (input):           9661
+[Run 4] Completion tokens (output):       101
+[Run 4] Throughput:                      13.8 tok/s
+[Run 4] Output preview: ```json
+{
+  "error": "The provided code snippet does not contain any valid JSON structure. It appears to be a JavaScript...
+
+[Run 5] TTFT (time to first token):     202.6 ms
+[Run 5] ITL mean:                       68.13 ms
+[Run 5] ITL median (P50):               66.35 ms
+[Run 5] ITL P99:                       106.03 ms
+[Run 5] Total time:                     17.58 s
+[Run 5] Tokens generated:                 256
+[Run 5] Prompt tokens (input):           9661
+[Run 5] Completion tokens (output):       256
+[Run 5] Throughput:                      14.6 tok/s
+[Run 5] Output preview: ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devi...
+
+[Run 6] TTFT (time to first token):     183.9 ms
+[Run 6] ITL mean:                       67.07 ms
+[Run 6] ITL median (P50):               66.12 ms
+[Run 6] ITL P99:                        96.37 ms
+[Run 6] Total time:                     17.29 s
+[Run 6] Tokens generated:                 256
+[Run 6] Prompt tokens (input):           9661
+[Run 6] Completion tokens (output):       256
+[Run 6] Throughput:                      14.8 tok/s
+[Run 6] Output preview: The provided text appears to be a **mock or placeholder** for a web interface or API documentation, possibly intended to...
+
+[Run 7] TTFT (time to first token):     184.9 ms
+[Run 7] ITL mean:                       68.99 ms
+[Run 7] ITL median (P50):               66.40 ms
+[Run 7] ITL P99:                       143.13 ms
+[Run 7] Total time:                     17.78 s
+[Run 7] Tokens generated:                 256
+[Run 7] Prompt tokens (input):           9661
+[Run 7] Completion tokens (output):       256
+[Run 7] Throughput:                      14.4 tok/s
+[Run 7] Output preview: ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devi...
+
+[Run 8] TTFT (time to first token):     188.2 ms
+[Run 8] ITL mean:                       68.79 ms
+[Run 8] ITL median (P50):               66.61 ms
+[Run 8] ITL P99:                       134.39 ms
+[Run 8] Total time:                      6.24 s
+[Run 8] Tokens generated:                  88
+[Run 8] Prompt tokens (input):           9661
+[Run 8] Completion tokens (output):        89
+[Run 8] Throughput:                      14.1 tok/s
+[Run 8] Output preview: ```json
+{
+  "status": "success",
+  "data": {
+    "title": "AI-Generated Content",
+    "description": "This is a placehol...
+
+[Run 9] TTFT (time to first token):     174.8 ms
+[Run 9] ITL mean:                       72.78 ms
+[Run 9] ITL median (P50):               66.85 ms
+[Run 9] ITL P99:                       135.27 ms
+[Run 9] Total time:                      1.19 s
+[Run 9] Tokens generated:                  14
+[Run 9] Prompt tokens (input):           9661
+[Run 9] Completion tokens (output):        15
+[Run 9] Throughput:                      11.8 tok/s
+[Run 9] Output preview: ```json
+{
+  "error": "Invalid request"
+}
+```...
+
+[Run 10] TTFT (time to first token):     180.9 ms
+[Run 10] ITL mean:                       66.96 ms
+[Run 10] ITL median (P50):               66.26 ms
+[Run 10] ITL P99:                        94.55 ms
+[Run 10] Total time:                     17.26 s
+[Run 10] Tokens generated:                 256
+[Run 10] Prompt tokens (input):           9661
+[Run 10] Completion tokens (output):       256
+[Run 10] Throughput:                      14.8 tok/s
+[Run 10] Output preview: ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devi...
+
+============================================================
+SUMMARY (10 successful runs)
+============================================================
+Median TTFT:          186.6 ms  (min=174.8, max=253.9)
+Median ITL mean:      68.46 ms
+Median ITL P50:       66.23 ms
+Median ITL P99:      101.20 ms
+Median throughput:     14.5 tok/s
+Median total time:    17.27 s
+Median tokens:          256

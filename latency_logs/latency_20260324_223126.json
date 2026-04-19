@@ -1,0 +1,68 @@
+{
+  "timestamp": "20260324_223126",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 0.2330744699575007,
+      "itl_mean": 0.0640088234485799,
+      "itl_p50": 0.06146473716944456,
+      "itl_p99": 0.08707527490332723,
+      "total_time": 20.522457928862423,
+      "num_tokens": 317,
+      "tokens_per_sec": 15.446492866440563,
+      "output_text": "The browser state you've provided appears to be a **scrapped or parsed HTML fragment**, likely from a **Y Combinator (YC)** webpage \u2014 given the visible links like \u201cApply to YC\u201d, \u201cContact\u201d, \u201cYC\u201d branding, and the search input.\n\nHowever, **there is no actual query or request** in your input \u2014 just a static page snapshot. You haven\u2019t asked a question, performed a search, or requested any action.\n\n---\n\n### What You Can Do With This:\n\n\u2705 **If you want to search YC\u2019s site**:  \nYou can use the search bar (`<input type=\"text\">`) to type your query \u2014 e.g., \u201chow to apply to YC\u201d, \u201cYC startup list\u201d, etc.\n\n\u2705 **If you want to navigate**:  \nClick on links like:\n- \u201cApply to YC\u201d\n- \u201cStartup Directory\u201d\n- \u201cAbout YC\u201d\n- \u201cNews\u201d\n\n\u2705 **If you want help finding something specific**:  \nTell me what you\u2019re looking for \u2014 e.g.,  \n> \u201cI want to know how to apply to YC.\u201d  \n> \u201cShow me the list of YC startups in 2024.\u201d  \n> \u201cWhat is YC\u2019s funding structure?\u201d\n\n\u2705 **If you\u2019re seeing an error or blank page**:  \nLet me know \u2014 I can help troubleshoot or guide you to the right page.\n\nJust say:  \n\ud83d\udc49 \u201cI need help with [your request].\u201d\n\nI\u2019m here to help you navigate YC or any other topic. What\u2019s next? \ud83d\ude0a",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 316
+    },
+    {
+      "ttft": 0.20966637507081032,
+      "itl_mean": 0.06524079417652306,
+      "itl_p50": 0.06149755511432886,
+      "itl_p99": 0.10685805696994066,
+      "total_time": 26.497744533233345,
+      "num_tokens": 403,
+      "tokens_per_sec": 15.208841624031786,
+      "output_text": "The provided text appears to be a corrupted or malformed HTML-like structure, possibly from a web browser state dump or a parsing error. It contains fragments of HTML tags, some text, and references to \u201cY Combinator\u201d (YC), which is a well-known startup accelerator. However, the content is not coherent or functional as standard HTML.\n\n### Observations:\n1. **Corrupted Structure**:\n   - The `<browser_state>` tag is not standard HTML.\n   - There are malformed or incomplete tags like `<input type=text name=q autocomplete=off />`, which is syntactically correct but appears out of context.\n   - The text \u201cY Combinator\u201d appears in a fragmented form, possibly indicating a partial or corrupted page.\n\n2. **Possible Origin**:\n   - The mention of \u201cY Combinator\u201d suggests this might be a fragment from a webpage related to startup accelerators, possibly from a search result or a partially loaded page.\n   - The phrase \u201cY Combinator\u201d is often associated with startup incubators and venture capital, so this could be a snippet from a website like [ycombinator.com](https://www.ycombinator.com).\n\n3. **Interpretation**:\n   - The text appears to be incomplete or corrupted, possibly due to a network error, a misconfigured web scraper, or a fragmented copy-paste.\n   - The phrase \u201cY Combinator\u201d is likely the main subject, but the rest of the text is either missing or garbled.\n\n**Conclusion**:\nThe text appears to be an incomplete or corrupted snippet, possibly from a website or document related to the Y Combinator startup accelerator. The phrase \u201cY Combinator\u201d is the only clear and meaningful part, suggesting the context is likely about startups, entrepreneurship, or venture capital. Without additional context or a complete version, no further meaningful analysis can be performed.\n\nIf you have more information or a corrected version, please provide it for further assistance.",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 402
+    },
+    {
+      "ttft": 0.20229895692318678,
+      "itl_mean": 0.06473057343696702,
+      "itl_p50": 0.06168181821703911,
+      "itl_p99": 0.09789579268544912,
+      "total_time": 35.347476075869054,
+      "num_tokens": 543,
+      "tokens_per_sec": 15.361775727198077,
+      "output_text": "The browser state you\u2019ve provided appears to be a **scraped or parsed HTML snapshot**, possibly from a web crawler or automated tool (like a browser automation script or web scraping library), and it includes:\n\n- A **Y Combinator (YC)** homepage-like structure (based on the links: \u201cApply to YC\u201d, \u201cContact\u201d, \u201cYC\u201d logo, etc.).\n- A **search bar** with `name=q` and `autocomplete=off`.\n- A **shadow DOM or browser state marker** (`<browser_state>`, `</browser_state>`) indicating this is a raw or internal representation of a web page.\n- **Strange or malformed elements**, such as:\n  - `</browser_state>`, which appears to be a closing tag that doesn\u2019t match any opening tag.\n  - `<br>` tags without context.\n  - `<span>...</span>` elements that may be placeholders or fragments.\n\n---\n\n### \u2705 What this likely represents:\n\nThis appears to be **a fragment of a web page or a browser automation script** (possibly from a tool like Selenium, Puppeteer, or a custom web scraper), where the HTML structure is incomplete or malformed \u2014 perhaps due to:\n\n- **Parsing errors** (e.g., malformed HTML tags).\n- **Dynamic content injection** (e.g., JavaScript rendering incomplete HTML).\n- **Debugging or logging output** from a script that failed to render properly.\n- **Fragment from a template or placeholder** (e.g., `...<span>...</span>` used for dynamic content).\n\n---\n\n### \ud83d\udee0\ufe0f What you can do:\n\n1. **Check for missing tags** \u2014 e.g., `<div>`, `<p>`, or `</span>` that may be missing.\n2. **Validate HTML** \u2014 Use tools like [W3C Validator](https://validator.w3.org/) or [HTMLHint](https://htmlhint.com/).\n3. **Look at the source** \u2014 If this is from a web page, inspect the element using browser DevTools.\n4. **If it\u2019s a placeholder**, ensure dynamic content is properly inserted (e.g., via JavaScript or templating engines like Jinja2, Handlebars, etc.).\n\nIf you can provide more context (e.g., the full HTML snippet, what platform you\u2019re using, or what you\u2019re trying to achieve), I can give more specific help.\n\n---\n\n**Note**: The text you provided appears to be a mix of HTML, possibly with some corrupted or placeholder content. If this is from a web page or a template, it may need to be cleaned up or fixed for proper rendering. Let me know how I can assist further!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 542
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 209.66637507081032,
+    "median_itl_mean_ms": 64.73057343696702,
+    "median_itl_p50_ms": 61.49755511432886,
+    "median_itl_p99_ms": 97.89579268544912,
+    "median_throughput_tps": 15.361775727198077,
+    "median_total_time_s": 26.497744533233345,
+    "median_tokens": 403,
+    "min_ttft_ms": 202.29895692318678,
+    "max_ttft_ms": 233.0744699575007
+  }
+}

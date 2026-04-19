@@ -1,0 +1,69 @@
+{
+  "timestamp": "20260326_151518",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0,
+    "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=10)"
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 103.04651489690877,
+      "itl_mean": 0.0161743989430501,
+      "itl_p50": 0.008925587055273354,
+      "itl_p99": 0.05528194096405059,
+      "total_time": 106.45346649398562,
+      "num_tokens": 211,
+      "tokens_per_sec": 1.9820866989983932,
+      "output_text": "{\n  \"thinking\": \"I have scrolled down multiple times but still only see the first 30 posts on Hacker News. The user request is to find the 50th post, which means I need to scroll further. The current page shows posts 1-30, and I need to reach post 50. I should scroll down further to load more posts and locate the 50th post.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times, but still only viewing posts 1-30. Verdict: Partial Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 210
+    },
+    {
+      "ttft": 0.0565453089075163,
+      "itl_mean": 0.00897627053871894,
+      "itl_p50": 0.008908565971069038,
+      "itl_p99": 0.01065860700327903,
+      "total_time": 1.9335650049615651,
+      "num_tokens": 209,
+      "tokens_per_sec": 108.09049577526588,
+      "output_text": "{\n  \"thinking\": \"I have scrolled down the page multiple times, but the current view only shows posts 1-30. The user request is to find the 50th post. I need to scroll further to load more posts. Since the page is scrollable, I will scroll down by 1080px again to load additional content and locate the 50th post.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times, but still only viewing posts 1-30. Verdict: Partial Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 208
+    },
+    {
+      "ttft": 0.04913563304580748,
+      "itl_mean": 0.009198530424363548,
+      "itl_p50": 0.008891156991012394,
+      "itl_p99": 0.013393071945756674,
+      "total_time": 1.9448446739697829,
+      "num_tokens": 206,
+      "tokens_per_sec": 105.92105516556055,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to locate post number 50. Since the page only displays 30 posts at a time, I need to scroll further to reveal more content. I will scroll down again to load additional posts and locate post number 50.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 205
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 56.5453089075163,
+    "median_itl_mean_ms": 9.198530424363547,
+    "median_itl_p50_ms": 8.908565971069038,
+    "median_itl_p99_ms": 13.393071945756674,
+    "median_throughput_tps": 105.92105516556055,
+    "median_total_time_s": 1.9448446739697829,
+    "median_tokens": 209,
+    "min_ttft_ms": 49.13563304580748,
+    "max_ttft_ms": 103046.51489690877
+  }
+}

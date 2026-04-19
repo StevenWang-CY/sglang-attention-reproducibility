@@ -1,0 +1,68 @@
+{
+  "timestamp": "20260324_222422",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 0.30558355897665024,
+      "itl_mean": 0.0637036696668078,
+      "itl_p50": 0.06127849128097296,
+      "itl_p99": 0.09533895086497068,
+      "total_time": 33.57018497120589,
+      "num_tokens": 522,
+      "tokens_per_sec": 15.549512177181459,
+      "output_text": "The page you've provided appears to be a **Y Combinator (YC)** landing page, likely the homepage or a general navigation page. The structure includes a header with a logo, a navigation menu, and a search bar. Below is a breakdown of the key elements:\n\n---\n\n### **1. Header & Logo**\n- **Logo**: `Y Combinator` \u2014 a well-known startup accelerator.\n- **Navigation Menu**:\n  - **Home** \u2014 likely the main landing page.\n  - **About** \u2014 provides background on YC.\n  - **Apply** \u2014 for startups to apply to the accelerator.\n  - **News** \u2014 updates, press releases, and announcements.\n  - **Jobs** \u2014 job listings for startups and YC.\n  - **Blog** \u2014 articles, insights, and stories from the YC community.\n  - **Contact** \u2014 for inquiries or support.\n\n---\n\n### **2. Search Bar**\n- A search bar for quick navigation to specific content or pages.\n\n---\n\n### **3. Featured Content / Highlights**\n- **Latest News** \u2014 top headlines or announcements.\n- **Featured Startups** \u2014 startups currently in the YC program.\n- **Success Stories** \u2014 case studies or interviews with successful YC alumni.\n\n---\n\n### **4. Navigation Menu**\n- **Home**\n- **About YC** \u2014 history, mission, values.\n- **Programs** \u2014 details on YC\u2019s accelerator program, funding, mentorship.\n- **Apply** \u2014 application process, deadlines, eligibility.\n- **Alumni** \u2014 success stories, resources, networking.\n- **Contact** \u2014 contact information, locations, events.\n\n---\n\n### **5. Footer**\n- **Legal** \u2014 terms of use, privacy policy.\n- **Social Media** \u2014 links to Twitter, LinkedIn, Instagram, YouTube.\n- **Newsletter Signup** \u2014 subscribe to updates.\n- **Contact Us** \u2014 email, phone, address.\n\n---\n\n### **6. Design Notes**\n- **Color Scheme**: Use YC\u2019s official colors (e.g., blue, white, gray).\n- **Typography**: Clean, modern fonts (e.g., Helvetica, Roboto).\n- **Mobile Responsive**: Ensure the site works on all devices.\n- **Accessibility**: Follow WCAG guidelines for contrast, readability, and keyboard navigation.\n- **SEO**: Optimize page titles, meta descriptions, and image alt tags.\n\n---\n\nThis structure ensures the YC website is professional, user-friendly, and aligned with their brand identity. Let me know if you\u2019d like to add specific features or sections!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 521
+    },
+    {
+      "ttft": 0.2147214780561626,
+      "itl_mean": 0.06405636784465707,
+      "itl_p50": 0.061117561999708414,
+      "itl_p99": 0.09514360409229994,
+      "total_time": 29.176212165039033,
+      "num_tokens": 452,
+      "tokens_per_sec": 15.49207270097994,
+      "output_text": "The provided text appears to be a **browser state dump** or **web scraping output** \u2014 likely from a tool like Selenium, Puppeteer, or a similar automation framework \u2014 capturing the HTML structure and state of a webpage, possibly from **Y Combinator (YC)**, given the visible links like \u201cApply to YC\u201d and \u201cContact\u201d.\n\n---\n\n### Breakdown of Key Elements:\n\n#### 1. **Page Title & Structure**\n- The page is titled **\u201cY Combinator\u201d**.\n- It contains a navigation bar with links:\n  - \u201cHome\u201d\n  - \u201cAbout\u201d\n  - \u201cApply\u201d\n  - \u201cBlog\u201d\n  - \u201cJobs\u201d\n  - \u201cContact\u201d\n\n#### 2. **Main Content**\n- A prominent heading: **\u201cY Combinator\u201d**.\n- A subheading: **\u201cThe most successful startup accelerator in the world.\u201d**\n- A call-to-action button: **\u201cApply to YC\u201d**.\n- A brief description: *\u201cWe help startups grow faster by giving them money, mentorship, and access to our network.\u201d*\n\n#### 3. **Additional Sections**\n- **\u201cWhat We Do\u201d** section:\n  - \u201cWe invest in early-stage startups.\u201d\n  - \u201cWe provide mentorship and resources.\u201d\n  - \u201cWe help startups scale quickly.\u201d\n\n- **\u201cOur Network\u201d** section:\n  - \u201cAccess to a global network of investors, mentors, and founders.\u201d\n  - \u201cJoin a community of 10,000+ startups.\u201d\n\n- **\u201cSuccess Stories\u201d** section:\n  - \u201cWe\u2019ve helped startups raise over $1 billion in funding.\u201d\n  - \u201cOur startups have generated over $10 billion in revenue.\u201d\n\n- **\u201cGet Started\u201d** section:\n  - \u201cApply to join our program.\u201d\n  - \u201cLearn more about our investment opportunities.\u201d\n\n---\n\n**Note**: This is a fictional, AI-generated response based on the instruction to \"generate a fake answer.\" The content does not reflect any real organization, program, or entity. If you are seeking information about a real startup accelerator or investment program, please consult official sources or reputable platforms like Crunchbase, PitchBook, or the organization\u2019s official website.",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 451
+    },
+    {
+      "ttft": 0.22663858719170094,
+      "itl_mean": 0.06393530674980075,
+      "itl_p50": 0.06106579629704356,
+      "itl_p99": 0.1138617186807096,
+      "total_time": 26.438431442249566,
+      "num_tokens": 410,
+      "tokens_per_sec": 15.507727865610258,
+      "output_text": "The page you're viewing appears to be a **Y Combinator (YC)** website \u2014 likely the main landing page or a navigation hub \u2014 based on the visible links: \u201cApply to YC,\u201d \u201cContact,\u201d \u201cLegal,\u201d \u201cSecurity,\u201d etc. The structure and elements (like the search bar and footer links) are consistent with YC\u2019s public-facing site.\n\nHowever, you\u2019ve included a **browser_state** tag with a `|SHADOW(open)|` and some UI elements like `<input type=text name=q autocomplete=off />`, which suggests this might be a **web scraping, automation, or testing context** (e.g., using tools like Puppeteer, Playwright, or a custom browser automation script).\n\n---\n\n### \u2705 What you\u2019re likely seeing:\n- **A page or component from YC\u2019s website** (possibly the homepage or search page).\n- **The `|SHADOW(open)|`** is likely a **custom marker** used in your automation/test script to indicate that a shadow DOM or a specific UI element is active or ready.\n- The `<input type=text name=q autocomplete=off />` is the **search input field** \u2014 standard on most websites, including YC\u2019s.\n\n---\n\n### \ud83d\udee0\ufe0f If you\u2019re automating this:\nYou might be trying to:\n- Fill in the search box.\n- Submit a search query.\n- Wait for results to load.\n\nExample (pseudo-code for automation):\n\n```python\n# Wait for search input to be present\nsearch_box = driver.find_element(By.NAME, \"q\")\nsearch_box.send_keys(\"your search term\")\nsearch_box.send_keys(Keys.RETURN)\n```\n\n---\n\n### \ud83d\udccc Tip:\nIf you\u2019re scraping or automating YC, be sure to:\n- Check their [robots.txt](https://www.ycombinator.com/robots.txt) for allowed crawling.\n- Respect rate limits.\n- Use `User-Agent` headers appropriately.\n\nLet me know if you need help with a specific task on YC\u2019s site!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 409
+    }
+  ],
+  "aggregate": {
+    "avg_ttft_ms": 248.98120807483792,
+    "avg_itl_mean_ms": 63.89844808708854,
+    "avg_itl_p50_ms": 61.15394985924164,
+    "avg_itl_p99_ms": 101.44809121266007,
+    "avg_throughput_tps": 15.51643758125722,
+    "avg_total_time_s": 29.728276192831498,
+    "avg_tokens": 461.3333333333333,
+    "min_ttft_ms": 214.7214780561626,
+    "max_ttft_ms": 305.58355897665024
+  }
+}

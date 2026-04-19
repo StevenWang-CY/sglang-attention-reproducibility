@@ -1,0 +1,76 @@
+{
+  "timestamp": "20260325_150752",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0,
+    "attention_backend": "flashinfer",
+    "enable_tree_sparse": false,
+    "tree_sparse_top_k": 8,
+    "tree_sparse_min_seq_len": 512,
+    "tree_sparse_recent_tokens": 128,
+    "disable_cuda_graph": true,
+    "context_length": 40960,
+    "dtype": "auto"
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 0.29700903105549514,
+      "itl_mean": 0.01627387549599697,
+      "itl_p50": 0.016287759877741337,
+      "itl_p99": 0.016877084970474243,
+      "total_time": 4.090092369122431,
+      "num_tokens": 233,
+      "tokens_per_sec": 56.96692860997475,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to locate the 50th post. Since the page only displays 30 posts at a time, I must scroll further to reach post 50. I previously scrolled 1080px four times, which suggests I need to scroll more to load additional content. I will scroll down again to load more posts and locate the 50th post.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px four times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 232
+    },
+    {
+      "ttft": 0.06271275412291288,
+      "itl_mean": 0.016178511241691763,
+      "itl_p50": 0.01616541319526732,
+      "itl_p99": 0.016720609040930867,
+      "total_time": 3.833215527003631,
+      "num_tokens": 233,
+      "tokens_per_sec": 60.784476729419055,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to locate post number 50. Since the page only displays 30 posts at a time, I must scroll further to reach post 50. The current scroll position is at the top of the page, and I need to scroll down to load more content. I will scroll down by 1080px to load additional posts and locate post number 50.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 232
+    },
+    {
+      "ttft": 0.05994752701371908,
+      "itl_mean": 0.015812757317549907,
+      "itl_p50": 0.015820237109437585,
+      "itl_p99": 0.01666656997986138,
+      "total_time": 3.3664804310537875,
+      "num_tokens": 209,
+      "tokens_per_sec": 62.08264217789559,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to locate post number 50. Since the page only shows 30 posts at a time, I need to scroll further to reveal more content. I will scroll down another 1080px to load additional posts and locate post number 50.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 208
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 62.712754122912884,
+    "median_itl_mean_ms": 16.178511241691762,
+    "median_itl_p50_ms": 16.16541319526732,
+    "median_itl_p99_ms": 16.720609040930867,
+    "median_throughput_tps": 60.784476729419055,
+    "median_total_time_s": 3.833215527003631,
+    "median_tokens": 233,
+    "min_ttft_ms": 59.94752701371908,
+    "max_ttft_ms": 297.00903105549514
+  }
+}

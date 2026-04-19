@@ -1,0 +1,68 @@
+{
+  "timestamp": "20260324_224552",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 0.26798117673024535,
+      "itl_mean": 0.006529378638852661,
+      "itl_p50": 0.006420501973479986,
+      "itl_p99": 0.009358961135149002,
+      "total_time": 1.614151797723025,
+      "num_tokens": 206,
+      "tokens_per_sec": 127.62120656222686,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to locate post number 50. The visible posts only go up to post 30, so I must scroll further to reach post 50. I will scroll down again to load more posts and locate post 50.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Have scrolled down 1080px four times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 205
+    },
+    {
+      "ttft": 0.0642585288733244,
+      "itl_mean": 0.006524888680841045,
+      "itl_p50": 0.006418963894248009,
+      "itl_p99": 0.008190242107957602,
+      "total_time": 1.7760768476873636,
+      "num_tokens": 262,
+      "tokens_per_sec": 147.51613948526563,
+      "output_text": "{\n  \"thinking\": \"I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more posts. The current view shows posts 1-30, and I need to find post number 50. The page structure indicates that posts are listed sequentially, and I can see post 29 and 30 at the bottom of the visible list. Since the page only shows 30 posts at a time, I need to scroll further to load more posts. I will scroll down by 1080px to load the next set of posts, which should include post 31-50. This is a logical next step to locate the 50th post.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page to load more posts. Verdict: Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page further to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 261
+    },
+    {
+      "ttft": 0.06075143767520785,
+      "itl_mean": 0.006474531847604756,
+      "itl_p50": 0.006417728960514069,
+      "itl_p99": 0.008455456700176,
+      "total_time": 1.5966118830256164,
+      "num_tokens": 237,
+      "tokens_per_sec": 148.43933113592988,
+      "output_text": "{\n  \"thinking\": \"I need to find the 50th post on Hacker News. Currently, I can see posts 1-30. I have already scrolled down multiple times, but the 50th post is not visible yet. I should continue scrolling to load more posts until I reach the 50th post. The current page shows 30 posts, so I need to scroll further to load posts 31-50. I will scroll down 1080px again to load more posts.\",\n  \"evaluation_previous_goal\": \"Successfully scrolled down the page multiple times, but the 50th post is still not visible. Verdict: Partial Success\",\n  \"memory\": \"Currently viewing posts 1-30 on Hacker News. Need to scroll further to reach post number 50. Scrolled down 1080px multiple times already.\",\n  \"next_goal\": \"Scroll down the page to load more posts and locate the 50th post.\",\n  \"action\": [\n    {\n      \"scroll\": {\n        \"pages\": 1.0\n      }\n    }\n  ]\n}",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 236
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 64.2585288733244,
+    "median_itl_mean_ms": 6.524888680841046,
+    "median_itl_p50_ms": 6.418963894248009,
+    "median_itl_p99_ms": 8.455456700176,
+    "median_throughput_tps": 147.51613948526563,
+    "median_total_time_s": 1.614151797723025,
+    "median_tokens": 237,
+    "min_ttft_ms": 60.75143767520785,
+    "max_ttft_ms": 267.98117673024535
+  }
+}

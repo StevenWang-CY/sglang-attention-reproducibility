@@ -1,0 +1,76 @@
+{
+  "timestamp": "20260325_152102",
+  "config": {
+    "url": "http://localhost:8000",
+    "model": "Qwen3-VL-8B-Instruct",
+    "request_json": "html_request/request_005_20260316_221014/request.json",
+    "max_tokens": null,
+    "repeat": 3,
+    "warmup": 0,
+    "attention_backend": "tree_sparse",
+    "enable_tree_sparse": true,
+    "tree_sparse_top_k": 8,
+    "tree_sparse_min_seq_len": 512,
+    "tree_sparse_recent_tokens": 128,
+    "disable_cuda_graph": true,
+    "context_length": 40960,
+    "dtype": "auto"
+  },
+  "num_runs": 3,
+  "num_successful": 3,
+  "runs": [
+    {
+      "ttft": 1.5715360979083925,
+      "itl_mean": 0.042188503762605925,
+      "itl_p50": 0.04143802681937814,
+      "itl_p99": 0.07000514306128025,
+      "total_time": 22.581892776070163,
+      "num_tokens": 498,
+      "tokens_per_sec": 22.05306724898306,
+      "output_text": "It looks like you\u2019ve shared a browser state dump \u2014 likely from a web scraping or automation tool \u2014 that captures the HTML structure of a page (possibly from Y Combinator, given the links to \u201cApply to YC,\u201d \u201cYC,\u201d etc.).\n\nHere\u2019s what\u2019s happening:\n\n---\n\n### \ud83d\udd0d **What You\u2019re Seeing**\n\nThis is **not** a real web page \u2014 it\u2019s a **structured dump** of the browser\u2019s current state, likely from a tool like:\n\n- **Selenium**\n- **Playwright**\n- **Puppeteer**\n- Or a custom scraping/automation script\n\nIt includes:\n\n- The `<browser_state>` tag (custom wrapper)\n- A `<title>` tag (empty in this case)\n- A `<url>` tag (empty \u2014 likely not populated or not relevant here)\n- A `<content>` tag (empty \u2014 probably placeholder or not captured)\n- A `<browser_state>` tag (closing tag)\n\nThe `<a>` tags with `href` attributes are likely placeholders or extracted links from the page.\n\n---\n\n### \u2705 What\u2019s happening here?\n\nThis appears to be a **partial or malformed browser state capture**, possibly from a script that was meant to extract or log browser content but didn\u2019t fully populate the fields.\n\n---\n\n### \ud83d\udeab Why is this not useful?\n\n- The `url`, `content`, and `title` are empty \u2014 no actual page data.\n- The `<a>` tags are not properly closed or structured.\n- The structure resembles HTML but is not valid \u2014 likely a parsing error or incomplete capture.\n\n---\n\n### \ud83d\udee0\ufe0f How to fix this?\n\nIf you\u2019re trying to capture browser state programmatically (e.g., for testing or automation):\n\n1. **Ensure the browser is fully loaded** before capturing.\n2. **Use a proper HTML parser** (like BeautifulSoup in Python) to clean and validate the output.\n3. **Capture page content** using `document.body.innerHTML` or similar, not just raw browser state.\n\nExample in Python using Selenium:\n\n```python\nfrom selenium import webdriver\n\ndriver = webdriver.Chrome()\ndriver.get(\"https://example.com\")\npage_source = driver.page_source\ndriver.quit()\n\n# Parse with BeautifulSoup\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(page_source, 'html.parser')\nprint(soup.prettify())\n```\n\nThis will give you a clean, structured HTML output instead of raw browser state.\n\nLet me know if you need help with parsing or cleaning the output!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 1,
+      "itl_count": 497
+    },
+    {
+      "ttft": 0.2358574909158051,
+      "itl_mean": 0.042485916525650674,
+      "itl_p50": 0.041538274846971035,
+      "itl_p99": 0.07344933785498142,
+      "total_time": 21.224115560995415,
+      "num_tokens": 494,
+      "tokens_per_sec": 23.27541039721098,
+      "output_text": "The page you\u2019ve provided appears to be a **Y Combinator (YC)** landing page or index, likely from the early 2000s or mid-2010s, based on the HTML structure and the presence of classic YC links like \u201cApply to YC,\u201d \u201cContact,\u201d and the search bar. The page is minimalistic, with a focus on utility \u2014 typical of YC\u2019s branding and design ethos.\n\n---\n\n### **What You\u2019re Looking At**\n\nThis is a **static HTML page** with:\n\n- A **search bar** (`<input type=\"text\">`) for finding content on the site.\n- A **navigation list** with links to key YC resources:\n  - \u201cAbout\u201d\n  - \u201cApply to YC\u201d\n  - \u201cContact\u201d\n  - \u201cJobs\u201d\n  - \u201cBlog\u201d\n  - \u201cEvents\u201d\n  - \u201cInvestors\u201d\n  - \u201cResources\u201d\n  - \u201cTeam\u201d\n  - \u201cPress\u201d\n  - \u201cLegal\u201d\n  - \u201cPrivacy\u201d\n- A **footer** with copyright and links to social media or additional resources.\n\nThe page is **minimalist**, likely part of a corporate or startup website (possibly Y Combinator, given the \u201cYC\u201d branding).\n\n---\n\n### What\u2019s going on here?\n\nThis appears to be a **web scraping or data extraction** result \u2014 perhaps from a tool like `BeautifulSoup`, `Scrapy`, or a similar parser \u2014 that\u2019s been used to extract the structure of a webpage.\n\nThe text is **not rendered in a browser** \u2014 it\u2019s raw, unformatted, and likely from a script that parsed the HTML and extracted text or structure.\n\n---\n\n### Why is this useful?\n\nThis kind of output is useful for:\n\n- **Automated web scraping** \u2014 to extract content without human intervention.\n- **Data analysis** \u2014 to pull structured data from websites.\n- **SEO or content monitoring** \u2014 to track changes in web content.\n- **Accessibility tools** \u2014 to convert web content into accessible formats.\n\n---\n\n### What\u2019s next?\n\nIf you\u2019re working with this kind of output, you might want to:\n\n- Use a tool like `BeautifulSoup` or `Scrapy` to parse HTML.\n- Use `requests` to fetch web pages.\n- Store the data in a database or CSV.\n- Clean and analyze the data with Python or another tool.\n\nLet me know if you need help with any of that!",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 2,
+      "itl_count": 493
+    },
+    {
+      "ttft": 0.1625650350470096,
+      "itl_mean": 0.042497453540700544,
+      "itl_p50": 0.04177529294975102,
+      "itl_p99": 0.06531517906114459,
+      "total_time": 14.654662183020264,
+      "num_tokens": 341,
+      "tokens_per_sec": 23.269045423312605,
+      "output_text": "The page you\u2019ve provided appears to be a **Y Combinator (YC)** landing page or index, with a navigation menu and search bar. Based on the structure and content, here's a breakdown:\n\n---\n\n### **Page Structure & Content**\n\n#### **Navigation Menu (Top)**\nThe menu includes links to key YC sections:\n- **About** \u2013 Information about Y Combinator.\n- **Apply** \u2013 For startups to apply for YC.\n- **News** \u2013 Updates, blog posts, and announcements.\n- **Jobs** \u2013 Job listings from YC companies.\n- **Resources** \u2013 Guides, tools, and educational materials.\n- **Contact** \u2013 For inquiries or support.\n\n#### **Search Bar**\nA prominent search bar is located near the top, allowing users to search the site for specific content.\n\n#### **Main Content Area**\nThe main content area includes:\n- **Featured Stories** \u2013 Highlights of recent news or success stories.\n- **Startup Spotlights** \u2013 Profiles of startups in the YC portfolio.\n- **YC Events** \u2013 Upcoming events, webinars, or conferences.\n- **Investment Updates** \u2013 Information about recent funding rounds or portfolio companies.\n\n#### **Footer**\nThe footer contains:\n- **Quick Links** \u2013 Direct links to important sections of the site.\n- **Contact Information** \u2013 Email, phone, and physical address.\n- **Social Media Icons** \u2013 Links to YC\u2019s social media profiles.\n- **Legal Information** \u2013 Privacy policy, terms of service, and copyright notices.\n\nThis layout provides a comprehensive overview of YC\u2019s activities, resources, and community, making it easy for visitors to navigate and find the information they need.",
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "run_idx": 3,
+      "itl_count": 340
+    }
+  ],
+  "aggregate": {
+    "median_ttft_ms": 235.8574909158051,
+    "median_itl_mean_ms": 42.48591652565067,
+    "median_itl_p50_ms": 41.538274846971035,
+    "median_itl_p99_ms": 70.00514306128025,
+    "median_throughput_tps": 23.269045423312605,
+    "median_total_time_s": 21.224115560995415,
+    "median_tokens": 494,
+    "min_ttft_ms": 162.5650350470096,
+    "max_ttft_ms": 1571.5360979083925
+  }
+}

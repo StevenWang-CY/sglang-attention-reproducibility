@@ -1,0 +1,45 @@
+Latency Measurement - 20260324_222422
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 3 (3 successful)
+============================================================
+
+[Run 1] TTFT (time to first token):     305.6 ms
+[Run 1] ITL mean:                       63.70 ms
+[Run 1] ITL median (P50):               61.28 ms
+[Run 1] ITL P99:                        95.34 ms
+[Run 1] Total time:                     33.57 s
+[Run 1] Tokens generated:                 522
+[Run 1] Throughput:                      15.5 tok/s
+[Run 1] Output preview: The page you've provided appears to be a **Y Combinator (YC)** landing page, likely the homepage or a general navigation...
+
+[Run 2] TTFT (time to first token):     214.7 ms
+[Run 2] ITL mean:                       64.06 ms
+[Run 2] ITL median (P50):               61.12 ms
+[Run 2] ITL P99:                        95.14 ms
+[Run 2] Total time:                     29.18 s
+[Run 2] Tokens generated:                 452
+[Run 2] Throughput:                      15.5 tok/s
+[Run 2] Output preview: The provided text appears to be a **browser state dump** or **web scraping output** — likely from a tool like Selenium, ...
+
+[Run 3] TTFT (time to first token):     226.6 ms
+[Run 3] ITL mean:                       63.94 ms
+[Run 3] ITL median (P50):               61.07 ms
+[Run 3] ITL P99:                       113.86 ms
+[Run 3] Total time:                     26.44 s
+[Run 3] Tokens generated:                 410
+[Run 3] Throughput:                      15.5 tok/s
+[Run 3] Output preview: The page you're viewing appears to be a **Y Combinator (YC)** website — likely the main landing page or a navigation hub...
+
+============================================================
+SUMMARY (3 successful runs)
+============================================================
+Avg TTFT:             249.0 ms  (min=214.7, max=305.6)
+Avg ITL mean:         63.90 ms
+Avg ITL P50:          61.15 ms
+Avg ITL P99:         101.45 ms
+Avg throughput:        15.5 tok/s
+Avg total time:       29.73 s
+Avg tokens:             461

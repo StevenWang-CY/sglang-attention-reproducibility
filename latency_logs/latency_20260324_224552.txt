@@ -1,0 +1,48 @@
+Latency Measurement - 20260324_224552
+============================================================
+Server: http://localhost:8000
+Model: Qwen3-VL-8B-Instruct
+Request: html_request/request_005_20260316_221014/request.json
+Runs: 3 (3 successful)
+============================================================
+
+[Run 1] TTFT (time to first token):     268.0 ms
+[Run 1] ITL mean:                        6.53 ms
+[Run 1] ITL median (P50):                6.42 ms
+[Run 1] ITL P99:                         9.36 ms
+[Run 1] Total time:                      1.61 s
+[Run 1] Tokens generated:                 206
+[Run 1] Throughput:                     127.6 tok/s
+[Run 1] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 2] TTFT (time to first token):      64.3 ms
+[Run 2] ITL mean:                        6.52 ms
+[Run 2] ITL median (P50):                6.42 ms
+[Run 2] ITL P99:                         8.19 ms
+[Run 2] Total time:                      1.78 s
+[Run 2] Tokens generated:                 262
+[Run 2] Throughput:                     147.5 tok/s
+[Run 2] Output preview: {
+  "thinking": "I have successfully navigated to the Hacker News homepage and scrolled down multiple times to load more...
+
+[Run 3] TTFT (time to first token):      60.8 ms
+[Run 3] ITL mean:                        6.47 ms
+[Run 3] ITL median (P50):                6.42 ms
+[Run 3] ITL P99:                         8.46 ms
+[Run 3] Total time:                      1.60 s
+[Run 3] Tokens generated:                 237
+[Run 3] Throughput:                     148.4 tok/s
+[Run 3] Output preview: {
+  "thinking": "I need to find the 50th post on Hacker News. Currently, I can see posts 1-30. I have already scrolled d...
+
+============================================================
+SUMMARY (3 successful runs)
+============================================================
+Median TTFT:           64.3 ms  (min=60.8, max=268.0)
+Median ITL mean:       6.52 ms
+Median ITL P50:        6.42 ms
+Median ITL P99:        8.46 ms
+Median throughput:    147.5 tok/s
+Median total time:     1.61 s
+Median tokens:          237
