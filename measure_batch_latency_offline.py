@@ -16,6 +16,8 @@ Usage:
 import argparse
 import json
 import os
+import subprocess
+import threading
 import time
 from pathlib import Path
 from typing import List, Dict, Any
@@ -39,6 +41,61 @@ try:
     from sglang.srt.entrypoints.openai.encoding_dsv32 import encode_messages as dsv32_encode_messages
 except ImportError:
     dsv32_encode_messages = None
+
+
+class GPUMonitor:
+    """Sample GPU stats (compute %, bandwidth %, memory MB) in a background thread."""
+
+    def __init__(self, gpu_id: int = 0, interval_ms: int = 200):
+        self.gpu_id = gpu_id
+        self.interval_ms = interval_ms
+        self.samples = []
+        self._running = False
+        self._thread = None
+
+    def start(self):
+        self.samples = []
+        self._running = True
+        self._thread = threading.Thread(target=self._poll, daemon=True)
+        self._thread.start()
+
+    def stop(self):
+        self._running = False
+        if self._thread:
+            self._thread.join(timeout=2)
+
+    def _poll(self):
+        while self._running:
+            try:
+                out = subprocess.check_output([
+                    'nvidia-smi',
+                    f'--id={self.gpu_id}',
+                    '--query-gpu=utilization.gpu,utilization.memory,memory.used',
+                    '--format=csv,noheader,nounits'
+                ], timeout=1).decode().strip()
+                parts = out.split(',')
+                if len(parts) == 3:
+                    self.samples.append((
+                        float(parts[0]),  # sm %
+                        float(parts[1]),  # mem bandwidth %
+                        float(parts[2]),  # mem used MB
+                    ))
+            except Exception:
+                pass
+            time.sleep(self.interval_ms / 1000.0)
+
+    def summary(self) -> dict:
+        if not self.samples:
+            return {}
+        sm = [s[0] for s in self.samples]
+        bw = [s[1] for s in self.samples]
+        mem = [s[2] for s in self.samples]
+        return {
+            'gpu_compute_pct': {'mean': float(np.mean(sm)), 'max': float(np.max(sm))},
+            'gpu_mem_bw_pct': {'mean': float(np.mean(bw)), 'max': float(np.max(bw))},
+            'gpu_mem_used_mb': {'mean': float(np.mean(mem)), 'max': float(np.max(mem))},
+            'num_samples': len(self.samples),
+        }
 
 
 def load_request(request_file: str) -> Dict[str, Any]:
@@ -126,6 +183,10 @@ def measure_batch_latency(
     if len(prompts) == 1:
         _ = engine.generate(prompts[:1], sampling_params=sampling_params)
 
+    # Start GPU monitoring
+    gpu_monitor = GPUMonitor(gpu_id=0, interval_ms=200)
+    gpu_monitor.start()
+
     # Actual measurement using streaming mode to capture TTFT
     start_time = time.perf_counter()
     first_token_time = None
@@ -152,6 +213,9 @@ def measure_batch_latency(
     end_time = time.perf_counter()
     total_time = end_time - start_time
 
+    gpu_monitor.stop()
+    gpu_stats = gpu_monitor.summary()
+
     # Calculate metrics
     if first_token_time is None or tokens_generated == 0:
         return {
@@ -161,6 +225,7 @@ def measure_batch_latency(
             "tokens_generated": 0,
             "tpot": 0.0,
             "ttft": total_time * 1000,
+            "gpu_stats": gpu_stats,
         }
 
     # Time to first token (prefill time)
@@ -183,6 +248,7 @@ def measure_batch_latency(
         "tokens_generated": tokens_generated,
         "tpot": tpot * 1000,  # ms per token (decode only)
         "ttft": ttft * 1000,  # Time to first token
+        "gpu_stats": gpu_stats,
     }
 
 
@@ -298,7 +364,11 @@ def run_batch_experiments(
             )
 
             latencies.append(metrics)
-            print(f"TPOT: {metrics['tpot']:.2f} ms, Total: {metrics['total_time']:.0f} ms")
+            gpu = metrics.get('gpu_stats', {})
+            gpu_str = ""
+            if gpu:
+                gpu_str = f", GPU: {gpu['gpu_compute_pct']['mean']:.0f}%sm/{gpu['gpu_mem_bw_pct']['mean']:.0f}%bw/{gpu['gpu_mem_used_mb']['mean']:.0f}MB"
+            print(f"TPOT: {metrics['tpot']:.2f} ms, Total: {metrics['total_time']:.0f} ms{gpu_str}")
 
         # Compute statistics
         tpots = [m['tpot'] for m in latencies]
@@ -306,6 +376,19 @@ def run_batch_experiments(
         ttfts = [m['ttft'] for m in latencies]
         decode_times = [m['decode_time'] for m in latencies]
         tokens_generated = latencies[0]['tokens_generated']
+
+        # Aggregate GPU stats across repetitions
+        all_gpu = [m.get('gpu_stats', {}) for m in latencies if m.get('gpu_stats')]
+        gpu_summary = {}
+        if all_gpu:
+            gpu_summary = {
+                "gpu_compute_pct_mean": float(np.mean([g['gpu_compute_pct']['mean'] for g in all_gpu])),
+                "gpu_mem_bw_pct_mean": float(np.mean([g['gpu_mem_bw_pct']['mean'] for g in all_gpu])),
+                "gpu_mem_used_mb_mean": float(np.mean([g['gpu_mem_used_mb']['mean'] for g in all_gpu])),
+                "gpu_compute_pct_max": float(np.max([g['gpu_compute_pct']['max'] for g in all_gpu])),
+                "gpu_mem_bw_pct_max": float(np.max([g['gpu_mem_bw_pct']['max'] for g in all_gpu])),
+                "gpu_mem_used_mb_max": float(np.max([g['gpu_mem_used_mb']['max'] for g in all_gpu])),
+            }
 
         results[batch_size] = {
             "batch_size": batch_size,
@@ -321,6 +404,7 @@ def run_batch_experiments(
             "decode_time_std_ms": float(np.std(decode_times)),
             "total_time_mean_ms": float(np.mean(total_times)),
             "throughput_tokens_per_sec": (batch_size * tokens_generated) / (np.mean(total_times) / 1000),
+            "gpu_stats": gpu_summary,
         }
 
         print(f"\n  Summary:")
@@ -329,6 +413,10 @@ def run_batch_experiments(
         print(f"    Decode time: {results[batch_size]['decode_time_mean_ms']:.0f} ms")
         print(f"    Total time: {results[batch_size]['total_time_mean_ms']:.0f} ms")
         print(f"    Throughput: {results[batch_size]['throughput_tokens_per_sec']:.1f} tokens/s")
+        if gpu_summary:
+            print(f"    GPU compute:  {gpu_summary['gpu_compute_pct_mean']:.1f}% avg, {gpu_summary['gpu_compute_pct_max']:.1f}% max")
+            print(f"    GPU mem BW:   {gpu_summary['gpu_mem_bw_pct_mean']:.1f}% avg, {gpu_summary['gpu_mem_bw_pct_max']:.1f}% max")
+            print(f"    GPU mem used: {gpu_summary['gpu_mem_used_mb_mean']:.0f} MB avg, {gpu_summary['gpu_mem_used_mb_max']:.0f} MB max")
 
     print(f"\n{'=' * 80}")
     print("All experiments completed!")
@@ -447,6 +535,8 @@ def main():
                         help="Watchdog timeout in seconds")
     parser.add_argument("--enable-cuda-graph", action="store_true", default=False,
                         help="Enable CUDA graph (default: disabled for timing)")
+    parser.add_argument("--disable-radix-cache", action="store_true", default=False,
+                        help="Disable radix cache (prefix sharing) to simulate different prompts per request")
 
     # Tree-sparse specific arguments
     parser.add_argument("--tree-sparse-top-k", type=int, default=8,
@@ -465,6 +555,7 @@ def main():
     engine_kwargs = {
         "disable_cuda_graph": not args.enable_cuda_graph,
         "attention_backend": args.attention_backend,
+        "disable_radix_cache": args.disable_radix_cache,
     }
 
     # Add optional engine kwargs if specified

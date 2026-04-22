@@ -4,10 +4,12 @@
 # This provides direct control over batching without HTTP server overhead
 #
 # Usage:
-#   ./run_batch_experiments_offline.sh              # default: profiling with sync
+#   ./run_batch_experiments_offline.sh              # default: tpot mode
 #   ./run_batch_experiments_offline.sh profile       # accurate per-op timing (sync all)  -> offline_batch_results/profile_sync/
 #   ./run_batch_experiments_offline.sh profile-raw   # raw CUDA events (no sync, fast)    -> offline_batch_results/profile_raw/
 #   ./run_batch_experiments_offline.sh tpot          # no profiling, cleanest TPOT         -> offline_batch_results/tpot/
+#   ./run_batch_experiments_offline.sh tpot-no-share    # no profiling, no prefix sharing  -> offline_batch_results/tpot_no_share/
+#   ./run_batch_experiments_offline.sh profile-no-share # profiling, no prefix sharing    -> offline_batch_results/profile_sync_no_share/
 
 REQUEST_FILE="html_request/request_005_20260316_221014/request.json"
 MODEL_PATH="/vast/projects/liuv/pennnetworks/hf_models/Qwen/Qwen3-VL-8B-Instruct"
@@ -17,7 +19,7 @@ IGNORE_EOS="--ignore-eos"
 REPEAT=3
 
 # Parse mode from first argument (default: profile)
-MODE="${1:-profile}"
+MODE="${1:-tpot}"
 
 case "$MODE" in
     profile)
@@ -27,6 +29,7 @@ case "$MODE" in
         export TREE_SPARSE_TIMING_INTERVAL=10
         OUTPUT_DIR="offline_batch_results/profile_sync"
         MODE_DESC="Profiling (sync all — accurate per-op timing)"
+        EXTRA_ARGS=""
         ;;
     profile-raw)
         # Raw CUDA events: fast but per-op times may be inaccurate on Blackwell
@@ -36,6 +39,7 @@ case "$MODE" in
         export TREE_SPARSE_TIMING_INTERVAL=10
         OUTPUT_DIR="offline_batch_results/profile_raw"
         MODE_DESC="Profiling (raw CUDA events — no sync, fast)"
+        EXTRA_ARGS=""
         ;;
     tpot)
         # No profiling: cleanest TPOT measurement
@@ -44,10 +48,29 @@ case "$MODE" in
         unset TREE_SPARSE_TIMING_SYNC_OPS
         OUTPUT_DIR="offline_batch_results/tpot"
         MODE_DESC="TPOT only (no profiling overhead)"
+        EXTRA_ARGS=""
+        ;;
+    tpot-no-share)
+        # No profiling, no prefix sharing (simulate different prompts)
+        export TREE_SPARSE_TIMING=0
+        unset TREE_SPARSE_TIMING_SYNC_ALL
+        unset TREE_SPARSE_TIMING_SYNC_OPS
+        OUTPUT_DIR="offline_batch_results/tpot_no_share"
+        MODE_DESC="TPOT only (no prefix sharing — simulates different prompts)"
+        EXTRA_ARGS="--disable-radix-cache"
+        ;;
+    profile-no-share)
+        # Profiling with sync, no prefix sharing
+        export TREE_SPARSE_TIMING=1
+        export TREE_SPARSE_TIMING_SYNC_ALL=1
+        export TREE_SPARSE_TIMING_INTERVAL=10
+        OUTPUT_DIR="offline_batch_results/profile_sync_no_share"
+        MODE_DESC="Profiling (sync all, no prefix sharing)"
+        EXTRA_ARGS="--disable-radix-cache"
         ;;
     *)
         echo "Unknown mode: $MODE"
-        echo "Usage: $0 [profile|profile-raw|tpot]"
+        echo "Usage: $0 [profile|profile-raw|tpot|tpot-no-share|profile-no-share]"
         exit 1
         ;;
 esac
@@ -57,6 +80,7 @@ mkdir -p "$OUTPUT_DIR"
 
 # Array of batch sizes to test
 BATCH_SIZES=(1 2 4 8 16 32 64 128 256)
+# BATCH_SIZES=(1)
 # Array of token lengths to test
 TOKEN_SIZES=(256)
 
@@ -116,6 +140,11 @@ for TOKEN_SIZE in "${TOKEN_SIZES[@]}"; do
         CMD="$CMD $IGNORE_EOS"
     fi
 
+    # Add mode-specific extra args (e.g. --disable-radix-cache)
+    if [ -n "$EXTRA_ARGS" ]; then
+        CMD="$CMD $EXTRA_ARGS"
+    fi
+
     echo "Running command:"
     echo "$CMD"
     echo ""
@@ -143,46 +172,46 @@ for TOKEN_SIZE in "${TOKEN_SIZES[@]}"; do
         echo "WARNING: Results file not found, skipping plot generation"
     fi
 
-    # Parse decode timing breakdown (skip in tpot mode — no profiling data)
+    # Create results directory for this token size
+    RESULTS_DIR="${OUTPUT_DIR}/results_token_${TOKEN_SIZE}_${TIMESTAMP}"
+    mkdir -p "$RESULTS_DIR"
+
+    # Copy log and results files
+    cp "$LOG_FILE" "$RESULTS_DIR/"
+    [ -f "$OUTPUT_FILE" ] && cp "$OUTPUT_FILE" "$RESULTS_DIR/"
+    [ -f "$PLOT_FILE" ] && cp "$PLOT_FILE" "$RESULTS_DIR/"
+
+    # Generate GPU stats plot from results JSON
+    if [ -f "$OUTPUT_FILE" ]; then
+        echo "Generating GPU stats plot..."
+        python plot_gpu_stats.py "$OUTPUT_FILE" --output "$RESULTS_DIR/"
+    fi
+
+    # Parse decode timing breakdown (profile modes only)
     if [ "$MODE" != "tpot" ] && [ -f "$LOG_FILE" ]; then
-        # Create a results directory for this token size
-        RESULTS_DIR="${OUTPUT_DIR}/results_token_${TOKEN_SIZE}_${TIMESTAMP}"
-        mkdir -p "$RESULTS_DIR"
-
-        # Copy log file to results dir
-        cp "$LOG_FILE" "$RESULTS_DIR/"
-
-        echo "[2/3] Parsing timing data from logs..."
+        echo "Parsing timing data from logs..."
         python parse_qwen3vl_logs.py "$RESULTS_DIR"
 
         # Generate filtered plots with only the experimental batch sizes
         if [ -f "$RESULTS_DIR/timing_data.json" ]; then
-            echo "[3/3] Generating latency breakdown plots..."
+            echo "Generating latency breakdown plots..."
             BATCH_LIST=$(IFS=,; echo "${BATCH_SIZES[*]}")
             python plot_latency_breakdown_filtered.py "$RESULTS_DIR/timing_data.json" "$BATCH_LIST"
-        else
-            echo "  No timing_data.json found (profiler may not have produced DECODE STEP TIMING logs)"
-            echo "  Check that attention_backend=flashinfer is set (DecodeStepTimer lives in flashinfer backend)"
         fi
-
-        # Copy TPOT plot into results dir for convenience
-        if [ -f "$PLOT_FILE" ]; then
-            cp "$PLOT_FILE" "$RESULTS_DIR/"
-        fi
-
-        echo ""
-        echo "========================================================================"
-        echo "All results for TOKEN_SIZE=$TOKEN_SIZE"
-        echo "========================================================================"
-        echo ""
-        echo "Results directory: $RESULTS_DIR"
-        echo ""
-        echo "Generated files:"
-        for f in "$RESULTS_DIR/"*.png "$RESULTS_DIR/"*.json; do
-            [ -f "$f" ] && echo "  $(basename "$f") ($(du -h "$f" | cut -f1))"
-        done
-        echo ""
     fi
+
+    echo ""
+    echo "========================================================================"
+    echo "All results for TOKEN_SIZE=$TOKEN_SIZE"
+    echo "========================================================================"
+    echo ""
+    echo "Results directory: $RESULTS_DIR"
+    echo ""
+    echo "Generated files:"
+    for f in "$RESULTS_DIR/"*.png "$RESULTS_DIR/"*.json "$RESULTS_DIR/"*.log; do
+        [ -f "$f" ] && echo "  $(basename "$f") ($(du -h "$f" | cut -f1))"
+    done
+    echo ""
 
     # Small delay before next token size
     sleep 2
