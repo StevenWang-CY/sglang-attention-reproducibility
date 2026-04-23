@@ -1,0 +1,12 @@
+{
+  "timestamp": "20260422_232849",
+  "mode": "tpot",
+  "model_path": "/vast/projects/liuv/pennnetworks/hf_models/Qwen/Qwen3-VL-32B-Instruct",
+  "model_name": "Qwen3-VL-32B-Instruct",
+  "input_lengths": [10000,50000,100000,150000,200000],
+  "batch_sizes": [1],
+  "max_decode_tokens": 128,
+  "repeat": 3,
+  "hostname": "a2145cc11a5b",
+  "gpu": "NVIDIA H100 80GB HBM3"
+}

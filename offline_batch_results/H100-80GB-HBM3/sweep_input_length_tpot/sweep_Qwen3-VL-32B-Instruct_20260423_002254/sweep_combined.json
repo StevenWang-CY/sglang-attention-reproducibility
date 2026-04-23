@@ -1,0 +1,77 @@
+{
+  "10000": {
+    "1": {
+      "batch_size": 1,
+      "repetitions": 3,
+      "tokens_generated": 128,
+      "tpot_mean_ms": 40.110750097580976,
+      "tpot_std_ms": 0.4367407400662007,
+      "tpot_min_ms": 39.55311949665504,
+      "tpot_max_ms": 40.619564953986114,
+      "ttft_mean_ms": 102.88099696238835,
+      "ttft_std_ms": 0.7135658616763961,
+      "decode_time_mean_ms": 5094.0652623927845,
+      "decode_time_std_ms": 55.466073988407636,
+      "total_time_mean_ms": 5196.9462593551725,
+      "throughput_tokens_per_sec": 24.62984868654039,
+      "gpu_stats": {
+        "gpu_compute_pct_mean": 64.90942028985508,
+        "gpu_mem_bw_pct_mean": 61.55132850241546,
+        "gpu_mem_used_mb_mean": 80649.33333333333,
+        "gpu_compute_pct_max": 67.0,
+        "gpu_mem_bw_pct_max": 64.0,
+        "gpu_mem_used_mb_max": 80650.0
+      }
+    }
+  },
+  "50000": {
+    "1": {
+      "batch_size": 1,
+      "repetitions": 3,
+      "tokens_generated": 128,
+      "tpot_mean_ms": 40.157561753253184,
+      "tpot_std_ms": 0.5412928066209934,
+      "tpot_min_ms": 39.40473720577993,
+      "tpot_max_ms": 40.65413331414947,
+      "ttft_mean_ms": 185.69929734803736,
+      "ttft_std_ms": 2.508822249624646,
+      "decode_time_mean_ms": 5100.010342663154,
+      "decode_time_std_ms": 68.74418644086624,
+      "total_time_mean_ms": 5285.709640011191,
+      "throughput_tokens_per_sec": 24.21623750027423,
+      "gpu_stats": {
+        "gpu_compute_pct_mean": 69.85748792270532,
+        "gpu_mem_bw_pct_mean": 65.77355072463769,
+        "gpu_mem_used_mb_mean": 80651.33333333333,
+        "gpu_compute_pct_max": 74.0,
+        "gpu_mem_bw_pct_max": 69.0,
+        "gpu_mem_used_mb_max": 80652.0
+      }
+    }
+  },
+  "100000": {
+    "1": {
+      "batch_size": 1,
+      "repetitions": 3,
+      "tokens_generated": 128,
+      "tpot_mean_ms": 39.518327380743195,
+      "tpot_std_ms": 0.5232244718575577,
+      "tpot_min_ms": 38.86655244910283,
+      "tpot_max_ms": 40.14759225308836,
+      "ttft_mean_ms": 308.28455501856905,
+      "ttft_std_ms": 12.529269678506417,
+      "decode_time_mean_ms": 5018.827577354386,
+      "decode_time_std_ms": 66.44950792590981,
+      "total_time_mean_ms": 5327.112132372956,
+      "throughput_tokens_per_sec": 24.02802809840283,
+      "gpu_stats": {
+        "gpu_compute_pct_mean": 76.79166666666667,
+        "gpu_mem_bw_pct_mean": 70.7638888888889,
+        "gpu_mem_used_mb_mean": 80654.0,
+        "gpu_compute_pct_max": 83.0,
+        "gpu_mem_bw_pct_max": 76.0,
+        "gpu_mem_used_mb_max": 80654.0
+      }
+    }
+  }
+}

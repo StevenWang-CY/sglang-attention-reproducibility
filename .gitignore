@@ -13,7 +13,10 @@ nsys_offline_profiles/
 *.log
 
 # Experiment results (generated data, plots, logs)
-offline_batch_results/
+offline_batch_results/*
+# Whitelist curated per-hardware results (small JSON/PNG/MD, plus runtime logs)
+!offline_batch_results/H100-80GB-HBM3/
+!offline_batch_results/H100-80GB-HBM3/**
 offline_batch_results_deepseek_v32/
 offline_batch_results_deepseek_v32_quant/
 batch_results/
