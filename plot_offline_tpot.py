@@ -13,13 +13,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_tpot(results_file: str, output_file: str = None):
+def plot_tpot(results_file: str, output_file: str = None, max_batch_size: int = None):
     """Plot TPOT vs batch size from offline experiment results."""
     with open(results_file, 'r') as f:
         results = json.load(f)
 
-    # Extract data sorted by batch size
+    # Extract data sorted by batch size, optionally filtered
     batch_sizes = sorted([int(k) for k in results.keys()])
+    if max_batch_size is not None:
+        batch_sizes = [bs for bs in batch_sizes if bs <= max_batch_size]
     tpot_means = [results[str(bs)]['tpot_mean_ms'] for bs in batch_sizes]
     tpot_stds = [results[str(bs)]['tpot_std_ms'] for bs in batch_sizes]
     throughputs = [results[str(bs)]['throughput_tokens_per_sec'] for bs in batch_sizes]
@@ -112,6 +114,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot TPOT from offline batch results")
     parser.add_argument("results_file", type=str, help="Path to results JSON file")
     parser.add_argument("--output", type=str, default=None, help="Output plot file path")
+    parser.add_argument("--max-batch-size", type=int, default=None, help="Only plot batch sizes up to this value")
     args = parser.parse_args()
 
-    plot_tpot(args.results_file, args.output)
+    plot_tpot(args.results_file, args.output, max_batch_size=args.max_batch_size)

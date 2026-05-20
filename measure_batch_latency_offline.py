@@ -15,7 +15,9 @@ Usage:
 
 import argparse
 import json
+import logging
 import os
+import re
 import subprocess
 import threading
 import time
@@ -150,12 +152,57 @@ def prepare_prompts(
     return [prompt] * batch_size
 
 
+class RunningReqTracker(logging.Handler):
+    """
+    Intercepts sglang's 'Decode batch' log lines and tracks the max
+    #running-req seen during a generation call.
+
+    Usage:
+        tracker = RunningReqTracker()
+        tracker.attach()
+        engine.generate(...)
+        print(tracker.max_running_req)
+        tracker.reset()
+    """
+
+    _PATTERN = re.compile(r"#running-req:\s*(\d+)")
+
+    def __init__(self):
+        super().__init__()
+        self.max_running_req = 0
+        self._attached = False
+
+    def emit(self, record: logging.LogRecord):
+        msg = record.getMessage()
+        if "Decode batch" in msg:
+            m = self._PATTERN.search(msg)
+            if m:
+                n = int(m.group(1))
+                if n > self.max_running_req:
+                    self.max_running_req = n
+
+    def reset(self):
+        self.max_running_req = 0
+
+    def attach(self):
+        if not self._attached:
+            logging.getLogger().addHandler(self)
+            self._attached = True
+
+    def detach(self):
+        if self._attached:
+            logging.getLogger().removeHandler(self)
+            self._attached = False
+
+
 def measure_batch_latency(
     engine: sgl.Engine,
     prompts: List[str],
     max_tokens: int,
     min_tokens: int = 0,
     ignore_eos: bool = True,
+    enable_gpu_monitor: bool = False,
+    running_req_tracker: "RunningReqTracker" = None,
 ) -> Dict[str, float]:
     """
     Measure latency for a single batch using streaming mode.
@@ -183,9 +230,14 @@ def measure_batch_latency(
     if len(prompts) == 1:
         _ = engine.generate(prompts[:1], sampling_params=sampling_params)
 
-    # Start GPU monitoring
-    gpu_monitor = GPUMonitor(gpu_id=0, interval_ms=200)
-    gpu_monitor.start()
+    # Start GPU monitoring (nvidia-smi polling — coarse but always available)
+    gpu_monitor = GPUMonitor(gpu_id=0, interval_ms=200) if enable_gpu_monitor else None
+    if gpu_monitor:
+        gpu_monitor.start()
+
+    # Reset running-req tracker for this measurement window
+    if running_req_tracker:
+        running_req_tracker.reset()
 
     # Actual measurement using streaming mode to capture TTFT
     start_time = time.perf_counter()
@@ -213,8 +265,9 @@ def measure_batch_latency(
     end_time = time.perf_counter()
     total_time = end_time - start_time
 
-    gpu_monitor.stop()
-    gpu_stats = gpu_monitor.summary()
+    if gpu_monitor:
+        gpu_monitor.stop()
+    gpu_stats = gpu_monitor.summary() if gpu_monitor else {}
 
     # Calculate metrics
     if first_token_time is None or tokens_generated == 0:
@@ -241,6 +294,8 @@ def measure_batch_latency(
     else:
         tpot = 0.0
 
+    max_running_req = running_req_tracker.max_running_req if running_req_tracker else None
+
     return {
         "prefill_time": ttft * 1000,  # Convert to ms
         "decode_time": decode_time * 1000,
@@ -249,6 +304,7 @@ def measure_batch_latency(
         "tpot": tpot * 1000,  # ms per token (decode only)
         "ttft": ttft * 1000,  # Time to first token
         "gpu_stats": gpu_stats,
+        "max_running_req": max_running_req,
     }
 
 
@@ -262,6 +318,7 @@ def run_batch_experiments(
     repeat: int,
     tp_size: int = 1,
     log_file: str = None,
+    enable_gpu_monitor: bool = False,
     **engine_kwargs,
 ) -> Dict[int, Dict[str, Any]]:
     """
@@ -337,10 +394,24 @@ def run_batch_experiments(
     print("✓ Engine initialized")
     print()
 
+    # Attach log interceptor to track actual #running-req during decode
+    tracker = RunningReqTracker()
+    tracker.attach()
+
     # Run experiments
     results = {}
 
+    # NVTX helper — no-op if torch not available or not under nsys
+    try:
+        import torch.cuda.nvtx as _nvtx
+        def nvtx_range_push(s): _nvtx.range_push(s)
+        def nvtx_range_pop(): _nvtx.range_pop()
+    except Exception:
+        def nvtx_range_push(s): pass
+        def nvtx_range_pop(): pass
+
     for batch_size in batch_sizes:
+        nvtx_range_push(f"bs_{batch_size}")
         print(f"\n{'=' * 80}")
         print(f"Batch Size: {batch_size}")
         print(f"{'=' * 80}")
@@ -348,6 +419,11 @@ def run_batch_experiments(
         # Prepare prompts (apply chat template for proper tokenization)
         prompts = prepare_prompts(request_data, batch_size, tokenizer=tokenizer)
         print(f"  Prepared {len(prompts)} prompts")
+
+        # Count actual prompt tokens
+        prompt_token_ids = tokenizer(prompts[0], return_tensors=None)["input_ids"]
+        prompt_len = len(prompt_token_ids)
+        print(f"  Prompt tokens: {prompt_len:,}")
 
         # Run multiple repetitions
         latencies = []
@@ -361,14 +437,25 @@ def run_batch_experiments(
                 max_tokens=max_tokens,
                 min_tokens=min_tokens,
                 ignore_eos=ignore_eos,
+                enable_gpu_monitor=enable_gpu_monitor,
+                running_req_tracker=tracker,
             )
+
+            # ── Sanity check: actual concurrent requests vs requested batch size ──
+            max_rr = metrics.get("max_running_req")
+            if max_rr is not None and max_rr != batch_size:
+                print(f"\n  !! WARNING: batch_size={batch_size} but max #running-req={max_rr} !!")
+                print(f"  !! Sglang ran only {max_rr} requests concurrently (KV pool limit). !!")
+                print(f"  !! TPOT measurement is NOT representative of true BS={batch_size}. !!")
+                print(f"  !! Reduce batch size or increase --mem-fraction-static.           !!")
 
             latencies.append(metrics)
             gpu = metrics.get('gpu_stats', {})
             gpu_str = ""
             if gpu:
                 gpu_str = f", GPU: {gpu['gpu_compute_pct']['mean']:.0f}%sm/{gpu['gpu_mem_bw_pct']['mean']:.0f}%bw/{gpu['gpu_mem_used_mb']['mean']:.0f}MB"
-            print(f"TPOT: {metrics['tpot']:.2f} ms, Total: {metrics['total_time']:.0f} ms{gpu_str}")
+            rr_str = f", max_running_req={max_rr}" if max_rr is not None else ""
+            print(f"TPOT: {metrics['tpot']:.2f} ms, Total: {metrics['total_time']:.0f} ms{gpu_str}{rr_str}")
 
         # Compute statistics
         tpots = [m['tpot'] for m in latencies]
@@ -390,6 +477,10 @@ def run_batch_experiments(
                 "gpu_mem_used_mb_max": float(np.max([g['gpu_mem_used_mb']['max'] for g in all_gpu])),
             }
 
+        max_running_reqs = [m['max_running_req'] for m in latencies if m.get('max_running_req') is not None]
+        max_running_req_observed = max(max_running_reqs) if max_running_reqs else None
+        concurrency_ok = (max_running_req_observed == batch_size) if max_running_req_observed is not None else None
+
         results[batch_size] = {
             "batch_size": batch_size,
             "repetitions": repeat,
@@ -405,6 +496,8 @@ def run_batch_experiments(
             "total_time_mean_ms": float(np.mean(total_times)),
             "throughput_tokens_per_sec": (batch_size * tokens_generated) / (np.mean(total_times) / 1000),
             "gpu_stats": gpu_summary,
+            "max_running_req_observed": max_running_req_observed,
+            "concurrency_ok": concurrency_ok,
         }
 
         print(f"\n  Summary:")
@@ -413,14 +506,21 @@ def run_batch_experiments(
         print(f"    Decode time: {results[batch_size]['decode_time_mean_ms']:.0f} ms")
         print(f"    Total time: {results[batch_size]['total_time_mean_ms']:.0f} ms")
         print(f"    Throughput: {results[batch_size]['throughput_tokens_per_sec']:.1f} tokens/s")
+        if max_running_req_observed is not None:
+            flag = "OK" if concurrency_ok else f"!! MISMATCH — only {max_running_req_observed} ran concurrently, TPOT invalid !!"
+            print(f"    Concurrency check: max_running_req={max_running_req_observed} vs batch_size={batch_size} → {flag}")
         if gpu_summary:
             print(f"    GPU compute:  {gpu_summary['gpu_compute_pct_mean']:.1f}% avg, {gpu_summary['gpu_compute_pct_max']:.1f}% max")
             print(f"    GPU mem BW:   {gpu_summary['gpu_mem_bw_pct_mean']:.1f}% avg, {gpu_summary['gpu_mem_bw_pct_max']:.1f}% max")
             print(f"    GPU mem used: {gpu_summary['gpu_mem_used_mb_mean']:.0f} MB avg, {gpu_summary['gpu_mem_used_mb_max']:.0f} MB max")
 
+        nvtx_range_pop()
+
     print(f"\n{'=' * 80}")
     print("All experiments completed!")
     print(f"{'=' * 80}\n")
+
+    tracker.detach()
 
     # Shutdown engine
     del engine
@@ -537,6 +637,8 @@ def main():
                         help="Enable CUDA graph (default: disabled for timing)")
     parser.add_argument("--disable-radix-cache", action="store_true", default=False,
                         help="Disable radix cache (prefix sharing) to simulate different prompts per request")
+    parser.add_argument("--gpu-monitor", action="store_true", default=False,
+                        help="Enable nvidia-smi GPU monitoring during measurement (disabled by default)")
 
     # Tree-sparse specific arguments
     parser.add_argument("--tree-sparse-top-k", type=int, default=8,
@@ -598,6 +700,7 @@ def main():
         repeat=args.repeat,
         tp_size=args.tp_size,
         log_file=args.log_file,
+        enable_gpu_monitor=args.gpu_monitor,
         **engine_kwargs,
     )
 

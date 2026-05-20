@@ -14,11 +14,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_gpu_stats(results_file: str, output_dir: str):
+def plot_gpu_stats(results_file: str, output_dir: str, max_batch_size: int = None):
     with open(results_file) as f:
         results = json.load(f)
 
     batch_sizes = sorted([int(k) for k in results.keys()])
+    if max_batch_size is not None:
+        batch_sizes = [bs for bs in batch_sizes if bs <= max_batch_size]
 
     # Extract GPU stats
     compute_avg = []
@@ -128,6 +130,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot GPU utilization stats")
     parser.add_argument("results_file", type=str, help="Path to results JSON")
     parser.add_argument("--output", type=str, default=".", help="Output directory")
+    parser.add_argument("--max-batch-size", type=int, default=None, help="Only plot batch sizes up to this value")
     args = parser.parse_args()
 
-    plot_gpu_stats(args.results_file, args.output)
+    plot_gpu_stats(args.results_file, args.output, max_batch_size=args.max_batch_size)
