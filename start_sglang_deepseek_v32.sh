@@ -36,11 +36,15 @@ DP_SIZE=1  # Data parallel size (disabled - only 4 GPUs available)
 PORT=8000
 HOST="0.0.0.0"
 CONTEXT_LENGTH=10240  # DeepSeek V3.2 supports up to 128K context
+PAGE_SIZE=1  # Default SGLang page size (tokens per KV cache page)
+
+echo "Page size: ${PAGE_SIZE}"
 
 # Start SGLang server with DeepSeek V3.2 and NSA attention
 # NSA (Neural Sparse Attention) is enabled automatically for DeepSeek V3.2
 python -m sglang.launch_server \
   --model-path ${MODEL_PATH} \
+  --page-size ${PAGE_SIZE} \
   --served-model-name DeepSeek-V3.2 \
   --host ${HOST} \
   --port ${PORT} \

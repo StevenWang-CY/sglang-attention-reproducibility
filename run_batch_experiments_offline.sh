@@ -8,12 +8,23 @@
 #   ./run_batch_experiments_offline.sh profile       # accurate per-op timing (sync all)  -> offline_batch_results/profile_sync/
 #   ./run_batch_experiments_offline.sh profile-raw   # raw CUDA events (no sync, fast)    -> offline_batch_results/profile_raw/
 #   ./run_batch_experiments_offline.sh tpot          # no profiling, cleanest TPOT         -> offline_batch_results/tpot/
-#   ./run_batch_experiments_offline.sh tpot-no-share    # no profiling, no prefix sharing  -> offline_batch_results/tpot_no_share/
+#   ./run_batch_experiments_offline.sh tpot-no-share         # no profiling, no prefix sharing              -> offline_batch_results/tpot_no_share/
+#   ./run_batch_experiments_offline.sh tpot-no-share-page16  # no profiling, no prefix sharing, page_size=16 -> offline_batch_results/tpot_no_share_page16/
 #   ./run_batch_experiments_offline.sh profile-no-share # profiling, no prefix sharing    -> offline_batch_results/profile_sync_no_share/
 #   ./run_batch_experiments_offline.sh nsys                # nsys GPU profiling (SM%, DRAM BW, with sharing)    -> offline_batch_results/nsys/
 #   ./run_batch_experiments_offline.sh nsys-tpot-no-share  # nsys GPU profiling (no KV sharing)                 -> offline_batch_results/nsys_no_share/
 #   ./run_batch_experiments_offline.sh ncu                 # ncu kernel profiling: exact DRAM bytes/step (with KV sharing)   -> offline_batch_results/ncu/
 #   ./run_batch_experiments_offline.sh ncu-no-share        # ncu kernel profiling: exact DRAM bytes/step (no KV sharing)     -> offline_batch_results/ncu_no_share/
+#   ./run_batch_experiments_offline.sh page-size-sweep          # sweep page_size=1..128, no prefix sharing (default token=4096)  -> offline_batch_results/page_size_sweep/
+#   ./run_batch_experiments_offline.sh nsys-page-size-sweep     # nsys kernel timeline per page size (bs=1, 256 tokens default)   -> offline_batch_results/nsys_page_size_sweep/
+#   ./run_batch_experiments_offline.sh page-size-sweep 256 4096 8192  # same but with multiple token sizes
+# export SGLANG_DISABLE_CUDNN_CHECK=1
+
+# Ensure sglang conda env is used (prepend to PATH so nsys inherits the right python)
+SGLANG_ENV="/vast/projects/liuv/pennnetworks/jiaheng/miniconda3/envs/sglang"
+export PATH="${SGLANG_ENV}/bin:${PATH}"
+# Ensure libcudart is findable by the JIT kernel linker (tvm_ffi/ninja uses -lcudart)
+export LIBRARY_PATH="${SGLANG_ENV}/lib:${SGLANG_ENV}/targets/x86_64-linux/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
 
 REQUEST_FILE="html_request/request_005_20260316_221014/request.json"
 MODEL_PATH="/vast/projects/liuv/pennnetworks/hf_models/Qwen/Qwen3-VL-8B-Instruct"
@@ -24,6 +35,10 @@ REPEAT=3
 
 # Parse mode from first argument (default: profile)
 MODE="${1:-tpot}"
+# Parse optional token sizes from remaining positional args: e.g. page-size-sweep 256 4096 8192
+if [ $# -ge 2 ]; then
+    TOKEN_SIZES=("${@:2}")
+fi
 
 case "$MODE" in
     profile)
@@ -63,6 +78,15 @@ case "$MODE" in
         MODE_DESC="TPOT only (no prefix sharing — simulates different prompts)"
         EXTRA_ARGS="--disable-radix-cache"
         ;;
+    tpot-no-share-page16)
+        # No profiling, no prefix sharing, page_size=16 (matches quest benchmark config)
+        export TREE_SPARSE_TIMING=0
+        unset TREE_SPARSE_TIMING_SYNC_ALL
+        unset TREE_SPARSE_TIMING_SYNC_OPS
+        OUTPUT_DIR="offline_batch_results/tpot_no_share_page16"
+        MODE_DESC="TPOT only (no prefix sharing, page_size=16)"
+        EXTRA_ARGS="--disable-radix-cache --page-size 16"
+        ;;
     profile-no-share)
         # Profiling with sync, no prefix sharing
         export TREE_SPARSE_TIMING=1
@@ -91,8 +115,12 @@ case "$MODE" in
         unset TREE_SPARSE_TIMING_SYNC_OPS
         OUTPUT_DIR="offline_batch_results/nsys_no_share"
         MODE_DESC="Nsight Systems GPU profiling (SM%, DRAM BW, no KV sharing)"
-        EXTRA_ARGS="--disable-radix-cache"
+        # --disable-layerwise-nvtx-marker: prevents millions of per-layer NVTX events
+        # that make QdstrmImporter take ~2 hours. We only need the bs_N markers.
+        EXTRA_ARGS="--disable-radix-cache --disable-layerwise-nvtx-marker"
         REPEAT=1
+        BATCH_SIZES=(1 2 4 8 16 32 64)
+        TOKEN_SIZES=(256)
         ;;
     ncu)
         # Nsight Compute profiling: exact DRAM bytes read/written per attention kernel
@@ -117,10 +145,45 @@ case "$MODE" in
         MODE_DESC="NCU kernel profiling (exact DRAM bytes, no KV sharing)"
         EXTRA_ARGS="--disable-radix-cache"
         REPEAT=1
+        BATCH_SIZES=(1 2 4 8 16 32 64)
+        TOKEN_SIZES=(256)
+        ;;
+    nsys-page-size-sweep)
+        # nsys profiling across page sizes — one engine boot per page size, captures
+        # kernel timeline so you can compare attention kernel time between page sizes.
+        # Use nsys-ui to open the .nsys-rep files side by side.
+        export TREE_SPARSE_TIMING=0
+        unset TREE_SPARSE_TIMING_SYNC_ALL
+        unset TREE_SPARSE_TIMING_SYNC_OPS
+        OUTPUT_DIR="offline_batch_results/nsys_page_size_sweep"
+        MODE_DESC="nsys page size sweep — kernel timeline per page size"
+        EXTRA_ARGS="--disable-radix-cache --disable-layerwise-nvtx-marker"
+        PAGE_SIZES_SWEEP=(1 2 4 8 16 32 64 128)
+        REPEAT=1
+        BATCH_SIZES=(2 4 32)
+        if [ ${#TOKEN_SIZES[@]} -eq 0 ]; then
+            TOKEN_SIZES=(256 512 1024 2048 4096 8184) # 512 1024 2048 4096 8184
+        fi
+        ;;
+    page-size-sweep)
+        # Sweep page_size=1,2,4,8,16,32,64,128 — no prefix sharing, no profiling
+        export TREE_SPARSE_TIMING=0
+        unset TREE_SPARSE_TIMING_SYNC_ALL
+        unset TREE_SPARSE_TIMING_SYNC_OPS
+        OUTPUT_DIR="offline_batch_results/page_size_sweep"
+        MODE_DESC="Page size sweep (1,2,4,8,16,32,64,128) — no prefix sharing"
+        EXTRA_ARGS="--disable-radix-cache"
+        PAGE_SIZES_SWEEP=(1 2 4 8 16 32 64 128)
+        # 4096 output tokens keeps bs=64 within the KV pool (~9.7k prompt + 4k output < 14.3k/req budget)
+        BATCH_SIZES=(1) # 2 4 8 16 32 64
+        # TOKEN_SIZES may already be set from CLI args (positional args after mode)
+        if [ ${#TOKEN_SIZES[@]} -eq 0 ]; then
+            TOKEN_SIZES=(256 512 1024 2048 4096 8184)
+        fi
         ;;
     *)
         echo "Unknown mode: $MODE"
-        echo "Usage: $0 [profile|profile-raw|tpot|tpot-no-share|profile-no-share|nsys|nsys-tpot-no-share|ncu|ncu-no-share]"
+        echo "Usage: $0 [profile|profile-raw|tpot|tpot-no-share|tpot-no-share-page16|profile-no-share|nsys|nsys-tpot-no-share|ncu|ncu-no-share|page-size-sweep|nsys-page-size-sweep]"
         exit 1
         ;;
 esac
@@ -128,11 +191,17 @@ esac
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
-# Array of batch sizes to test
-# BATCH_SIZES=(1 2 4 8 16 32 64 128 256)
-BATCH_SIZES=(1 2 4 8 16 32 64 )
-# Array of token lengths to test
-TOKEN_SIZES=(256)
+# Array of batch sizes to test (can be overridden per mode above)
+if [ ${#BATCH_SIZES[@]} -eq 0 ]; then
+    # BATCH_SIZES=(1 2 4 8 16 32 64 128 256)
+    BATCH_SIZES=(1 2 4 8 16 32 64)
+    # BATCH_SIZES=(64)
+fi
+# Array of token lengths to test (can be overridden per mode above)
+if [ ${#TOKEN_SIZES[@]} -eq 0 ]; then
+    TOKEN_SIZES=(256)
+    # TOKEN_SIZES=(64000)
+fi
 
 echo "========================================================================"
 echo "SGLang Offline Batch Latency Experiments"
@@ -165,9 +234,11 @@ for TOKEN_SIZE in "${TOKEN_SIZES[@]}"; do
     OUTPUT_FILE="${OUTPUT_DIR}/results_batch_${BATCH_SIZES[0]}-${BATCH_SIZES[-1]}_tokens_${TOKEN_SIZE}_${TIMESTAMP}.json"
     LOG_FILE="${OUTPUT_DIR}/runtime_offline_tokens_${TOKEN_SIZE}_${TIMESTAMP}.log"
 
-    # Create results directory for this token size (needed by nsys output path too)
+    # Default results directory (modes that override RESULTS_DIR do their own mkdir)
     RESULTS_DIR="${OUTPUT_DIR}/results_token_${TOKEN_SIZE}_${TIMESTAMP}"
-    mkdir -p "$RESULTS_DIR"
+    if [[ "$MODE" != "page-size-sweep" && "$MODE" != "nsys-page-size-sweep" ]]; then
+        mkdir -p "$RESULTS_DIR"
+    fi
 
     echo "Output file: $OUTPUT_FILE"
     echo "Log file: $LOG_FILE"
@@ -293,12 +364,17 @@ PYEOF
     # Post-process slices GPU_METRICS by NVTX window to get per-BS SM%/DRAM BW
     elif [ "$MODE" == "nsys" ] || [ "$MODE" == "nsys-tpot-no-share" ]; then
         NSYS_OUT="${RESULTS_DIR}/nsys_report"
+        # Determine physical GPU ID for nsys: CUDA_VISIBLE_DEVICES may remap logical 0 to a physical GPU
+        GPU_PHYS="${CUDA_VISIBLE_DEVICES:-0}"
+        # If multiple GPUs in CUDA_VISIBLE_DEVICES, use only the first
+        GPU_PHYS="${GPU_PHYS%%,*}"
         NSYS_CMD="nsys profile \
             --output=${NSYS_OUT} \
             --force-overwrite=true \
-            --trace=cuda,nvtx \
-            --gpu-metrics-devices=0 \
-            --stats=true \
+            --trace=nvtx \
+            --gpu-metrics-devices=${GPU_PHYS} \
+            --stats=false \
+            --resolve-symbols=false \
             $CMD"
         echo "nsys command:"
         echo "$NSYS_CMD"
@@ -312,6 +388,11 @@ PYEOF
         echo "======================================================================"
         echo "Extracting per-BS GPU metrics from nsys report (via NVTX ranges)..."
         echo "======================================================================"
+        # Auto-export nsys-rep to sqlite if not already present
+        if [ ! -f "$SQLITE" ] && [ -f "$NSYS_REP" ]; then
+            echo "Exporting nsys-rep to SQLite (this may take a minute)..."
+            nsys export --type=sqlite --output="$SQLITE" --force-overwrite=true "$NSYS_REP" 2>&1
+        fi
         if [ -f "$SQLITE" ]; then
             python3 - "$SQLITE" <<'PYEOF'
 import sqlite3, sys
@@ -369,6 +450,180 @@ PYEOF
         else
             echo "WARNING: nsys SQLite not found at $SQLITE"
         fi
+    elif [ "$MODE" == "nsys-page-size-sweep" ]; then
+        # ── nsys page size sweep: one engine boot + nsys profile per page size ─
+        RESULTS_DIR="${OUTPUT_DIR}/token_${TOKEN_SIZE}_${TIMESTAMP}"
+        mkdir -p "$RESULTS_DIR"
+        echo "Results dir: $RESULTS_DIR"
+        GPU_PHYS="${CUDA_VISIBLE_DEVICES:-0}"
+        GPU_PHYS="${GPU_PHYS%%,*}"
+        for PAGE_SIZE in "${PAGE_SIZES_SWEEP[@]}"; do
+            for BATCH_SIZE in "${BATCH_SIZES[@]}"; do
+                PS_OUT="${RESULTS_DIR}/page_size_${PAGE_SIZE}/bs_${BATCH_SIZE}"
+                PS_JSON="${PS_OUT}/results.json"
+                PS_LOG="${PS_OUT}/runtime.log"
+                NSYS_OUT="${PS_OUT}/nsys_report"
+                mkdir -p "$PS_OUT"
+                PS_CMD="python measure_batch_latency_offline.py \"$REQUEST_FILE\" \
+                    --model-path \"$MODEL_PATH\" \
+                    --batch-sizes $BATCH_SIZE \
+                    --max-tokens $TOKEN_SIZE \
+                    --repeat $REPEAT \
+                    --page-size $PAGE_SIZE \
+                    --enable-cuda-graph \
+                    --output \"$PS_JSON\""
+                if [ "$MIN_TOKENS" -gt 0 ]; then
+                    PS_CMD="$PS_CMD --min-tokens $MIN_TOKENS"
+                fi
+                if [ -n "$IGNORE_EOS" ]; then
+                    PS_CMD="$PS_CMD $IGNORE_EOS"
+                fi
+                PS_CMD="$PS_CMD $EXTRA_ARGS"
+                NSYS_CMD="nsys profile \
+                    --output=${NSYS_OUT} \
+                    --force-overwrite=true \
+                    --trace=cuda,nvtx \
+                    --cuda-graph-trace=node \
+                    --gpu-metrics-devices=cuda-visible \
+                    --stats=false \
+                    --resolve-symbols=false \
+                    $PS_CMD"
+                echo ""
+                echo "--- page_size=$PAGE_SIZE bs=$BATCH_SIZE ---"
+                echo "$NSYS_CMD"
+                eval $NSYS_CMD 2>&1 | tee "$PS_LOG"
+                if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+                    echo "!!! page_size=$PAGE_SIZE bs=$BATCH_SIZE nsys run failed" >&2
+                    exit 1
+                fi
+                echo "  nsys report: ${NSYS_OUT}.nsys-rep"
+            done
+        done
+
+        echo ""
+        echo "======================================================================"
+        echo "nsys reports saved (open with nsys-ui for kernel timeline comparison):"
+        for PAGE_SIZE in "${PAGE_SIZES_SWEEP[@]}"; do
+            for BATCH_SIZE in "${BATCH_SIZES[@]}"; do
+                REP="${RESULTS_DIR}/page_size_${PAGE_SIZE}/bs_${BATCH_SIZE}/nsys_report.nsys-rep"
+                [ -f "$REP" ] && echo "  page_size=$PAGE_SIZE bs=$BATCH_SIZE: $REP"
+            done
+        done
+        echo "======================================================================"
+
+        # ── Plot figures for this token size ──────────────────────────────────
+        ANALYZE_SCRIPT="$(dirname "$0")/offline_batch_results/nsys_page_size_sweep/analyze_nsys.py"
+        if [ -f "$ANALYZE_SCRIPT" ]; then
+            echo "Plotting figures for $RESULTS_DIR ..."
+            python "$ANALYZE_SCRIPT" "$RESULTS_DIR" && \
+                echo "Plots saved to $RESULTS_DIR" || \
+                echo "WARNING: plotting failed (non-fatal)"
+        fi
+
+    elif [ "$MODE" == "page-size-sweep" ]; then
+        # ── Page size sweep: one engine boot per page size ────────────────────
+        # Override RESULTS_DIR to reflect cuda-graph is enabled
+        RESULTS_DIR="${OUTPUT_DIR}/cuda_graph_token_${TOKEN_SIZE}_${TIMESTAMP}"
+        mkdir -p "$RESULTS_DIR"
+        echo "Results dir (overridden): $RESULTS_DIR"
+        for PAGE_SIZE in "${PAGE_SIZES_SWEEP[@]}"; do
+            PS_OUT="${RESULTS_DIR}/page_size_${PAGE_SIZE}"
+            PS_JSON="${PS_OUT}/results.json"
+            PS_LOG="${PS_OUT}/runtime.log"
+            mkdir -p "$PS_OUT"
+            PS_CMD="python measure_batch_latency_offline.py \"$REQUEST_FILE\" \
+                --model-path \"$MODEL_PATH\" \
+                --batch-sizes $BATCH_ARGS \
+                --max-tokens $TOKEN_SIZE \
+                --repeat $REPEAT \
+                --page-size $PAGE_SIZE \
+                --enable-cuda-graph \
+                --output \"$PS_JSON\""
+            if [ "$MIN_TOKENS" -gt 0 ]; then
+                PS_CMD="$PS_CMD --min-tokens $MIN_TOKENS"
+            fi
+            if [ -n "$IGNORE_EOS" ]; then
+                PS_CMD="$PS_CMD $IGNORE_EOS"
+            fi
+            PS_CMD="$PS_CMD $EXTRA_ARGS"
+            echo ""
+            echo "--- page_size=$PAGE_SIZE ---"
+            echo "$PS_CMD"
+            eval $PS_CMD 2>&1 | tee "$PS_LOG"
+            if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+                echo "!!! page_size=$PAGE_SIZE run failed" >&2
+                exit 1
+            fi
+        done
+
+        # Print comparison table across all page sizes
+        echo ""
+        echo "======================================================================"
+        echo "Page size sweep summary (median TPOT ms)"
+        echo "======================================================================"
+        python3 - "$RESULTS_DIR" <<'PYEOF'
+import json, sys
+from pathlib import Path
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+results_dir = Path(sys.argv[1])
+page_dirs = sorted(results_dir.glob("page_size_*"),
+                   key=lambda p: int(p.name.split("_")[-1]))
+
+batch_sizes = []
+all_data = {}
+for pd in page_dirs:
+    ps = int(pd.name.split("_")[-1])
+    jf = pd / "results.json"
+    if not jf.exists():
+        continue
+    with open(jf) as f:
+        data = json.load(f)
+    all_data[ps] = data
+    if not batch_sizes:
+        batch_sizes = sorted(data.keys(), key=int)
+
+if not all_data:
+    print("No results found.")
+    sys.exit(0)
+
+# Print table
+header = f"{'page_size':>10}" + "".join(f"  bs={bs:>4}" for bs in batch_sizes)
+print(header)
+print("-" * len(header))
+for ps, data in sorted(all_data.items()):
+    row = f"{ps:>10}"
+    for bs in batch_sizes:
+        r = data.get(str(bs), data.get(bs, {}))
+        tpot = r.get("tpot_median_ms", r.get("tpot_mean_ms", float("nan")))
+        row += f"  {tpot:>7.2f}"
+    print(row)
+
+# Plot: one curve per page_size, x=batch_size, y=median TPOT
+fig, ax = plt.subplots(figsize=(9, 5))
+for ps, data in sorted(all_data.items()):
+    xs, ys = [], []
+    for bs in batch_sizes:
+        r = data.get(str(bs), data.get(bs, {}))
+        tpot = r.get("tpot_median_ms", r.get("tpot_mean_ms", None))
+        if tpot is not None:
+            xs.append(int(bs))
+            ys.append(tpot)
+    ax.plot(xs, ys, marker="o", label=f"page_size={ps}")
+
+ax.set_xlabel("Batch size")
+ax.set_ylabel("Median TPOT (ms)")
+ax.set_title("TPOT vs Batch Size — page size sweep")
+ax.legend(title="page_size", bbox_to_anchor=(1.01, 1), loc="upper left")
+ax.grid(True, alpha=0.3)
+plt.tight_layout()
+
+plot_path = results_dir / "page_size_sweep_tpot.png"
+fig.savefig(plot_path, dpi=150)
+print(f"\nPlot saved: {plot_path}")
+PYEOF
     else
         eval $CMD 2>&1 | tee "$LOG_FILE"
     fi

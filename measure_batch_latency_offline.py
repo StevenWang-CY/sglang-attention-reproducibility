@@ -19,6 +19,7 @@ import logging
 import os
 import re
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -152,10 +153,13 @@ def prepare_prompts(
     return [prompt] * batch_size
 
 
-class RunningReqTracker(logging.Handler):
+class RunningReqTracker:
     """
     Intercepts sglang's 'Decode batch' log lines and tracks the max
     #running-req seen during a generation call.
+
+    In offline engine mode, sglang writes these lines directly to stdout
+    rather than through Python's logging system, so we intercept sys.stdout.
 
     Usage:
         tracker = RunningReqTracker()
@@ -168,31 +172,41 @@ class RunningReqTracker(logging.Handler):
     _PATTERN = re.compile(r"#running-req:\s*(\d+)")
 
     def __init__(self):
-        super().__init__()
         self.max_running_req = 0
-        self._attached = False
+        self._original_stdout_write = None
+        self._original_stderr_write = None
 
-    def emit(self, record: logging.LogRecord):
-        msg = record.getMessage()
-        if "Decode batch" in msg:
-            m = self._PATTERN.search(msg)
-            if m:
-                n = int(m.group(1))
-                if n > self.max_running_req:
-                    self.max_running_req = n
+    def _make_intercept(self, original_write):
+        def _intercept(text):
+            if "Decode batch" in text:
+                m = self._PATTERN.search(text)
+                if m:
+                    n = int(m.group(1))
+                    if n > self.max_running_req:
+                        self.max_running_req = n
+            original_write(text)
+        return _intercept
 
     def reset(self):
         self.max_running_req = 0
 
     def attach(self):
-        if not self._attached:
-            logging.getLogger().addHandler(self)
-            self._attached = True
+        # Intercept both stdout and stderr — SGLang logs "Decode batch" via
+        # logger.info() which goes to stderr (logging.StreamHandler default).
+        if self._original_stdout_write is None:
+            self._original_stdout_write = sys.stdout.write
+            sys.stdout.write = self._make_intercept(self._original_stdout_write)
+        if self._original_stderr_write is None:
+            self._original_stderr_write = sys.stderr.write
+            sys.stderr.write = self._make_intercept(self._original_stderr_write)
 
     def detach(self):
-        if self._attached:
-            logging.getLogger().removeHandler(self)
-            self._attached = False
+        if self._original_stdout_write is not None:
+            sys.stdout.write = self._original_stdout_write
+            self._original_stdout_write = None
+        if self._original_stderr_write is not None:
+            sys.stderr.write = self._original_stderr_write
+            self._original_stderr_write = None
 
 
 def measure_batch_latency(
@@ -385,7 +399,7 @@ def run_batch_experiments(
         show_time_cost=True,  # Show timing breakdown
         attention_backend=attention_backend,
         trust_remote_code=True,  # Required for Qwen models
-        enable_layerwise_nvtx_marker=True,  # Add NVTX markers for nsys profiling
+        enable_layerwise_nvtx_marker=engine_kwargs.pop("enable_layerwise_nvtx_marker", True),
         **engine_kwargs,
     )
 
@@ -416,6 +430,10 @@ def run_batch_experiments(
         print(f"Batch Size: {batch_size}")
         print(f"{'=' * 80}")
 
+        # Flush KV cache before each batch size to ensure a clean slate
+        engine.flush_cache()
+        print(f"  KV cache flushed")
+
         # Prepare prompts (apply chat template for proper tokenization)
         prompts = prepare_prompts(request_data, batch_size, tokenizer=tokenizer)
         print(f"  Prepared {len(prompts)} prompts")
@@ -430,6 +448,7 @@ def run_batch_experiments(
 
         for i in range(repeat):
             print(f"  Run {i+1}/{repeat}...", end=" ", flush=True)
+            engine.flush_cache()
 
             metrics = measure_batch_latency(
                 engine=engine,
@@ -485,26 +504,30 @@ def run_batch_experiments(
             "batch_size": batch_size,
             "repetitions": repeat,
             "tokens_generated": tokens_generated,
+            "tpot_median_ms": float(np.median(tpots)),
             "tpot_mean_ms": float(np.mean(tpots)),
             "tpot_std_ms": float(np.std(tpots)),
             "tpot_min_ms": float(np.min(tpots)),
             "tpot_max_ms": float(np.max(tpots)),
+            "ttft_median_ms": float(np.median(ttfts)),
             "ttft_mean_ms": float(np.mean(ttfts)),
             "ttft_std_ms": float(np.std(ttfts)),
+            "decode_time_median_ms": float(np.median(decode_times)),
             "decode_time_mean_ms": float(np.mean(decode_times)),
             "decode_time_std_ms": float(np.std(decode_times)),
+            "total_time_median_ms": float(np.median(total_times)),
             "total_time_mean_ms": float(np.mean(total_times)),
-            "throughput_tokens_per_sec": (batch_size * tokens_generated) / (np.mean(total_times) / 1000),
+            "throughput_tokens_per_sec": (batch_size * tokens_generated) / (np.median(total_times) / 1000),
             "gpu_stats": gpu_summary,
             "max_running_req_observed": max_running_req_observed,
             "concurrency_ok": concurrency_ok,
         }
 
         print(f"\n  Summary:")
-        print(f"    TTFT (prefill): {results[batch_size]['ttft_mean_ms']:.2f} ± {results[batch_size]['ttft_std_ms']:.2f} ms")
-        print(f"    TPOT (decode only): {results[batch_size]['tpot_mean_ms']:.2f} ± {results[batch_size]['tpot_std_ms']:.2f} ms")
-        print(f"    Decode time: {results[batch_size]['decode_time_mean_ms']:.0f} ms")
-        print(f"    Total time: {results[batch_size]['total_time_mean_ms']:.0f} ms")
+        print(f"    TTFT (prefill): median={results[batch_size]['ttft_median_ms']:.2f} ms  mean={results[batch_size]['ttft_mean_ms']:.2f} ± {results[batch_size]['ttft_std_ms']:.2f} ms")
+        print(f"    TPOT (decode only): median={results[batch_size]['tpot_median_ms']:.2f} ms  mean={results[batch_size]['tpot_mean_ms']:.2f} ± {results[batch_size]['tpot_std_ms']:.2f} ms")
+        print(f"    Decode time: {results[batch_size]['decode_time_median_ms']:.0f} ms (median)")
+        print(f"    Total time: {results[batch_size]['total_time_median_ms']:.0f} ms (median)")
         print(f"    Throughput: {results[batch_size]['throughput_tokens_per_sec']:.1f} tokens/s")
         if max_running_req_observed is not None:
             flag = "OK" if concurrency_ok else f"!! MISMATCH — only {max_running_req_observed} ran concurrently, TPOT invalid !!"
@@ -637,6 +660,8 @@ def main():
                         help="Enable CUDA graph (default: disabled for timing)")
     parser.add_argument("--disable-radix-cache", action="store_true", default=False,
                         help="Disable radix cache (prefix sharing) to simulate different prompts per request")
+    parser.add_argument("--disable-layerwise-nvtx-marker", action="store_true", default=False,
+                        help="Disable per-layer NVTX markers (reduces nsys trace size from ~100MB to ~3MB)")
     parser.add_argument("--gpu-monitor", action="store_true", default=False,
                         help="Enable nvidia-smi GPU monitoring during measurement (disabled by default)")
 
@@ -679,6 +704,8 @@ def main():
         if v is not None:
             engine_kwargs[k] = v
 
+    engine_kwargs["enable_layerwise_nvtx_marker"] = not args.disable_layerwise_nvtx_marker
+
     if args.attention_backend in ("tree_sparse", "flashinfer_tree_sparse"):
         engine_kwargs.update({
             "enable_tree_sparse": True,
@@ -715,20 +742,21 @@ def main():
     print("Summary Table")
     print("=" * 100)
     print(f"{'Batch':>8} {'TTFT':>12} {'TPOT':>12} {'Decode':>12} {'Total':>12} {'Throughput':>20}")
-    print(f"{'Size':>8} {'(ms)':>12} {'(ms)':>12} {'(ms)':>12} {'(ms)':>12} {'(tok/s)':>20}")
+    print(f"{'Size':>8} {'median(ms)':>12} {'median(ms)':>12} {'median(ms)':>12} {'median(ms)':>12} {'(tok/s)':>20}")
     print("-" * 100)
 
     for batch_size in sorted(results.keys()):
         r = results[batch_size]
         print(f"{batch_size:>8} "
-              f"{r['ttft_mean_ms']:>12.2f} "
-              f"{r['tpot_mean_ms']:>12.2f} "
-              f"{r['decode_time_mean_ms']:>12.0f} "
-              f"{r['total_time_mean_ms']:>12.0f} "
+              f"{r['ttft_median_ms']:>12.2f} "
+              f"{r['tpot_median_ms']:>12.2f} "
+              f"{r['decode_time_median_ms']:>12.0f} "
+              f"{r['total_time_median_ms']:>12.0f} "
               f"{r['throughput_tokens_per_sec']:>20.1f}")
 
     print("=" * 100)
     print("\nNote: TPOT = (total_time - TTFT) / (tokens_generated - 1) - excludes prefill")
+    print("      All reported values are medians across repetitions.")
 
 
 if __name__ == "__main__":

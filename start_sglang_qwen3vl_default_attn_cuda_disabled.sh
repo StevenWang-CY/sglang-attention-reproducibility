@@ -35,10 +35,11 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] Log file: ${LOG_FILE}"
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] =================================================="
 
 # Configuration variables
-MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-8B-Instruct"
+# MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-8B-Instruct"
+MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-30B-A3B-Instruct"
+
 MODEL_NAME=$(basename ${MODEL_PATH})
 
-# MODEL_PATH="${HF_MODELS}/Qwen/Qwen3-VL-30B-A3B-Instruct"
 
 # Auto-detect number of visible GPUs from CUDA_VISIBLE_DEVICES
 if [ -n "${CUDA_VISIBLE_DEVICES}" ]; then

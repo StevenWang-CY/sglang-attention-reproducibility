@@ -100,6 +100,13 @@ while [ ${WAIT_TIME} -lt ${MAX_WAIT} ]; do
   # Check log file for the definitive ready message
   if grep -q "The server is fired up and ready to roll!" ${LOG_FILE} 2>/dev/null; then
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] Server is ready! (warmup completed)"
+    # Extract the actual page_size used by SGLang from the log
+    PAGE_SIZE_LOG=$(grep -oP "page_size[= ]+\K[0-9]+" ${LOG_FILE} 2>/dev/null | tail -1)
+    if [ -n "${PAGE_SIZE_LOG}" ]; then
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Actual page_size used by SGLang: ${PAGE_SIZE_LOG}"
+    else
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Actual page_size used by SGLang: 1 (default, no override logged)"
+    fi
     break
   fi
 
