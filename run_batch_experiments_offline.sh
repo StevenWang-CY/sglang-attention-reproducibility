@@ -18,6 +18,8 @@
 #   ./run_batch_experiments_offline.sh page-size-sweep          # sweep page_size=1..128, no prefix sharing (default token=4096)  -> offline_batch_results/page_size_sweep/
 #   ./run_batch_experiments_offline.sh nsys-page-size-sweep     # nsys kernel timeline per page size (bs=1, 256 tokens default)   -> offline_batch_results/nsys_page_size_sweep/
 #   ./run_batch_experiments_offline.sh page-size-sweep 256 4096 8192  # same but with multiple token sizes
+#   ./run_batch_experiments_offline.sh page-size-sweep-bs            # sweep page_size across batch sizes (attention-bound regime — finds where page_size=1 is NOT lowest)  -> offline_batch_results/page_size_sweep_bs/
+#   ./run_batch_experiments_offline.sh page-size-sweep-bs 8184       # same, longest decode (longest KV) only
 # export SGLANG_DISABLE_CUDNN_CHECK=1
 
 # Ensure sglang conda env is used (prepend to PATH so nsys inherits the right python)
@@ -181,6 +183,43 @@ case "$MODE" in
             TOKEN_SIZES=(256 512 1024 2048 4096 8184)
         fi
         ;;
+    page-size-sweep-bs)
+        # Attention-bound variant of page-size-sweep: sweep page_size across MULTIPLE
+        # batch sizes at a long decode length, so the measurement runs in the regime
+        # where KV-cache reads — not weight loading — dominate TPOT.
+        #
+        # WHY: at bs=1 / short context the decode step is weight-bound (~16 GB of
+        # Qwen3-VL-8B weights streamed from HBM every step), and the few-KB-per-token
+        # attention read is negligible, so page_size barely moves TPOT and page_size=1
+        # ties/wins inside run-to-run noise. As batch size and context grow, per-step
+        # KV-cache reads scale (bytes ≈ batch × kv_len × 144 KB) and eventually dwarf
+        # the fixed weight read; then the attention kernel dominates and larger pages
+        # win (more coalesced HBM reads, less page-table indirection). That is the
+        # scenario in which page_size=1 stops being the lowest-latency choice.
+        #
+        # The repo's isolated kernel microbenchmark (benchmark_page_size_attention.py /
+        # page_size_attn_bench.json) already shows this: page_size=1 is the lowest in
+        # only 1 of 12 (batch, kv_len) cells; a larger page (typically 8–64) wins the
+        # other 11. This mode reproduces it end-to-end in the SGLang engine.
+        export TREE_SPARSE_TIMING=0
+        unset TREE_SPARSE_TIMING_SYNC_ALL
+        unset TREE_SPARSE_TIMING_SYNC_OPS
+        OUTPUT_DIR="offline_batch_results/page_size_sweep_bs"
+        MODE_DESC="Page size sweep across batch sizes (attention-bound — finds where page_size=1 is NOT lowest)"
+        EXTRA_ARGS="--disable-radix-cache"
+        PAGE_SIZES_SWEEP=(1 2 4 8 16 32 64 128)
+        # Batch sizes are chosen to push attention's share of the step up while still
+        # fitting the ~9.7k-token prompt in the KV pool on a single 80 GB GPU.
+        # IMPORTANT: check "concurrency_ok"/max_running_req_observed in each
+        # results.json — if a batch did not actually run concurrently (KV pool limit)
+        # its TPOT is not comparable across page sizes. Drop the largest batch (or
+        # raise --mem-fraction-static) if you see a mismatch warning.
+        BATCH_SIZES=(1 4 8 16)
+        # Longest decode by default => longest KV => most attention-bound.
+        if [ ${#TOKEN_SIZES[@]} -eq 0 ]; then
+            TOKEN_SIZES=(8184)
+        fi
+        ;;
     *)
         echo "Unknown mode: $MODE"
         echo "Usage: $0 [profile|profile-raw|tpot|tpot-no-share|tpot-no-share-page16|profile-no-share|nsys|nsys-tpot-no-share|ncu|ncu-no-share|page-size-sweep|nsys-page-size-sweep]"
@@ -236,7 +275,7 @@ for TOKEN_SIZE in "${TOKEN_SIZES[@]}"; do
 
     # Default results directory (modes that override RESULTS_DIR do their own mkdir)
     RESULTS_DIR="${OUTPUT_DIR}/results_token_${TOKEN_SIZE}_${TIMESTAMP}"
-    if [[ "$MODE" != "page-size-sweep" && "$MODE" != "nsys-page-size-sweep" ]]; then
+    if [[ "$MODE" != "page-size-sweep" && "$MODE" != "page-size-sweep-bs" && "$MODE" != "nsys-page-size-sweep" ]]; then
         mkdir -p "$RESULTS_DIR"
     fi
 
@@ -520,7 +559,7 @@ PYEOF
                 echo "WARNING: plotting failed (non-fatal)"
         fi
 
-    elif [ "$MODE" == "page-size-sweep" ]; then
+    elif [ "$MODE" == "page-size-sweep" ] || [ "$MODE" == "page-size-sweep-bs" ]; then
         # ── Page size sweep: one engine boot per page size ────────────────────
         # Override RESULTS_DIR to reflect cuda-graph is enabled
         RESULTS_DIR="${OUTPUT_DIR}/cuda_graph_token_${TOKEN_SIZE}_${TIMESTAMP}"
@@ -600,6 +639,41 @@ for ps, data in sorted(all_data.items()):
         tpot = r.get("tpot_median_ms", r.get("tpot_mean_ms", float("nan")))
         row += f"  {tpot:>7.2f}"
     print(row)
+
+# ── Which page_size is fastest for each batch size? (answers the question) ────
+print()
+print("Lowest-latency page_size per batch size:")
+ps_list = sorted(all_data.keys())
+any_non_one = False
+for bs in batch_sizes:
+    col = []
+    for ps in ps_list:
+        r = all_data[ps].get(str(bs), all_data[ps].get(bs, {}))
+        t = r.get("tpot_median_ms", r.get("tpot_mean_ms"))
+        ok = all_data[ps].get(str(bs), all_data[ps].get(bs, {})).get("concurrency_ok")
+        if t is not None and t > 0:
+            col.append((ps, t, ok))
+    if not col:
+        continue
+    best_ps, best_t, _ = min(col, key=lambda x: x[1])
+    ps1_t = next((t for ps, t, _ in col if ps == 1), None)
+    bad_conc = [ps for ps, _, ok in col if ok is False]
+    if best_ps != 1:
+        any_non_one = True
+        verdict = f"page_size=1 is NOT lowest — loses to page_size={best_ps}"
+    else:
+        verdict = "page_size=1 IS lowest"
+    extra = ""
+    if ps1_t is not None and best_t > 0:
+        extra = f"  [ps1={ps1_t:.3f} ms vs best={best_t:.3f} ms, ps1 is +{(ps1_t/best_t-1)*100:.2f}%]"
+    warn = f"  (WARNING: page_size {bad_conc} did NOT run at full concurrency — TPOT not comparable)" if bad_conc else ""
+    print(f"  bs={bs:>4}: best page_size={best_ps:>4} ({best_t:.3f} ms)  ->  {verdict}{extra}{warn}")
+print()
+print("=> Found a scenario where page_size=1 is NOT the lowest latency."
+      if any_non_one else
+      "=> page_size=1 was lowest for every batch size here — push batch size / context"
+      "\n   higher (more attention-bound) to surface the crossover.")
+print()
 
 # Plot: one curve per page_size, x=batch_size, y=median TPOT
 fig, ax = plt.subplots(figsize=(9, 5))

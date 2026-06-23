@@ -1,0 +1,290 @@
+{
+  "ps128_bs1_kv4096": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.12732799351215363
+  },
+  "ps64_bs1_kv4096": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.0697920024394989
+  },
+  "ps32_bs1_kv4096": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06348799914121628
+  },
+  "ps16_bs1_kv4096": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06387200206518173
+  },
+  "ps8_bs1_kv4096": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06393600255250931
+  },
+  "ps4_bs1_kv4096": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06400000303983688
+  },
+  "ps2_bs1_kv4096": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06419199705123901
+  },
+  "ps1_bs1_kv4096": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.06412799656391144
+  },
+  "ps128_bs8_kv4096": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3636159896850586
+  },
+  "ps64_bs8_kv4096": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3627839982509613
+  },
+  "ps32_bs8_kv4096": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3628160059452057
+  },
+  "ps16_bs8_kv4096": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.36342400312423706
+  },
+  "ps8_bs8_kv4096": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3629760146141052
+  },
+  "ps4_bs8_kv4096": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.36320000886917114
+  },
+  "ps2_bs8_kv4096": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3630400002002716
+  },
+  "ps1_bs8_kv4096": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3629760146141052
+  },
+  "ps128_bs32_kv4096": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3040640354156494
+  },
+  "ps64_bs32_kv4096": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3066240549087524
+  },
+  "ps32_bs32_kv4096": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3058240413665771
+  },
+  "ps16_bs32_kv4096": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.304479956626892
+  },
+  "ps8_bs32_kv4096": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3135360479354858
+  },
+  "ps4_bs32_kv4096": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.304095983505249
+  },
+  "ps2_bs32_kv4096": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3087040185928345
+  },
+  "ps1_bs32_kv4096": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3114240169525146
+  },
+  "ps128_bs1_kv16384": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20643199980258942
+  },
+  "ps64_bs1_kv16384": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.21456000208854675
+  },
+  "ps32_bs1_kv16384": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20492799580097198
+  },
+  "ps16_bs1_kv16384": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20576000213623047
+  },
+  "ps8_bs1_kv16384": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20473599433898926
+  },
+  "ps4_bs1_kv16384": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.2048960030078888
+  },
+  "ps2_bs1_kv16384": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20476800203323364
+  },
+  "ps1_bs1_kv16384": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20508800446987152
+  },
+  "ps128_bs8_kv16384": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3128960132598877
+  },
+  "ps64_bs8_kv16384": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3127039670944214
+  },
+  "ps32_bs8_kv16384": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3108799457550049
+  },
+  "ps16_bs8_kv16384": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3115839958190918
+  },
+  "ps8_bs8_kv16384": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.31331205368042
+  },
+  "ps4_bs8_kv16384": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.312351942062378
+  },
+  "ps2_bs8_kv16384": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3125439882278442
+  },
+  "ps1_bs8_kv16384": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3140480518341064
+  },
+  "ps128_bs32_kv16384": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.082719802856445
+  },
+  "ps64_bs32_kv16384": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.084928035736084
+  },
+  "ps32_bs32_kv16384": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.083199977874756
+  },
+  "ps16_bs32_kv16384": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.084159851074219
+  },
+  "ps8_bs32_kv16384": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.08355188369751
+  },
+  "ps4_bs32_kv16384": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.083648204803467
+  },
+  "ps2_bs32_kv16384": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.087584018707275
+  },
+  "ps1_bs32_kv16384": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.088352203369141
+  }
+}

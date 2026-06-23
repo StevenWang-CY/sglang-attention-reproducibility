@@ -424,11 +424,26 @@ def run_batch_experiments(
         def nvtx_range_push(s): pass
         def nvtx_range_pop(): pass
 
+    # nvidia-smi free-memory probe — lets a long multi-batch launch record the
+    # GPU-idle state per batch, so shared-GPU contamination is localized to one
+    # batch instead of silently tainting the whole launch.
+    def _gpu_free_mb():
+        try:
+            import subprocess
+            out = subprocess.check_output(
+                ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"],
+                timeout=10).decode().strip().splitlines()[0]
+            return int(out.strip())
+        except Exception:
+            return None
+
     for batch_size in batch_sizes:
         nvtx_range_push(f"bs_{batch_size}")
         print(f"\n{'=' * 80}")
         print(f"Batch Size: {batch_size}")
         print(f"{'=' * 80}")
+        free_before_mb = _gpu_free_mb()
+        print(f"  GPU free before: {free_before_mb} MiB")
 
         # Flush KV cache before each batch size to ensure a clean slate
         engine.flush_cache()
@@ -476,6 +491,9 @@ def run_batch_experiments(
             rr_str = f", max_running_req={max_rr}" if max_rr is not None else ""
             print(f"TPOT: {metrics['tpot']:.2f} ms, Total: {metrics['total_time']:.0f} ms{gpu_str}{rr_str}")
 
+        free_after_mb = _gpu_free_mb()
+        print(f"  GPU free after: {free_after_mb} MiB")
+
         # Compute statistics
         tpots = [m['tpot'] for m in latencies]
         total_times = [m['total_time'] for m in latencies]
@@ -521,6 +539,8 @@ def run_batch_experiments(
             "gpu_stats": gpu_summary,
             "max_running_req_observed": max_running_req_observed,
             "concurrency_ok": concurrency_ok,
+            "free_before_mb": free_before_mb,
+            "free_after_mb": free_after_mb,
         }
 
         print(f"\n  Summary:")
@@ -627,7 +647,7 @@ def main():
         "--attention-backend",
         type=str,
         default="flashinfer",
-        choices=["flashinfer", "tree_sparse", "flashinfer_tree_sparse", "nsa"],
+        choices=["flashinfer", "tree_sparse", "flashinfer_tree_sparse", "nsa", "triton"],
         help="Attention backend (default: flashinfer)",
     )
 
@@ -658,6 +678,10 @@ def main():
                         help="Watchdog timeout in seconds")
     parser.add_argument("--enable-cuda-graph", action="store_true", default=False,
                         help="Enable CUDA graph (default: disabled for timing)")
+    parser.add_argument("--cuda-graph-max-bs", type=int, default=None,
+                        help="Max batch size to capture CUDA graphs for. On a 16GB card SGLang auto-caps this at 8, "
+                             "so larger batches silently run EAGER even with --enable-cuda-graph. Raise it (e.g. 48) "
+                             "so high-batch cells are actually captured.")
     parser.add_argument("--disable-radix-cache", action="store_true", default=False,
                         help="Disable radix cache (prefix sharing) to simulate different prompts per request")
     parser.add_argument("--disable-layerwise-nvtx-marker", action="store_true", default=False,
@@ -699,6 +723,7 @@ def main():
         "nsa_decode_backend": args.nsa_decode_backend,
         "model_loader_extra_config": args.model_loader_extra_config,
         "watchdog_timeout": args.watchdog_timeout,
+        "cuda_graph_max_bs": args.cuda_graph_max_bs,
     }
     for k, v in optional_kwargs.items():
         if v is not None:

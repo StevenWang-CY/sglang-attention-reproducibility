@@ -1,0 +1,770 @@
+{
+  "ps1_bs1_kv1024": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.12399999797344208
+  },
+  "ps2_bs1_kv1024": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.06982400268316269
+  },
+  "ps4_bs1_kv1024": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.05651199817657471
+  },
+  "ps8_bs1_kv1024": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.05580800026655197
+  },
+  "ps16_bs1_kv1024": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.05584000051021576
+  },
+  "ps32_bs1_kv1024": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.056063998490571976
+  },
+  "ps64_bs1_kv1024": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.056832000613212585
+  },
+  "ps128_bs1_kv1024": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 1024,
+    "latency_ms": 0.05603199824690819
+  },
+  "ps1_bs8_kv1024": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.07680000364780426
+  },
+  "ps2_bs8_kv1024": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.07692799717187881
+  },
+  "ps4_bs8_kv1024": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.07667200267314911
+  },
+  "ps8_bs8_kv1024": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.07680000364780426
+  },
+  "ps16_bs8_kv1024": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.07683199644088745
+  },
+  "ps32_bs8_kv1024": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.08070400357246399
+  },
+  "ps64_bs8_kv1024": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.08025600016117096
+  },
+  "ps128_bs8_kv1024": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 1024,
+    "latency_ms": 0.08028800040483475
+  },
+  "ps1_bs32_kv1024": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.3569920063018799
+  },
+  "ps2_bs32_kv1024": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.35574400424957275
+  },
+  "ps4_bs32_kv1024": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.35574400424957275
+  },
+  "ps8_bs32_kv1024": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.35574400424957275
+  },
+  "ps16_bs32_kv1024": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.3556160032749176
+  },
+  "ps32_bs32_kv1024": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.35500800609588623
+  },
+  "ps64_bs32_kv1024": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.355679988861084
+  },
+  "ps128_bs32_kv1024": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 1024,
+    "latency_ms": 0.3560959994792938
+  },
+  "ps1_bs64_kv1024": {
+    "page_size": 1,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.673471987247467
+  },
+  "ps2_bs64_kv1024": {
+    "page_size": 2,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6767680048942566
+  },
+  "ps4_bs64_kv1024": {
+    "page_size": 4,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6724159717559814
+  },
+  "ps8_bs64_kv1024": {
+    "page_size": 8,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6723840236663818
+  },
+  "ps16_bs64_kv1024": {
+    "page_size": 16,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6717759966850281
+  },
+  "ps32_bs64_kv1024": {
+    "page_size": 32,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.671999990940094
+  },
+  "ps64_bs64_kv1024": {
+    "page_size": 64,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6721919775009155
+  },
+  "ps128_bs64_kv1024": {
+    "page_size": 128,
+    "batch_size": 64,
+    "kv_len": 1024,
+    "latency_ms": 0.6731200218200684
+  },
+  "ps1_bs1_kv4096": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05686400085687637
+  },
+  "ps2_bs1_kv4096": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05660799890756607
+  },
+  "ps4_bs1_kv4096": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.0562559999525547
+  },
+  "ps8_bs1_kv4096": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05660799890756607
+  },
+  "ps16_bs1_kv4096": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.056543998420238495
+  },
+  "ps32_bs1_kv4096": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05660799890756607
+  },
+  "ps64_bs1_kv4096": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05676800012588501
+  },
+  "ps128_bs1_kv4096": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 4096,
+    "latency_ms": 0.05673599988222122
+  },
+  "ps1_bs8_kv4096": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.35888001322746277
+  },
+  "ps2_bs8_kv4096": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.35865598917007446
+  },
+  "ps4_bs8_kv4096": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.35817599296569824
+  },
+  "ps8_bs8_kv4096": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3585920035839081
+  },
+  "ps16_bs8_kv4096": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.35839998722076416
+  },
+  "ps32_bs8_kv4096": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3577600121498108
+  },
+  "ps64_bs8_kv4096": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.3585599958896637
+  },
+  "ps128_bs8_kv4096": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 4096,
+    "latency_ms": 0.35872000455856323
+  },
+  "ps1_bs32_kv4096": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3029439449310303
+  },
+  "ps2_bs32_kv4096": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3029119968414307
+  },
+  "ps4_bs32_kv4096": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.2988799810409546
+  },
+  "ps8_bs32_kv4096": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.301535964012146
+  },
+  "ps16_bs32_kv4096": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.303328037261963
+  },
+  "ps32_bs32_kv4096": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.2995519638061523
+  },
+  "ps64_bs32_kv4096": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3027839660644531
+  },
+  "ps128_bs32_kv4096": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 4096,
+    "latency_ms": 1.3001919984817505
+  },
+  "ps1_bs64_kv4096": {
+    "page_size": 1,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5639359951019287
+  },
+  "ps2_bs64_kv4096": {
+    "page_size": 2,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.560767889022827
+  },
+  "ps4_bs64_kv4096": {
+    "page_size": 4,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5609281063079834
+  },
+  "ps8_bs64_kv4096": {
+    "page_size": 8,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5612800121307373
+  },
+  "ps16_bs64_kv4096": {
+    "page_size": 16,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5640640258789062
+  },
+  "ps32_bs64_kv4096": {
+    "page_size": 32,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5615999698638916
+  },
+  "ps64_bs64_kv4096": {
+    "page_size": 64,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5602240562438965
+  },
+  "ps128_bs64_kv4096": {
+    "page_size": 128,
+    "batch_size": 64,
+    "kv_len": 4096,
+    "latency_ms": 2.5589439868927
+  },
+  "ps1_bs1_kv16384": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20047999918460846
+  },
+  "ps2_bs1_kv16384": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.200095996260643
+  },
+  "ps4_bs1_kv16384": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.2001280039548874
+  },
+  "ps8_bs1_kv16384": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20015999674797058
+  },
+  "ps16_bs1_kv16384": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20022399723529816
+  },
+  "ps32_bs1_kv16384": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.2001280039548874
+  },
+  "ps64_bs1_kv16384": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.2006720006465912
+  },
+  "ps128_bs1_kv16384": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 16384,
+    "latency_ms": 0.20000000298023224
+  },
+  "ps1_bs8_kv16384": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3032959699630737
+  },
+  "ps2_bs8_kv16384": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3056319952011108
+  },
+  "ps4_bs8_kv16384": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3022079467773438
+  },
+  "ps8_bs8_kv16384": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.304095983505249
+  },
+  "ps16_bs8_kv16384": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3017280101776123
+  },
+  "ps32_bs8_kv16384": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.301632046699524
+  },
+  "ps64_bs8_kv16384": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.3016639947891235
+  },
+  "ps128_bs8_kv16384": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 16384,
+    "latency_ms": 1.301408052444458
+  },
+  "ps1_bs32_kv16384": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.075071811676025
+  },
+  "ps2_bs32_kv16384": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.07206392288208
+  },
+  "ps4_bs32_kv16384": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.068863868713379
+  },
+  "ps8_bs32_kv16384": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.068575859069824
+  },
+  "ps16_bs32_kv16384": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.070400238037109
+  },
+  "ps32_bs32_kv16384": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.070464134216309
+  },
+  "ps64_bs32_kv16384": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.067039966583252
+  },
+  "ps128_bs32_kv16384": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 16384,
+    "latency_ms": 5.068480014801025
+  },
+  "ps1_bs64_kv16384": {
+    "page_size": 1,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.134367942810059
+  },
+  "ps2_bs64_kv16384": {
+    "page_size": 2,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.123583793640137
+  },
+  "ps4_bs64_kv16384": {
+    "page_size": 4,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.115455627441406
+  },
+  "ps8_bs64_kv16384": {
+    "page_size": 8,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.113183975219727
+  },
+  "ps16_bs64_kv16384": {
+    "page_size": 16,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.115424156188965
+  },
+  "ps32_bs64_kv16384": {
+    "page_size": 32,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.110431671142578
+  },
+  "ps64_bs64_kv16384": {
+    "page_size": 64,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.106207847595215
+  },
+  "ps128_bs64_kv16384": {
+    "page_size": 128,
+    "batch_size": 64,
+    "kv_len": 16384,
+    "latency_ms": 10.104703903198242
+  },
+  "ps1_bs1_kv32768": {
+    "page_size": 1,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.35894399881362915
+  },
+  "ps2_bs1_kv32768": {
+    "page_size": 2,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3579519987106323
+  },
+  "ps4_bs1_kv32768": {
+    "page_size": 4,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3574720025062561
+  },
+  "ps8_bs1_kv32768": {
+    "page_size": 8,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3604159951210022
+  },
+  "ps16_bs1_kv32768": {
+    "page_size": 16,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3577919900417328
+  },
+  "ps32_bs1_kv32768": {
+    "page_size": 32,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3579519987106323
+  },
+  "ps64_bs1_kv32768": {
+    "page_size": 64,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.3572799861431122
+  },
+  "ps128_bs1_kv32768": {
+    "page_size": 128,
+    "batch_size": 1,
+    "kv_len": 32768,
+    "latency_ms": 0.35763201117515564
+  },
+  "ps1_bs8_kv32768": {
+    "page_size": 1,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5608959197998047
+  },
+  "ps2_bs8_kv32768": {
+    "page_size": 2,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5626559257507324
+  },
+  "ps4_bs8_kv32768": {
+    "page_size": 4,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.559999942779541
+  },
+  "ps8_bs8_kv32768": {
+    "page_size": 8,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5582079887390137
+  },
+  "ps16_bs8_kv32768": {
+    "page_size": 16,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5579519271850586
+  },
+  "ps32_bs8_kv32768": {
+    "page_size": 32,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5579519271850586
+  },
+  "ps64_bs8_kv32768": {
+    "page_size": 64,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.5577919483184814
+  },
+  "ps128_bs8_kv32768": {
+    "page_size": 128,
+    "batch_size": 8,
+    "kv_len": 32768,
+    "latency_ms": 2.560863971710205
+  },
+  "ps1_bs32_kv32768": {
+    "page_size": 1,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.118559837341309
+  },
+  "ps2_bs32_kv32768": {
+    "page_size": 2,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.112704277038574
+  },
+  "ps4_bs32_kv32768": {
+    "page_size": 4,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.105631828308105
+  },
+  "ps8_bs32_kv32768": {
+    "page_size": 8,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.105664253234863
+  },
+  "ps16_bs32_kv32768": {
+    "page_size": 16,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.105664253234863
+  },
+  "ps32_bs32_kv32768": {
+    "page_size": 32,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.105119705200195
+  },
+  "ps64_bs32_kv32768": {
+    "page_size": 64,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.102656364440918
+  },
+  "ps128_bs32_kv32768": {
+    "page_size": 128,
+    "batch_size": 32,
+    "kv_len": 32768,
+    "latency_ms": 10.101152420043945
+  },
+  "ps1_bs64_kv32768": {
+    "page_size": 1,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.225183486938477
+  },
+  "ps2_bs64_kv32768": {
+    "page_size": 2,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.191743850708008
+  },
+  "ps4_bs64_kv32768": {
+    "page_size": 4,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.1778564453125
+  },
+  "ps8_bs64_kv32768": {
+    "page_size": 8,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.176319122314453
+  },
+  "ps16_bs64_kv32768": {
+    "page_size": 16,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.16374397277832
+  },
+  "ps32_bs64_kv32768": {
+    "page_size": 32,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.17398452758789
+  },
+  "ps64_bs64_kv32768": {
+    "page_size": 64,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.16649627685547
+  },
+  "ps128_bs64_kv32768": {
+    "page_size": 128,
+    "batch_size": 64,
+    "kv_len": 32768,
+    "latency_ms": 20.158239364624023
+  }
+}
