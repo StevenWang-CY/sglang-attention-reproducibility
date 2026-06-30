@@ -84,7 +84,9 @@ Full per-round values are in the JSONL; the paired-mean±std agrees (see "Robust
 | B8 / L6144  | 49 k | 23.41 | 23.57 | 23.54 | 23.57 | **−0.7 %** | ps1 |
 | B2 / L24576 | 49 k | 23.22 | 23.36 | 23.41 | 23.35 | **−0.6 %** | ps1 |
 
-**Every cell: `ps1` is the fastest page.** No backend, batch, or context length produces a `ps1` penalty.
+**Every cell: `ps1` is the fastest-or-tied page (within ≤ ~1 %).** No backend, batch, or context length
+produces a `ps1` penalty (the 12-round paired CIs in "Verification" put `ps1` at −0.3 % to −1.1 % vs the best
+page — consistently fastest by a small margin, never ≥5 % slower).
 
 § FlashInfer `ps128` at exactly B16/L3072 hits a **deterministic build bug** in this SGLang checkout —
 `AttributeError: 'TreeCacheNamespace' object has no attribute 'evict'` — on all 4 attempts (it is not a
@@ -129,9 +131,10 @@ by KV-read bandwidth**. So I attacked every regime that could starve the KV read
 backends and all three models. See [fig_bob_adversarial.png](fig_bob_adversarial.png).
 
 - **The one apparent candidate was noise.** A single-shot smoke at B256/L128 showed `ps1` 40.4 ms vs `ps16`
-  38.1 ms (+6 %). A **paired ×5** re-measure refuted it: `ps1` is stable (~38.8 ms) while `ps16` is the noisy
-  one (38.9–41.8 ms); min-paired gives `ps1` −2 %. Classic single-pass-noise trap — exactly why every claim
-  here uses paired/min-across-rounds.
+  38.1 ms (+6 %). A **12-round paired** re-measure (`bobs_*` data) refuted it: `ps1` is the stable, fastest
+  page (mean 38.86 ms, cross-launch CV 0.66 %), while the larger pages carry the noise (ps8 mean 39.24 ms,
+  CV 2.0 %). The single-shot +6 % caught `ps1` high and another page low by chance — the classic
+  single-pass-noise trap, which is why every headline here uses paired / min-across-rounds.
 - **Why a true batch can't break `ps1` (mechanism).** The penalty needs the index walk (∝ `B×ctx/page`
   entries, latency-bound) to be visible against the KV-read cost. A true batch reads `B ×` *distinct* KV bytes
   at full HBM bandwidth, which dwarfs the walk. To make KV cheap you must cache it (tiny footprint) — that
@@ -139,13 +142,17 @@ backends and all three models. See [fig_bob_adversarial.png](fig_bob_adversarial
   GQA-2 (4× less KV/layer) at batch 512 doesn't tip the balance. So the shared-prefix `+8.6 %` has **no
   true-batch analog** on this hardware.
 - **Coverage gaps (logged, not hidden):** configs above ~49 k tokens don't fit 16 GB; the FlashInfer
-  `TreeCacheNamespace.evict` build bug blocks some larger-page cells (e.g. ps64/128 at B256/L128); and
-  Qwen3-VL-4B FlashInfer OOMs at high batch (8.4 GB VL weights + FlashInfer workspace) — but **every page that
-  *does* measure shows `ps1` fastest**, 4B *Triton* shows `ps1` fastest, and 4B (GQA-8, 36 layers) is
-  bracketed by the exhaustively-tested 2B and predicted *flatter* (more layers amortise the index walk).
+  `TreeCacheNamespace.evict` build bug blocks the larger-page cells **at B≥128 (the largest page that runs is
+  ps32 for Qwen2.5-3B / ps16 for Qwen3-VL-2B)** — so the high-batch verdict is strictly `ps1`-vs-ps≤32 (tied);
+  `ps1`-vs-ps128 at B≥128 is an *extrapolation* (mechanistically safe: at short ctx the ps32→ps128 index-walk
+  difference is ≤3 entries/seq, negligible, and `ps1≈ps32` is measured). Qwen3-VL-4B FlashInfer OOMs at high
+  batch (8.4 GB VL weights + workspace) — but **every page that *does* measure shows `ps1` fastest**, 4B
+  *Triton* shows `ps1` fastest, and 4B (GQA-8, 36 layers) is bracketed by the exhaustively-tested 2B and
+  predicted *flatter* (more layers amortise the index walk).
 
-Data tags `bobx_*` (2B ladder + L2/long-ctx), `bobm_*` (cross-model), `bobg_*` (graph knobs). Runners
-`bob_break.sh`, `bob_xmodel.sh`, `bob_cd_knobs.sh`, `bob_4bfix.sh`, `bob_final.sh`; analysis
+Data tags `bobx_*` (2B ladder + L2/long-ctx), `bobm_*` (cross-model), `bobg_*` (graph knobs), `bobs_*`
+(12-round paired noise-floor/CI confirmation). Runners
+`bob_break.sh`, `bob_xmodel.sh`, `bob_cd_knobs.sh`, `bob_4bfix.sh`, `bob_final.sh`, `bob_stats.sh`; analysis
 `analyze_bob_break.py` + `make_bob_break_figure.py`.
 
 ---
@@ -175,7 +182,19 @@ Data tags `bobx_*` (2B ladder + L2/long-ctx), `bobm_*` (cross-model), `bobg_*` (
 - **Per-cell fit:** `max_total_num_tokens` ≥ B×(L+OL) verified from each log; mem-fraction tuned per cell
   (0.60–0.72 short, 0.63–0.64 long) so the static pool covers the KV need with runtime headroom.
 - **Robustness:** 2 rounds, all pages back-to-back per round; min-across-rounds and paired-mean±std agree on
-  sign and magnitude for every cell.
+  sign for the main-sweep cells **except one near-zero tie** — Triton B16/L3072, where min gives `ps1` −0.2 %
+  but the per-round paired mean is +0.15 % (a coin-flip at the noise floor; `ps1` is rank-1 in one round,
+  rank-4 in the other, all within ~0.4 %). No cell is anywhere near ±5 % by either estimator.
+- **High-rep statistical confirmation (`bobs_*`, 12 paired rounds each).** To pin the noise floor and the
+  effect size, four decisive cells were measured 12× with pages back-to-back. Cross-launch CV is **0.1–0.7 %**
+  (the larger pages at high batch up to ~2 %). Paired `ps1`-vs-best 95 % CIs: **B8/L6144 −0.81 % ± 0.34 %**,
+  **B16/L2048 −1.09 % ± 0.49 %**, **B256/L128 `ps1` fastest (CV 0.66 %)**, **Qwen2.5-3B B512/L64 −0.32 % ± 0.19 %**.
+  So `ps1` is within ≤ ~1 % of the best page, CIs excluding +5 % by a wide margin. **Is the ≤1 % a real `ps1`
+  advantage? No** — report 7's ncu over-read test shows `ps128` reads the *same* DRAM bytes as `ps1` (ratio
+  0.998–0.999; no partial-page over-read), `ps1` even reads marginally *more* (128× bigger index), and a clean
+  single-kernel microbench is tied to ±0.8 % with no partial-page pattern. The honest takeaway: **page_size is
+  ~free in a true batch — `ps1` is tied with large pages (the ≤1 % engine "lead" is at the noise / engine-
+  metadata floor, not a kernel advantage), and never ≥5 % slower.** Not "ps1 fastest."
 
 ## Reproduce
 

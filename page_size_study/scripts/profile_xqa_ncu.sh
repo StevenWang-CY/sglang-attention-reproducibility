@@ -26,8 +26,9 @@ set -u
 TARGET_USER=${SUDO_USER:-$(id -un)}
 TARGET_HOME=$(eval echo "~$TARGET_USER")
 
-PY=${PY:-$TARGET_HOME/venvs/bench_sglang/bin/python}
-NCU=${NCU:-/opt/nvidia/nsight-compute/2025.1.1/ncu}
+PY=${PY:-$(ls "$TARGET_HOME"/venvs/xqa_bench/bin/python "$TARGET_HOME"/venvs/bench_sglang/bin/python 2>/dev/null | head -1)}
+# auto-pick the NEWEST Nsight Compute (older ones fail "LibraryNotLoaded" on new drivers)
+NCU=${NCU:-$(ls -d /opt/nvidia/nsight-compute/*/ncu 2>/dev/null | sort -V | tail -1)}
 BENCH=${BENCH:-$TARGET_HOME/sglang_log/bench_xqa.py}
 OUTDIR=${OUTDIR:-$TARGET_HOME/sglang_log/offline_batch_results/xqa_profile}
 SUDO_LOG=${SUDO_LOG:-$TARGET_HOME/sglang_log/SUDO_CHANGES.log}
@@ -47,16 +48,22 @@ SEQS=(${SEQS:-1024 4096 16384})
 FULLSET_CELLS=(${FULLSET_CELLS:-"xqa 64 8 4096" "flashinfer 64 8 4096" "xqa 64 8 16384" "flashinfer 64 8 16384"})
 
 # ---- curated metrics: TMA-vs-LSU contrast + memory + occupancy --------------
-# (TMA-specific metric names are discovered below and appended if present.)
+# Verified available on RTX 5060 Ti (sm120) via ncu 2025.3.1 --query-metrics.
+# The TMA load-bytes counter is the direct "does this kernel use TMA" signal.
 METRICS="gpu__time_duration.sum,\
-dram__bytes_read.sum,dram__bytes_write.sum,\
+dram__bytes_op_read.sum,dram__bytes_op_write.sum,\
 dram__throughput.avg.pct_of_peak_sustained_elapsed,\
-lts__t_sector_hit_rate.pct,l1tex__t_sector_hit_rate.pct,\
+lts__t_sector_hit_rate.pct,lts__t_sectors.sum,\
+l1tex__t_sector_hit_rate.pct,\
 sm__throughput.avg.pct_of_peak_sustained_elapsed,\
 sm__warps_active.avg.pct_of_peak_sustained_active,\
 sm__sass_inst_executed_op_global_ld.sum,\
-launch__grid_size,launch__block_size,launch__registers_per_thread"
+l1tex__m_xbar2l1tex_read_bytes_mem_global_op_tma_ld.sum,\
+l1tex__m_xbar2l1tex_read_sectors_mem_global_op_tma_ld.sum,\
+l1tex__m_l1tex2xbar_req_cycles_active_op_tma.sum,\
+l1tex__data_pipe_lsu_wavefronts_mem_shared_op_ldgsts.sum"
 
+umask 022   # root-created outputs world-readable so the user can poll/rsync before chown
 mkdir -p "$OUTDIR"
 log(){ echo "[$(date '+%F %T')] $*" | tee -a "$SUDO_LOG" ; }
 
@@ -67,14 +74,9 @@ log "TARGET_USER=$TARGET_USER  PY=$PY  NCU=$NCU  OUTDIR=$OUTDIR"
 nvidia-smi --query-gpu=name,compute_cap,driver_version --format=csv,noheader | while read l; do log "gpu: $l"; done
 
 # ---- 0) discover TMA / async-copy metric names on this ncu+GPU --------------
-"$NCU" --query-metrics 2>/dev/null | grep -iE 'tma|async|bulk|cp_async|tensor_memory' \
-   > "$OUTDIR/tma_metric_names.txt"
-log "discovered $(wc -l < "$OUTDIR/tma_metric_names.txt") TMA/async metric names -> tma_metric_names.txt"
-# pick a couple of count-style TMA metrics if available (best-effort, .sum form)
-TMA_EXTRA=$(grep -iE 'sm__inst_executed_pipe.*(tma|tensor_memory)|sm__sass_inst_executed_op.*(tma|bulk)' \
-            "$OUTDIR/tma_metric_names.txt" | sed 's/[[:space:]].*//' | sort -u \
-            | sed 's/$/.sum/' | paste -sd, -)
-[ -n "$TMA_EXTRA" ] && { METRICS="$METRICS,$TMA_EXTRA"; log "appending TMA metrics: $TMA_EXTRA"; }
+"$NCU" --query-metrics 2>/dev/null | grep -iE 'op_tma|tma_ld|bulk|cp_async|ldgsts|tensor_memory' \
+   > "$OUTDIR/tma_metric_names.txt" 2>/dev/null || true
+log "dumped TMA/async metric names -> tma_metric_names.txt (metric set is explicit; see METRICS)"
 
 idle_gate(){   # wait until GPU is free of foreign procs and has memory headroom
   for i in $(seq 1 60); do
@@ -95,13 +97,16 @@ run_cell(){   # backend page batch seq
   log "ncu cell $tag"
   "$NCU" --target-processes all --profile-from-start off \
          --replay-mode kernel --cache-control all \
-         --metrics "$METRICS" --csv --log-file "${out}.csv" \
+         --metrics "$METRICS" \
          -o "$out" --force-overwrite \
          "$PY" "$BENCH" --single --backend-single "$be" \
               --page-size "$ps" --batch-size "$bs" --seq-len "$sl" --warmup "$WARMUP" \
          >> "${out}.stdout" 2>&1
   local rc=$?
   [ $rc -ne 0 ] && log "  WARN $tag exited rc=$rc (see ${tag}.stdout)"
+  # export a parseable wide CSV from the report (the -o report holds the data;
+  # --log-file would only capture ncu's banner). --import needs no GPU/root.
+  "$NCU" --import "${out}.ncu-rep" --page raw --csv > "${out}.csv" 2>/dev/null
 }
 
 run_fullset(){  # backend page batch seq  -> complete --set full report (.ncu-rep)

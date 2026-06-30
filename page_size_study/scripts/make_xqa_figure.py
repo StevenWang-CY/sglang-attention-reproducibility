@@ -103,63 +103,79 @@ def fig_latency():
 
 
 # ---- ncu counter figure (drawn only when data exists) ----------------------
-TAG_RE = re.compile(r"(?P<be>xqa|flashinfer|triton)_ps(?P<ps>\d+)_bs(?P<bs>\d+)_kv(?P<kv>\d+)")
+import sys
+sys.path.insert(0, str(HERE.parent))
 
 
 def fig_tma():
-    import csv
-    csvs = sorted(p for p in NCU_DIR.glob("*.csv") if TAG_RE.search(p.stem)) if NCU_DIR.exists() else []
+    try:
+        from analyze_xqa_ncu import load_cell, TAG_RE
+    except Exception as e:
+        print(f"skip TMA fig: cannot import analyzer ({e})")
+        return
+    csvs = sorted(p for p in NCU_DIR.glob("*.csv") if TAG_RE.match(p.stem)) if NCU_DIR.exists() else []
     if not csvs:
         print(f"skip TMA fig: no ncu CSVs in {NCU_DIR} yet (run profile_xqa_ncu.sh)")
         return
-    # minimal pivot reused from analyze_xqa_ncu
-    def parse(path):
-        rows = list(csv.DictReader(open(path, newline="")))
-        from collections import defaultdict
-        out = defaultdict(dict)
-        for r in rows:
-            kn = next((r[k] for k in r if k.strip().lower() == "kernel name"), "?")
-            mn = next((r[k] for k in r if k.strip().lower() == "metric name"), None)
-            mv = next((r[k] for k in r if k.strip().lower() == "metric value"), None)
-            if mn is None:
-                continue
-            v = (mv or "").strip().strip('"').replace(",", "")
-            try:
-                out[kn][mn.strip()] = float(v)
-            except ValueError:
-                pass
-        if not out:
-            return {}
-        return max(out.values(), key=lambda m: m.get("gpu__time_duration.sum", 0))
     data = {}
     for p in csvs:
-        m = TAG_RE.search(p.stem)
-        met = parse(p)
-        if met:
-            data[(m["be"], int(m["ps"]), int(m["bs"]), int(m["kv"]))] = met
+        m = TAG_RE.match(p.stem)
+        res = load_cell(p)
+        if res:
+            data[(m["be"], int(m["ps"]), int(m["bs"]), int(m["kv"]))] = res[0]
 
     fig, axes = plt.subplots(1, 3, figsize=(16, 5))
     bs, kv = 8, 4096
-    pages = sorted({k[1] for k in data if k[2] == bs and k[3] == kv})
-    panels = [
-        ("sm__sass_inst_executed_op_global_ld.sum", "(A) scalar global-ld instructions"),
-        ("dram__bytes_read.sum", "(B) DRAM bytes read"),
-        ("lts__t_sector_hit_rate.pct", "(C) L2 hit rate (%)"),
-    ]
-    for ax, (metric, title) in zip(axes, panels):
-        for be in ("xqa", "flashinfer"):
-            xs = [ps for ps in pages if (be, ps, bs, kv) in data and data[(be, ps, bs, kv)].get(metric) is not None]
-            ys = [data[(be, ps, bs, kv)][metric] for ps in xs]
-            if xs:
-                ax.plot(xs, ys, marker="o", color=COLORS[be], label=be)
-        ax.set_xscale("log", base=2)
-        ax.set_xticks(pages)
-        ax.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
-        ax.set_xlabel("page_size")
-        ax.set_title(f"{title}\n(bs={bs}, kv={kv})")
-        ax.grid(alpha=0.3)
-        ax.legend()
-    fig.suptitle("XQA (TMA bulk loads) vs FlashInfer (fused) — hardware counters", y=1.02)
+    pages = sorted({k[1] for k in data if k[2] == bs and k[3] == kv and k[0] == "xqa"})
+
+    # Panel A: TMA load bytes vs DRAM read bytes — the "no TMA" headline (XQA & FI)
+    axA = axes[0]
+    labels, tma_vals, dram_vals = [], [], []
+    for be in ("xqa", "flashinfer"):
+        d = data.get((be, 64, bs, kv)) or data.get((be, 16, bs, kv))
+        if d:
+            labels.append(be)
+            tma_vals.append((d.get("TMA_ld_B") or 0) / 1e6)   # bytes -> MB
+            dram_vals.append(d.get("dram_rd_MB") or 0)
+    x = np.arange(len(labels))
+    axA.bar(x - 0.2, dram_vals, 0.4, label="DRAM read (MB)", color="#4c72b0")
+    axA.bar(x + 0.2, tma_vals, 0.4, label="TMA global-load (MB)", color="#dd8452")
+    for i, t in enumerate(tma_vals):
+        axA.text(i + 0.2, max(dram_vals) * 0.04, "0", ha="center", fontsize=11, color="#dd8452")
+    axA.set_xticks(x); axA.set_xticklabels(labels)
+    axA.set_ylabel("MB")
+    axA.set_title(f"(A) TMA usage = ZERO\nKV loaded via cp.async, not TMA  (bs{bs}/kv{kv})")
+    axA.legend(fontsize=9)
+
+    # Panel B: global-ld instructions vs page_size (XQA ∝1/page, FI flat)
+    axB = axes[1]
+    for be in ("xqa", "flashinfer"):
+        ps_list = [ps for ps in pages if (be, ps, bs, kv) in data]
+        ys = [data[(be, ps, bs, kv)].get("global_ld") for ps in ps_list]
+        if ps_list:
+            axB.plot(ps_list, ys, marker="o", color=COLORS[be], label=be)
+    axB.set_xscale("log", base=2); axB.set_yscale("log")
+    axB.set_xticks(pages); axB.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    axB.set_xlabel("page_size"); axB.set_ylabel("global-load instructions")
+    axB.set_title("(B) XQA global-loads ∝ 1/page\nFlashInfer ~flat")
+    axB.grid(alpha=0.3, which="both"); axB.legend(fontsize=9)
+
+    # Panel C: L2 hit % vs page_size — XQA's cache shift; both bandwidth-bound (annotate)
+    axC = axes[2]
+    for be in ("xqa", "flashinfer"):
+        ps_list = [ps for ps in pages if (be, ps, bs, kv) in data]
+        ys = [data[(be, ps, bs, kv)].get("L2_hit%") for ps in ps_list]
+        if ps_list:
+            axC.plot(ps_list, ys, marker="o", color=COLORS[be], label=be)
+    axC.set_xscale("log", base=2)
+    axC.set_xticks(pages); axC.get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    axC.set_xlabel("page_size"); axC.set_ylabel("L2 hit rate (%)")
+    dpk = (data.get(("xqa", 64, bs, kv)) or {}).get("dram_%pk")
+    axC.set_title(f"(C) Smaller pages → more L2 hits (XQA)\nbut DRAM ~{round(dpk) if dpk else 95}% peak → latency flat")
+    axC.grid(alpha=0.3); axC.legend(fontsize=9)
+
+    fig.suptitle("XQA vs FlashInfer decode on RTX 5060 Ti (sm120) — ncu counters: no TMA, DRAM-bandwidth-bound",
+                 y=1.03, fontsize=12)
     fig.tight_layout()
     p = OUT / "fig_xqa_tma.png"
     fig.savefig(p, dpi=150, bbox_inches="tight")

@@ -1,117 +1,180 @@
-# Report 6 — Profiling the XQA decode kernel (TMA) vs page_size
+# Report 6 — Profiling TMA on consumer Blackwell (XQA, and the sm120 kernel stack)
 
-> **STATUS (2026-06-21): DRAFT — latency/correctness/page-constraint findings are
-> final (measured); the TMA *hardware-counter* sections are PENDING `ncu`.** The
-> counters are the core of this report and need root `ncu` on `phastform`
-> (CIS boxes set `RmProfilingAdminOnly=1`). Tooling is ready
-> (`scripts/profile_xqa_ncu.sh`); see [SUDO_CHANGES.md](SUDO_CHANGES.md) for the
-> privileged-action audit trail. *Blocked at time of writing by a workstation-side
-> VPN/proxy fault, not by the cluster.*
+> **PI steer (2026-06-21):** *"你可以选择去 profile 使用了 tma 的 kernel，比如说 xqa"* — profile a **TMA**-using
+> kernel, e.g. **XQA**, to ground the page_size→decode-latency mechanism (reports 3/5, a *software*
+> gather-coalescing argument) in **hardware counters**.
 
-> PI steer (2026-06-21): *"你可以选择去 profile 使用了 tma 的 kernel，比如说 xqa"* — profile a
-> TMA-using kernel, e.g. XQA. Goal: ground the page_size→decode-latency mechanism
-> (reports 3/5, a *software* gather-coalescing argument) in **hardware counters**,
-> using the modern **XQA** kernel that loads KV via **TMA** (Tensor Memory
-> Accelerator) bulk-async copies rather than scalar LSU loads.
+## Headline
+Two findings, each verified two independent ways (ncu counters **and** `cuobjdump` SASS scan for the
+sm120 TMA opcode `UTMALDG`), on an **RTX 5060 Ti (consumer Blackwell, sm120)**:
+
+1. **XQA — and *every* attention kernel — uses NO TMA on sm120.** `kernel_mha` streams KV via **cp.async
+   (LDGSTS)**, identical to FlashInfer. Decode is **DRAM-bandwidth-bound (~95 % of peak)**, so `page_size`
+   and kernel choice are second-order: latency is flat across pages (≤1.5 %) and XQA ≈ FlashInfer at scale.
+2. **On sm120, TMA is emitted *only* by CUTLASS-Blackwell GEMM kernels.** FlashInfer's cutlass fp8 GEMM
+   uses it (134 MB TMA loads dynamically; 848 `UTMALDG` statically) and so does the cutlass fused-MoE
+   (208 `UTMALDG` in its sm120 grouped-GEMM). Everything else — cuBLAS/cuDNN GEMM and all attention —
+   falls back to pre-Blackwell kernels (Ampere `cutlass_80` / Ada `sm89_xmma`) or cp.async, with TMA = 0.
+
+So TMA on consumer Blackwell is **real and reachable, but dormant in the default attention/GEMM paths**;
+XQA's TMA path is a **Hopper (sm90) / datacenter-Blackwell (sm100, B200)** thing, not the sm120 build.
 
 | | |
 |---|---|
-| **Kernel** | XQA (`flashinfer.decode.trtllm_batch_decode_with_kv_cache(backend="xqa")`, profiler name `kernel_mha`) |
-| **Compared to** | FlashInfer fused paged decode (`BatchDecodeWithPagedKVCacheWrapper`); Triton scatter-gather (`_fwd_kernel`, via engine) |
+| **Primary kernel** | XQA `kernel_mha` (`flashinfer.decode.trtllm_batch_decode_with_kv_cache(backend="xqa")`), JIT for `sm_120a` |
+| **Compared to** | FlashInfer fused decode; + a stack-wide survey (GEMM/attention/MoE) |
 | **Model dims** | Qwen3-VL-2B text: 16 Q / 8 KV heads (GQA-2), head_dim 128, bf16 |
 | **Regime** | TRUE batch — B independent sequences, each its own paged KV (no shared prefix) |
-| **Latency HW** | RTX 5060 Ti (16 GB, sm120) on `gray` — CUDA-event timing (no profiler needed) |
-| **Counter HW** | `phastform` (GPU TBD; re-validate page support there) — `ncu` perf counters |
-| **page_size** | XQA: {16, 32, 64, 128} only (ps<16 rejected). FlashInfer/Triton: {1,16,32,64,128} |
-| **Data** | `offline_batch_results/xqa_profile_5060ti/xqa_latency.json` (latency); `…/xqa_profile/*.csv` (counters, pending) |
-| **Figures** | [fig_xqa_latency.png](fig_xqa_latency.png) (done); `fig_xqa_tma.png` (pending counters) |
+| **Counters** | `ncu` **2025.3.1** as root on **phastform** (RTX 5060 Ti, sm120, drv 580.95.05 / CUDA 13.0) |
+| **Static scan** | `cuobjdump --dump-sass` of the JIT-compiled `.so`/`.cuda.o`, grep `UTMALDG` (sm120 TMA opcode) |
+| **Latency** | RTX 5060 Ti (gray), CUDA-event timing (no profiler) |
+| **page_size** | XQA: **{16,32,64,128}** only (ps<16 rejected). FlashInfer: {1,16,32,64,128} |
+| **Data** | `offline_batch_results/xqa_profile/` — `*.csv` (108 XQA/FI counter cells), `survey*.csv` (stack survey) |
+| **Figures** | [fig_xqa_tma.png](fig_xqa_tma.png) (XQA vs FI counters) · [fig_xqa_latency.png](fig_xqa_latency.png) (latency) |
+| **Audit** | [SUDO_CHANGES.md](SUDO_CHANGES.md) — every privileged action + the one persistent change (matched ncu install) |
 
 ---
 
-## Findings so far (measured, final)
+# Part A — XQA decode characterized
 
-### 1. XQA structurally cannot use small pages — `page_size ∈ {16, 32, 64, 128}`
-XQA **rejects** `page_size < 16` outright: `ValueError: Invalid page_size: 1, only
-16, 32, 64, 128 are supported` (every cell, all batch/context). This is itself a
-result for the page_size study: a **TMA-bulk** decode kernel is built around
-contiguous ≥16-token page runs — the exact regime that the study's Triton
-scatter-penalty (`ps1`) cannot exist in. The whole "`ps1` vs large page" question
-from reports 3–5 is **undefined** for XQA; XQA only lives at large pages.
+## A1. XQA structurally requires `page_size ∈ {16, 32, 64, 128}`
+XQA rejects `page_size < 16` outright (`ValueError: Invalid page_size: 1, only 16,32,64,128 are
+supported`), every cell. So the `ps1`-vs-large-page question from reports 3–5 is **undefined** for XQA —
+it only lives at large pages (a TMA-style kernel is built around contiguous ≥16-token runs).
 
-### 2. Correctness — XQA matches FlashInfer
-On matched canonical KV, XQA output vs the FlashInfer reference:
-`cos = 0.99999`, `max|Δ| = 0.0020` (bf16) at every supported page size. We are
-profiling a numerically correct kernel.
+## A2. Correctness
+XQA vs FlashInfer reference (matched canonical KV): `cos = 0.99999`, `max|Δ| ≈ 0.002–0.004` (bf16), all
+supported pages. We profiled a numerically correct kernel.
 
-### 3. Latency — XQA is page-flat, with a fixed overhead that vanishes with work
-CUDA-event median TPOT-equivalent (decode latency, ms), true batch, sm120:
+## A3. XQA uses no TMA; decode is DRAM-bandwidth-bound
+Across **all 48 XQA cells (and 60 FlashInfer cells)** the TMA counters are exactly **0** — both use
+cp.async. Decode reads the full distinct KV once (e.g. bs8/kv4096 = 8·4096·8·128·2·2 ≈ **134 MB**, measured
+134 MB at **~95 % peak DRAM**), so `page_size` shifts the *access pattern* but not the bytes moved:
 
-| cell | XQA (min over {16–128}) | FlashInfer (min over {1–128}) | XQA vs FI | XQA page-spread |
-|---|---:|---:|---:|---:|
-| bs1 / kv1024  | 0.0946 | 0.0570 | **+66.0 %** | 4.6 %† |
-| bs8 / kv1024  | 0.0767 | 0.0642 | +19.6 % | 4.0 %† |
-| bs32 / kv1024 | 0.3712 | 0.3534 | +5.0 % | 0.6 % |
-| bs64 / kv1024 | 0.6847 | 0.6689 | +2.4 % | 0.1 % |
-| bs1 / kv4096  | 0.0678 | 0.0555 | +22.2 % | 9.4 %† |
-| bs8 / kv4096  | 0.3678 | 0.3559 | +3.4 % | 0.4 % |
-| bs32 / kv4096 | 1.3217 | 1.2982 | +1.8 % | 0.3 % |
-| bs64 / kv4096 | 2.5700 | 2.5520 | +0.7 % | 0.4 % |
-| bs1 / kv16384 | 0.2115 | 0.1982 | +6.7 % | 1.0 % |
-| bs8 / kv16384 | 1.3126 | 1.2990 | +1.1 % | 0.6 % |
-| bs32 / kv16384| 5.1028 | 5.0648 | +0.8 % | 1.3 % |
-| bs64 / kv16384| 10.1169| 10.0953| **+0.2 %** | 1.3 % |
+XQA, bs8 / kv4096, vs page_size (ncu):
 
-† sub-0.1 ms cells; the "spread" is measurement noise, not a page effect.
+| page | dur (µs) | DRAM read | DRAM %peak | global-ld | L2 hit | L1 hit |
+|---:|---:|---:|---:|---:|---:|---:|
+| 16  | 325 | 134 MB | 94.8 % | **49,664** | **24 %** | **37 %** |
+| 32  | 328 | 134 MB | 94.4 % | 25,088 | 12.5 % | 21.6 % |
+| 64  | 327 | 134 MB | 94.5 % | 20,992 | 0.16 % | 0.49 % |
+| 128 | 326 | 134 MB | 94.5 % | **12,800** | **0.16 %** | **0.30 %** |
 
-Two clean trends ([fig_xqa_latency.png](fig_xqa_latency.png)):
-- **Page-flat.** Within XQA's supported pages, latency varies ≤ ~1 % — page_size is
-  essentially free, exactly as the page-agnostic FlashInfer kernel. No page wins.
-- **Fixed overhead, amortised by work.** XQA carries a setup/reduction overhead vs
-  FlashInfer that scales *inversely* with total work `B×L`: **+66 %** at the
-  smallest cell (bs1/kv1024) → **+0.2 %** at the largest (bs64/kv16384). XQA is a
-  multi-CTA, TMA-pipelined kernel optimised for *throughput*; at tiny work the
-  pipeline/reduction fixed cost dominates, at scale it disappears.
+Smaller pages → **more, smaller global loads** (`global_ld ∝ 1/page`, ~4× ps128→ps16) with a much **higher
+cache-hit rate** (L2 24 % vs 0.16 %): the extra index/gather traffic is served from L2/L1, costing
+**neither DRAM bandwidth nor latency**. Hence **duration is flat (≤1.5 %)**, matching the CUDA-event sweep.
+
+## A4. XQA vs FlashInfer
+- **Latency** (counter duration ratio): **1.00–1.03** for bs ≥ 8 (≈equal); XQA **+24–32 %** only at
+  bs1/kv1024, where work is tiny and the kernel is *overhead*-bound (XQA DRAM 52 % vs FI 67 % there). Matches
+  the CUDA-event sweep (+66 % bs1/kv1024 → +0.2 % bs64/kv16384) — see [fig_xqa_latency.png](fig_xqa_latency.png).
+- Both bandwidth-bound at scale (~95–97 % peak), both **no TMA**, both cp.async.
+- **Occupancy:** XQA ~16 % vs FlashInfer ~63 %; SM throughput ~8–10 % vs ~19 % — XQA saturates HBM with far
+  fewer active warps, same bandwidth ceiling.
 
 ---
 
-## PENDING — the TMA hardware-counter story (needs `ncu`)
-To be filled from `offline_batch_results/xqa_profile/*.csv` once `profile_xqa_ncu.sh`
-runs on `phastform`. Planned content:
-- **Prove TMA is used:** TMA/async-copy instruction counts > 0 for `kernel_mha`, and
-  scalar `sm__sass_inst_executed_op_global_ld` for XQA ≪ Triton `_fwd_kernel`
-  (bulk TMA vs per-token scatter). *If sm120 XQA shows no TMA, report that and note
-  the Hopper sm90 path is canonical.*
-- **Memory traffic vs page_size:** DRAM bytes read/write, DRAM %peak, L2/L1 hit —
-  does any of it move with page_size for XQA? (latency says no; counters explain why)
-- **XQA vs FlashInfer vs Triton** at matched cells: occupancy, SM/DRAM %peak,
-  global-ld ratio — the access-pattern contrast that grounds reports 3/5.
-- **Regime sweep** (L2-resident `B×L ≲ 8k` → bandwidth-bound): where the +overhead
-  in finding 3 comes from (TMA-setup-bound at small work vs HBM-bound at scale).
-- `fig_xqa_tma.png` (3 panels: global-ld, DRAM read, L2 hit — XQA vs FlashInfer).
+# Part B — Which sm120 kernels actually use TMA? (extensive survey)
+
+I profiled a broad set of ops two ways: **dynamic** (ncu TMA counters) and **static** (`cuobjdump` SASS,
+counting the sm120 TMA opcode `UTMALDG`). Both agree.
+
+## B1. Dynamic — ncu TMA counters
+
+| op (bf16 unless noted) | kernel dispatched on sm120 | TMA load | uses TMA? |
+|---|---|---:|:--:|
+| Triton matmul w/ `make_tensor_descriptor` (control) | `matmul_tma` | 2.15 GB | ✅ |
+| **FlashInfer fp8 GEMM `bmm_fp8(backend="cutlass")`** | `cutlass::device_kernel<GemmUniversal…>` | **134 MB** | ✅ |
+| FlashInfer fp8 GEMM `bmm_fp8(backend="cudnn")` | `cudnn…sm80_matMul` (Ampere) | 0 | ❌ |
+| FlashInfer fp8 GEMM `bmm_fp8(backend="cublas")` | `sm89_xmma…` (Ada) | 0 | ❌ |
+| cuBLAS GEMM bf16 / fp16 (`torch.matmul`) | `cutlass_80_tensorop…` (Ampere) | 0 | ❌ |
+| fp8 GEMM (`torch._scaled_mm`) | `sm89_xmma…` (Ada) | 0 | ❌ |
+| FlashInfer GEMM `mm_bf16` / `bmm_bf16` | *unsupported on cc 12.0* | — | — |
+| **XQA decode** `kernel_mha` | cp.async | 0 | ❌ |
+| FlashInfer decode `BatchDecodeWithPagedKVCache` | cp.async | 0 | ❌ |
+| FlashInfer prefill `SinglePrefillWithKVCacheKernel` | cp.async | 0 | ❌ |
+| PyTorch SDPA | `pytorch_flash::flash_fwd_kernel` | 0 | ❌ |
+| RMSNorm (neg-control) | `norm::RMSNormKernel` | 0 | ❌ |
+
+## B2. Static — `UTMALDG` count per compiled kernel (`cuobjdump`)
+Corroborates the counters and reaches kernels ncu couldn't (the MoE, whose dynamic run compiles for >40 min):
+
+| compiled object (sm120) | `UTMALDG`+UTMA instrs | uses TMA? |
+|---|---:|:--:|
+| `gemm_sm120.so` (FlashInfer cutlass fp8 GEMM) | **848** | ✅ |
+| `fused_moe_120/…gemm_grouped_**sm120**…cuda.o` (cutlass MoE, sm120 path) | **208** | ✅ |
+| `fused_moe_120/…gemm_grouped_**sm80**…cuda.o` (MoE Ampere fallback) | 0 | ❌ |
+| `xqa_…sm120.so` (XQA decode) | **0** | ❌ |
+| `batch_decode_…sm120.so` (FlashInfer decode) | **0** | ❌ |
+| Triton `matmul_tma.cubin` (control) | UTMALDG×6, UTMASTG, UTMACCTL | ✅ |
+
+So the cutlass **MoE** *does* use TMA on sm120 (via its sm120 grouped-GEMM, 208 UTMA) — confirmed
+statically without waiting for its multi-minute JIT/run; its sm80 fallback variant has none.
+
+## B3. Positive control — sm120 can run TMA and the counter fires
+A Triton matmul written to *explicitly* use TMA (`tl.make_tensor_descriptor` → `cp.async.bulk.tensor`;
+`scripts/tma_positive_control.py`) issues **2.15 GB TMA loads + 17.8 M TMA-pipe cycles, 0 cp.async**. So the
+counter reports billions when TMA is used → the `0`s for XQA/cuBLAS are **genuine**, not a GeForce cap.
+(Cross-check: a bf16 GEMM shows tensor-pipe 268 M / DRAM 1.34 GB — counters are live; that GEMM just runs an
+Ampere `cutlass_80` kernel with TMA = 0.)
+
+## B4. Takeaways
+1. **TMA is reachable on sm120, but only via CUTLASS-Blackwell GEMM** (fp8 GEMM, MoE grouped-GEMM, or a
+   hand-written Triton/CUTLASS kernel).
+2. **The backend decides.** Same fp8 GEMM: `cutlass`→TMA, `cudnn`→Ampere, `cublas`→Ada. cuBLAS bf16/fp16 →
+   Ampere `cutlass_80`.
+3. **No attention kernel uses TMA on sm120** — XQA, FlashInfer decode/prefill, PyTorch FlashAttention all
+   cp.async. For the PI's target (XQA / attention), TMA is simply not on the sm120 path.
 
 ---
 
-## Verification (done)
-- **Correct kernel:** XQA vs FlashInfer reference cos 0.99999 / max|Δ| 0.0020.
-- **True batch:** B independent sequences, each contiguous private pages; no shared
-  prefix (`bench_xqa.py`).
-- **page constraint reproduced** in both `--validate` and the full `--latency` sweep.
-- **Counters (pending):** single-kernel isolation via `cudaProfilerStart/Stop`
-  (`bench_xqa.py --single`) + `ncu --profile-from-start off`; 3 launches/cell;
-  idle-gated; headline to be recomputed from raw CSV.
+## Interpretation — how this grounds the page_size study
+Reports 3/5 argued *in software* that small pages hurt only when decode is access-pattern-bound (shared
+prefix), not bandwidth-bound (true batch). Report 6 confirms it *in hardware*: in a true batch the XQA/FI
+decode kernels are **HBM-bandwidth-bound at ~95 %**, the page-size access-pattern change is **absorbed by
+L2/L1** (A3), and no exotic memory engine (TMA) is even in play — so `page_size` is free. The page penalty
+of reports 3/5 lives in the *cache-resident* (shared-prefix) regime, which report 7 profiles directly.
+
+## Honest scope / caveats
+- **"Profile a TMA kernel" → XQA doesn't use TMA here.** That's the finding. XQA's TMA path needs **Hopper
+  H100 (sm90)** or **B200 (sm100)** — not available. The Triton control + cutlass GEMM/MoE give real
+  TMA-in-use data on sm120 instead.
+- **`mm_fp8` (trtllm-gen, backend="trtllm_low_latency") not captured:** it launches via PDL/graph that ncu
+  could not attach to ("No kernels were profiled"), and only its metadata (not the cubin) is cached, so it
+  was excluded from both methods. It is NVIDIA's Blackwell trtllm-gen GEMM and very likely uses TMA, but is
+  **unverified here**.
+- **cutlass MoE:** confirmed via static UTMA scan (208); the *dynamic* counters were not collected because
+  its JIT compile (dozens of cutlass kernels) exceeds ~40 min.
+- **Hardware split:** latency on gray's 5060 Ti, counters on phastform's 5060 Ti (same sm120 class); XQA
+  validation reproduced on both.
+- Latency effects across pages are ≤1.5 % — real, bandwidth-explained, small. Practical takeaway:
+  *page_size is ~free for true-batch decode on this hardware.*
+
+## Verification (two methods agree)
+- **TMA = 0** for XQA/FI in **all 108 ncu cells** (recomputed from raw CSV by `analyze_xqa_ncu.py`) **and**
+  `UTMALDG = 0` in the XQA/decode `.so` (`cuobjdump`).
+- **TMA > 0** for the cutlass GEMM/MoE both ways (134 MB / 848 UTMA; 208 UTMA) and the Triton control
+  (2.15 GB / UTMALDG present).
+- **DRAM bytes** match the analytic KV size (134 MB @ bs8/kv4096) at ~95 % peak.
+- **Counter trustworthy:** positive control fires billions; tensor-pipe/DRAM return large values elsewhere.
+- **ncu blocker root-caused:** ncu 2025.1.1 failed `LibraryNotLoaded` on the CUDA-13 driver → fixed by
+  installing `nsight-compute-2025.3.1` (`cuda-nsight-compute-13-0`). See SUDO_CHANGES.md.
 
 ## Reproduce
 ```bash
-# sudo-free (latency / correctness / page constraint) — any box with the venv:
+# sudo-free (latency / correctness / page constraint):
 python bench_xqa.py --validate
 python bench_xqa.py --latency --backends xqa flashinfer \
     --page-sizes 1 16 32 64 128 --batch-sizes 1 8 32 64 --seq-lens 1024 4096 16384 \
     --output offline_batch_results/xqa_profile_5060ti/xqa_latency.json
 
-# TMA counters (needs root ncu; logs every privileged action to SUDO_CHANGES.log):
-sudo -E bash profile_xqa_ncu.sh
+# counters — needs a CUDA-13-matched ncu as root (logs every privileged action):
+sudo -E bash profile_xqa_ncu.sh                 # XQA vs FlashInfer 108-cell sweep
+sudo -E bash _survey_run.sh ; sudo -E bash _survey2b_run.sh   # stack-wide TMA survey
+python tma_positive_control.py                  # Triton TMA control (+ ncu to confirm)
+# static corroboration (no GPU/root): cuobjdump --dump-sass <kernel>.so | grep -c UTMALDG
 
-# locally (paths self-computed):
+# locally:
 python3 page_size_study/scripts/analyze_xqa_ncu.py
 python3 page_size_study/scripts/make_xqa_figure.py
 ```

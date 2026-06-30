@@ -67,28 +67,38 @@ def make_query(B, device):
 # FlashInfer default (BatchDecodeWithPagedKVCacheWrapper), kv_layout = NHD
 # kv_cache: [total_pages, 2, page_size, num_kv_heads, head_dim]
 # ---------------------------------------------------------------------------
-def build_flashinfer(B, L, page_size, device, K=None, V=None):
+def build_flashinfer(B, L, page_size, device, K=None, V=None, kv_mode="distinct"):
+    # kv_mode: "distinct" -> B independent KV copies (true batch); each seq indexes
+    #          its own ppr pages.  "shared" -> ONE physical KV copy (shared prefix);
+    #          all B seqs' page indices point to the SAME ppr pages (8x reuse).
+    # This single switch is the controlled variable: shared makes the working set
+    # B-times smaller and re-read across the batch (cache/reuse-bound); distinct is
+    # DRAM-bandwidth-bound. (No other code path differs.)
     import flashinfer
     ppr = (L + page_size - 1) // page_size
-    total_pages = B * ppr
+    n_phys = ppr if kv_mode == "shared" else B * ppr   # physical pages allocated
 
     if K is None:
         # fast path (latency/single): values irrelevant, only layout matters
-        kv_cache = torch.randn(total_pages, 2, page_size, NUM_KV_HEADS, HEAD_DIM,
+        kv_cache = torch.randn(n_phys, 2, page_size, NUM_KV_HEADS, HEAD_DIM,
                                dtype=DTYPE, device=device)
     else:
         # correctness path: fill from canonical KV (slow, small configs only)
-        kv_cache = torch.zeros(total_pages, 2, page_size, NUM_KV_HEADS, HEAD_DIM,
+        kv_cache = torch.zeros(n_phys, 2, page_size, NUM_KV_HEADS, HEAD_DIM,
                                dtype=DTYPE, device=device)
         for b in range(B):
             for pos in range(L):
-                pg = b * ppr + pos // page_size
+                base = 0 if kv_mode == "shared" else b * ppr   # shared: every seq writes copy 0
+                pg = base + pos // page_size
                 sl = pos % page_size
-                kv_cache[pg, 0, sl] = K[b, pos]
-                kv_cache[pg, 1, sl] = V[b, pos]
+                kv_cache[pg, 0, sl] = (K[0] if kv_mode == "shared" else K[b])[pos]
+                kv_cache[pg, 1, sl] = (V[0] if kv_mode == "shared" else V[b])[pos]
 
     kv_indptr = torch.arange(0, B + 1, dtype=torch.int32, device=device) * ppr
-    kv_indices = torch.arange(total_pages, dtype=torch.int32, device=device)
+    if kv_mode == "shared":
+        kv_indices = torch.arange(ppr, dtype=torch.int32, device=device).repeat(B)  # all seqs -> pages [0,ppr)
+    else:
+        kv_indices = torch.arange(n_phys, dtype=torch.int32, device=device)
     last = L - (ppr - 1) * page_size
     kv_last_page = torch.full((B,), last, dtype=torch.int32, device=device)
 
@@ -108,29 +118,33 @@ def build_flashinfer(B, L, page_size, device, K=None, V=None):
 # XQA via trtllm_batch_decode_with_kv_cache, kv_layout = HND, (k,v) tuple
 # each cache: [num_pages, num_kv_heads, page_size, head_dim]
 # ---------------------------------------------------------------------------
-def build_xqa(B, L, page_size, device, backend="xqa", K=None, V=None):
+def build_xqa(B, L, page_size, device, backend="xqa", K=None, V=None, kv_mode="distinct"):
     import flashinfer
     ppr = (L + page_size - 1) // page_size
-    total_pages = B * ppr
+    n_phys = ppr if kv_mode == "shared" else B * ppr
 
     if K is None:
-        k_cache = torch.randn(total_pages, NUM_KV_HEADS, page_size, HEAD_DIM,
+        k_cache = torch.randn(n_phys, NUM_KV_HEADS, page_size, HEAD_DIM,
                               dtype=DTYPE, device=device)
-        v_cache = torch.randn(total_pages, NUM_KV_HEADS, page_size, HEAD_DIM,
+        v_cache = torch.randn(n_phys, NUM_KV_HEADS, page_size, HEAD_DIM,
                               dtype=DTYPE, device=device)
     else:
-        k_cache = torch.zeros(total_pages, NUM_KV_HEADS, page_size, HEAD_DIM,
+        k_cache = torch.zeros(n_phys, NUM_KV_HEADS, page_size, HEAD_DIM,
                               dtype=DTYPE, device=device)
-        v_cache = torch.zeros(total_pages, NUM_KV_HEADS, page_size, HEAD_DIM,
+        v_cache = torch.zeros(n_phys, NUM_KV_HEADS, page_size, HEAD_DIM,
                               dtype=DTYPE, device=device)
         for b in range(B):
             for pos in range(L):
-                pg = b * ppr + pos // page_size
+                base = 0 if kv_mode == "shared" else b * ppr
+                pg = base + pos // page_size
                 sl = pos % page_size
-                k_cache[pg, :, sl] = K[b, pos]
-                v_cache[pg, :, sl] = V[b, pos]
+                k_cache[pg, :, sl] = (K[0] if kv_mode == "shared" else K[b])[pos]
+                v_cache[pg, :, sl] = (V[0] if kv_mode == "shared" else V[b])[pos]
 
-    block_tables = torch.arange(total_pages, dtype=torch.int32, device=device).view(B, ppr)
+    if kv_mode == "shared":
+        block_tables = torch.arange(ppr, dtype=torch.int32, device=device).repeat(B).view(B, ppr)
+    else:
+        block_tables = torch.arange(n_phys, dtype=torch.int32, device=device).view(B, ppr)
     seq_lens = torch.full((B,), L, dtype=torch.int32, device=device)
     workspace = torch.zeros(256 * 1024 * 1024, dtype=torch.uint8, device=device)
 
@@ -217,21 +231,21 @@ def cmd_latency(args):
             q = make_query(B, dev)
             for be in args.backends:
                 for ps in args.page_sizes:
-                    key = f"{be}_ps{ps}_bs{B}_kv{L}"
+                    key = f"{be}_{args.kv_mode}_ps{ps}_bs{B}_kv{L}"
                     try:
-                        run = build_flashinfer(B, L, ps, dev) if be == "flashinfer" \
-                            else build_xqa(B, L, ps, dev, backend=args.backend)
+                        run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode) if be == "flashinfer" \
+                            else build_xqa(B, L, ps, dev, backend=args.backend, kv_mode=args.kv_mode)
                         lat = time_run(run, q)
-                        results[key] = dict(backend=be, page_size=ps, batch_size=B,
+                        results[key] = dict(backend=be, kv_mode=args.kv_mode, page_size=ps, batch_size=B,
                                             seq_len=L, latency_ms=lat)
-                        print(f"{be:10s} ps={ps:4d} bs={B:3d} kv={L:6d} -> {lat:.4f} ms")
+                        print(f"{be:10s} {args.kv_mode:8s} ps={ps:4d} bs={B:3d} kv={L:6d} -> {lat:.4f} ms")
                         del run
                         torch.cuda.empty_cache()
                     except Exception as ex:
                         msg = str(ex).splitlines()[0][:140]
-                        results[key] = dict(backend=be, page_size=ps, batch_size=B,
+                        results[key] = dict(backend=be, kv_mode=args.kv_mode, page_size=ps, batch_size=B,
                                             seq_len=L, error=msg)
-                        print(f"{be:10s} ps={ps:4d} bs={B:3d} kv={L:6d} -> ERR {msg}")
+                        print(f"{be:10s} {args.kv_mode:8s} ps={ps:4d} bs={B:3d} kv={L:6d} -> ERR {msg}")
                         torch.cuda.empty_cache()
             del q
             torch.cuda.empty_cache()
@@ -244,8 +258,8 @@ def cmd_single(args):
     dev = _device()
     B, L, ps, be = args.batch_size, args.seq_len, args.page_size, args.backend_single
     q = make_query(B, dev)
-    run = build_flashinfer(B, L, ps, dev) if be == "flashinfer" \
-        else build_xqa(B, L, ps, dev, backend=args.backend)
+    run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode) if be == "flashinfer" \
+        else build_xqa(B, L, ps, dev, backend=args.backend, kv_mode=args.kv_mode)
     for _ in range(args.warmup):
         run(q)
     torch.cuda.synchronize()
@@ -254,12 +268,12 @@ def cmd_single(args):
     # needing a kernel-name filter — robust across backends.
     import torch.cuda.profiler as cprof
     cprof.start()
-    torch.cuda.nvtx.range_push(f"{be}_ps{ps}_bs{B}_kv{L}")
+    torch.cuda.nvtx.range_push(f"{be}_{args.kv_mode}_ps{ps}_bs{B}_kv{L}")
     out = run(q)
     torch.cuda.nvtx.range_pop()
     torch.cuda.synchronize()
     cprof.stop()
-    print(f"[single] {be} ps={ps} bs={B} kv={L} done; out {tuple(out.shape)}")
+    print(f"[single] {be} {args.kv_mode} ps={ps} bs={B} kv={L} done; out {tuple(out.shape)}")
 
 
 def main():
@@ -269,6 +283,9 @@ def main():
     p.add_argument("--single", action="store_true")
     p.add_argument("--backend", default="xqa",
                    help="flashinfer trtllm backend for the XQA path: xqa|auto|trtllm-gen")
+    p.add_argument("--kv-mode", default="distinct", choices=["distinct", "shared"],
+                   help="distinct = B independent KV copies (true batch); "
+                        "shared = ONE KV copy re-read by all B seqs (shared prefix)")
     # latency sweep
     p.add_argument("--backends", nargs="+", default=["xqa", "flashinfer"])
     p.add_argument("--page-sizes", type=int, nargs="+", default=PAGE_SIZES)

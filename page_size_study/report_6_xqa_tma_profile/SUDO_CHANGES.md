@@ -29,6 +29,40 @@ The only footprint sudo leaves:
 
 ## Change log (append one entry per privileged session)
 
+### 2026-06-24 (cont.) — TMA positive control
+- **Privileged action:** ran `ncu` as root on `tma_positive_control.py` (Triton TMA matmul). No persistent
+  change. Result: TMA load bytes = **2.15 GB**, TMA cycles = 17.8 M, ldgsts = 0 → sm120 runs TMA and the
+  counter fires. Confirms XQA/cuBLAS `TMA=0` is genuine. Script saved to `scripts/tma_positive_control.py`.
+
+### 2026-06-24 — TMA cross-check (is the GPU/counter even capable of TMA?)
+- **Privileged actions:** ran `ncu` as root on a bf16 GEMM probe (`_tma_probe.py`) and on XQA cells.
+  No persistent change. Result: GEMM runs as a `cutlass_80` (Ampere) kernel — tensor pipe = 268 M inst,
+  DRAM 1.34 GB (counters return large real values → TMA `0`s are genuine, not capped), TMA = 0.
+  Conclusion: sm120 GPU *has* TMA, but the shipped kernels (FlashInfer cp.async, cuBLAS cutlass_80) don't
+  emit it. Folded into report §3.
+
+### 2026-06-23 (cont. 2) — full ncu counter sweep launched as root
+- **Privileged action:** `sudo bash profile_xqa_ncu.sh` (detached, umask 022 → outputs world-readable).
+  Runs ncu 2025.3.1 over XQA{16,32,64,128} + FlashInfer{1,16,32,64,128} × batch{1,8,32,64} × ctx{1k,4k,16k}
+  + full-set cells → `offline_batch_results/xqa_profile/*.{csv,ncu-rep}`. No persistent system change beyond
+  output files (chowned to wangcy07 at end). Every ncu invocation logged in `~/sglang_log/SUDO_CHANGES.log`.
+- **Smoke result that reframes the report:** on RTX 5060 Ti (sm120), XQA `kernel_mha` uses **NO TMA**
+  (`l1tex__m_xbar2l1tex_read_bytes_mem_global_op_tma_ld.sum = 0`, TMA pipe cycles = 0); it loads KV via
+  cp.async (LDGSTS), same as FlashInfer. Both are DRAM-bandwidth-bound (~95% peak, ~134 MB) → ≈equal latency.
+
+### 2026-06-23 (cont.) — root confirmed; LibraryNotLoaded = ncu VERSION mismatch; FIXED by installing matched ncu
+- User provided the sudo password; verified `sudo … id` → `uid=0(root)`. **Privileged action:** ran ncu as root
+  for a one-cell test → STILL `LibraryNotLoaded` with ncu **2025.1.1** ⇒ the error is a **version mismatch**
+  (ncu 2025.1.1 / CUDA 12.8 vs driver **580.95.05 / CUDA 13.0**), NOT a permission problem.
+- **PERSISTENT SYSTEM CHANGE (sudo):** `sudo apt-get install -y cuda-nsight-compute-13-0` →
+  installed `nsight-compute-2025.3.1` (2025.3.1.4-1) + `cuda-nsight-compute-13-0` (13.0.3-1) from the
+  already-configured NVIDIA CUDA apt repo. New profiler: `/opt/nvidia/nsight-compute/2025.3.1/ncu`.
+  **Undo:** `sudo apt-get remove --purge nsight-compute-2025.3.1 cuda-nsight-compute-13-0`.
+- **VERIFIED working:** ncu 2025.3.1 as root profiles `kernel_mha` (bs8/kv4096/ps64): dur=324,352 ns,
+  global_ld=20,992, L2 hit=0.17%. (`dram__bytes_read.sum`=n/a on this GeForce → refining metric set.)
+- Each profiling run still needs sudo (RmProfilingAdminOnly=1). Using the password per-launch; no driver
+  module change made (avoided rebooting the shared box).
+
 ### 2026-06-23 — EXACT profiling command + errors (PI asked "你报错是啥")
 **Command (phastform, normal user `wangcy07`, no sudo):**
 ```
