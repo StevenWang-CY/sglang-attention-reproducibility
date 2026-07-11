@@ -29,9 +29,10 @@ import argparse, json, time, sys
 import torch
 import flashinfer
 
-# Qwen3-VL-2B text dims (match bench_xqa.py)
+# Qwen3-VL-2B text dims (match bench_xqa.py). Overridable via --num-q-heads/--num-kv-heads
+# (report 13: 16/2 = Qwen2.5-3B GQA-2 shape). BYTES_PER_TOK recomputed after override.
 NUM_Q_HEADS = 16
-NUM_KV_HEADS = 8           # GQA-2
+NUM_KV_HEADS = 8
 HEAD_DIM = 128
 DTYPE = torch.bfloat16
 SM_SCALE = 1.0 / (HEAD_DIM ** 0.5)
@@ -68,9 +69,12 @@ def make_indices(B, L, pattern, device, gen):
     return idx
 
 
+TENSOR_CORES = False
+
 def build_wrapper(device):
     ws = torch.empty(256 * 1024 * 1024, dtype=torch.uint8, device=device)
-    return flashinfer.BatchDecodeWithPagedKVCacheWrapper(ws, "NHD")
+    return flashinfer.BatchDecodeWithPagedKVCacheWrapper(ws, "NHD",
+                                                         use_tensor_cores=TENSOR_CORES)
 
 
 def plan_call(wrapper, kv_indptr, kv_indices, last_page):
@@ -216,6 +220,7 @@ def cmd_single(args):
 
 
 def main():
+    global NUM_Q_HEADS, NUM_KV_HEADS, BYTES_PER_TOK
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["plan", "gather"], default="gather")
     ap.add_argument("--single", action="store_true")
@@ -226,9 +231,18 @@ def main():
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--seq-len", type=int, default=131072)
     ap.add_argument("--pattern", default="scatter")
+    ap.add_argument("--num-q-heads", type=int, default=NUM_Q_HEADS)
+    ap.add_argument("--num-kv-heads", type=int, default=NUM_KV_HEADS)
+    ap.add_argument("--tensor-cores", action="store_true")
     args = ap.parse_args()
+    global TENSOR_CORES
+    NUM_Q_HEADS = args.num_q_heads
+    NUM_KV_HEADS = args.num_kv_heads
+    TENSOR_CORES = args.tensor_cores
+    BYTES_PER_TOK = 2 * NUM_KV_HEADS * HEAD_DIM * 2
     print("torch", torch.__version__, "flashinfer", flashinfer.__version__,
-          "gpu", torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0), flush=True)
+          "gpu", torch.cuda.get_device_name(0), torch.cuda.get_device_capability(0),
+          f"heads {NUM_Q_HEADS}q/{NUM_KV_HEADS}kv", flush=True)
     if args.single:
         cmd_single(args)
     elif args.mode == "plan":

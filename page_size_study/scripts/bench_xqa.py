@@ -32,6 +32,8 @@ from pathlib import Path
 import torch
 
 # ---- model dims (Qwen3-VL-2B text) -----------------------------------------
+# Defaults = Qwen3-VL-2B (16 Q / 8 KV). Overridable via --num-q-heads/--num-kv-heads
+# (report 12 §9 named future work; report 13 uses 16/2 = Qwen2.5-3B's GQA-2 shape).
 NUM_Q_HEADS  = 16
 NUM_KV_HEADS = 8
 HEAD_DIM     = 128
@@ -67,7 +69,8 @@ def make_query(B, device):
 # FlashInfer default (BatchDecodeWithPagedKVCacheWrapper), kv_layout = NHD
 # kv_cache: [total_pages, 2, page_size, num_kv_heads, head_dim]
 # ---------------------------------------------------------------------------
-def build_flashinfer(B, L, page_size, device, K=None, V=None, kv_mode="distinct"):
+def build_flashinfer(B, L, page_size, device, K=None, V=None, kv_mode="distinct",
+                     tensor_cores=False):
     # kv_mode: "distinct" -> B independent KV copies (true batch); each seq indexes
     #          its own ppr pages.  "shared" -> ONE physical KV copy (shared prefix);
     #          all B seqs' page indices point to the SAME ppr pages (8x reuse).
@@ -103,7 +106,10 @@ def build_flashinfer(B, L, page_size, device, K=None, V=None, kv_mode="distinct"
     kv_last_page = torch.full((B,), last, dtype=torch.int32, device=device)
 
     workspace = torch.empty(256 * 1024 * 1024, dtype=torch.uint8, device=device)
-    wrapper = flashinfer.BatchDecodeWithPagedKVCacheWrapper(workspace, "NHD")
+    # use_tensor_cores=True -> FlashInfer's prefill-template decode (what sglang picks for
+    # GQA group_size >= 4, e.g. Qwen2.5-3B 16q/2kv); False -> the CUDA-core decode kernel.
+    wrapper = flashinfer.BatchDecodeWithPagedKVCacheWrapper(
+        workspace, "NHD", use_tensor_cores=tensor_cores)
     wrapper.plan(kv_indptr, kv_indices, kv_last_page,
                  NUM_Q_HEADS, NUM_KV_HEADS, HEAD_DIM, page_size,
                  data_type=DTYPE, q_data_type=DTYPE, sm_scale=SM_SCALE)
@@ -233,11 +239,14 @@ def cmd_latency(args):
                 for ps in args.page_sizes:
                     key = f"{be}_{args.kv_mode}_ps{ps}_bs{B}_kv{L}"
                     try:
-                        run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode) if be == "flashinfer" \
+                        run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode,
+                                               tensor_cores=args.tensor_cores) if be == "flashinfer" \
                             else build_xqa(B, L, ps, dev, backend=args.backend, kv_mode=args.kv_mode)
                         lat = time_run(run, q)
                         results[key] = dict(backend=be, kv_mode=args.kv_mode, page_size=ps, batch_size=B,
-                                            seq_len=L, latency_ms=lat)
+                                            seq_len=L, latency_ms=lat,
+                                            num_q_heads=NUM_Q_HEADS, num_kv_heads=NUM_KV_HEADS,
+                                            tensor_cores=args.tensor_cores)
                         print(f"{be:10s} {args.kv_mode:8s} ps={ps:4d} bs={B:3d} kv={L:6d} -> {lat:.4f} ms")
                         del run
                         torch.cuda.empty_cache()
@@ -258,7 +267,8 @@ def cmd_single(args):
     dev = _device()
     B, L, ps, be = args.batch_size, args.seq_len, args.page_size, args.backend_single
     q = make_query(B, dev)
-    run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode) if be == "flashinfer" \
+    run = build_flashinfer(B, L, ps, dev, kv_mode=args.kv_mode,
+                           tensor_cores=args.tensor_cores) if be == "flashinfer" \
         else build_xqa(B, L, ps, dev, backend=args.backend, kv_mode=args.kv_mode)
     for _ in range(args.warmup):
         run(q)
@@ -277,12 +287,20 @@ def cmd_single(args):
 
 
 def main():
+    global NUM_Q_HEADS, NUM_KV_HEADS
     p = argparse.ArgumentParser()
     p.add_argument("--validate", action="store_true")
     p.add_argument("--latency", action="store_true")
     p.add_argument("--single", action="store_true")
     p.add_argument("--backend", default="xqa",
                    help="flashinfer trtllm backend for the XQA path: xqa|auto|trtllm-gen")
+    p.add_argument("--num-q-heads", type=int, default=NUM_Q_HEADS,
+                   help="query heads (default 16 = Qwen3-VL-2B)")
+    p.add_argument("--num-kv-heads", type=int, default=NUM_KV_HEADS,
+                   help="KV heads (default 8 = Qwen3-VL-2B; 2 = Qwen2.5-3B GQA-2 shape)")
+    p.add_argument("--tensor-cores", action="store_true",
+                   help="FlashInfer decode wrapper with use_tensor_cores=True (sglang's "
+                        "choice for GQA group_size>=4; kernel = BatchPrefillWithPagedKVCache)")
     p.add_argument("--kv-mode", default="distinct", choices=["distinct", "shared"],
                    help="distinct = B independent KV copies (true batch); "
                         "shared = ONE KV copy re-read by all B seqs (shared prefix)")
@@ -300,8 +318,12 @@ def main():
     p.add_argument("--warmup", type=int, default=WARMUP_ITERS)
     args = p.parse_args()
 
+    NUM_Q_HEADS  = args.num_q_heads
+    NUM_KV_HEADS = args.num_kv_heads
+
     print(f"torch {torch.__version__}  cuda {torch.version.cuda}  "
-          f"gpu {torch.cuda.get_device_name(0)}  cap {torch.cuda.get_device_capability(0)}")
+          f"gpu {torch.cuda.get_device_name(0)}  cap {torch.cuda.get_device_capability(0)}  "
+          f"heads {NUM_Q_HEADS}q/{NUM_KV_HEADS}kv")
     import flashinfer
     print(f"flashinfer {flashinfer.__version__}")
 
