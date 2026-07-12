@@ -6,12 +6,19 @@
 # reference cell at ~95%.
 #
 # Method: eager mode (--disable-cuda-graph) so every decode step launches the kernel
-# visibly; -k regex filters decode-attention launches only (prefill/merge/GEMM excluded);
-# with --output-len 16 the warmup run does 15 decode steps (bench_one_batch warmup uses
-# min(32, output_len)) and the measured run 15 more, n_layers launches per step, so
-# --launch-skip 20*n_layers lands inside the MEASURED phase; --launch-count 2*n_layers
-# profiles two full decode steps. --cache-control all (cold) per study convention;
-# per-launch counters are medianed by the analyzer (multi-row CSV).
+# visibly; -k regex filters decode-attention launches only (merge/GEMM excluded, but
+# prefill attention DOES match); with --output-len 16 the warmup run does 15 decode steps
+# (bench_one_batch warmup uses min(32, output_len)) and the measured run 15 more.
+# --launch-skip 20*n_layers / --launch-count 2*n_layers:
+#   * CUDA-core path (1 attention launch/layer, e.g. Qwen3-VL-2B): window = MEASURED
+#     decode steps 4-5, two full steps.
+#   * tensor-core plan (2 launches/layer, e.g. Qwen2.5-3B group>=4): warmup emits 2x the
+#     matched launches, so the window lands in WARMUP-decode steps ~10-11 — workload-
+#     identical to measured decode (same B, ctx +-few tokens); 2*n_layers = ONE full step.
+#     Verify per run: sum(dram_rd) over the window must ~= n_layers * (KV/layer + overhead).
+# --cache-control all (cold) per study convention; per-launch counters are medianed by the
+# analyzer (multi-row CSV). RUN WITH THE GPU OTHERWISE IDLE (report 13 §2b: a concurrent
+# process time-dilates profiled kernels — 2.1x phantom).
 #
 # WHY ROOT: RmProfilingAdminOnly=1. HOME pinned to the user; outputs + caches chowned back.
 # Run: ssh phastform 'echo PW | sudo -S -E bash ~/sglang_log/profile_bob_ncu.sh'

@@ -26,4 +26,13 @@ CACHE=all TOOL=pagecost QH=16 KH=8 PATTERNS="contig block128 scatter" \
 CACHE=all TOOL=pagecost QH=16 KH=2 PATTERNS="contig block128 scatter" \
   CELLS="2 1024|2 4096|8 1024|8 8192" bash "$S"
 
+# ---- Phase 3 — tensor-core arm (the wrapper sglang dispatches for GQA group>=4) ------------
+# NB: run with the GPU otherwise idle — do NOT overlap the engine TPOT tier (report 13 §2b
+# documents a 2.1x contention phantom from exactly that overlap).
+CACHE=all TOOL=xqa QH=16 KH=2 TC=1 MODES=distinct PAGES="1 128" \
+  CELLS="1 512|1 1024|1 2048|1 4096|2 512|2 1024|2 2048|2 4096|2 8192|4 512|4 1024|4 2048|4 4096|8 512|8 1024|8 2048|8 4096|8 8192" \
+  bash "$S"
+CACHE=all TOOL=pagecost QH=16 KH=2 TC=1 PATTERNS="contig block128 scatter" \
+  CELLS="2 1024|8 8192" bash "$S"
+
 echo "ALL OFFWALL NCU SWEEPS DONE"

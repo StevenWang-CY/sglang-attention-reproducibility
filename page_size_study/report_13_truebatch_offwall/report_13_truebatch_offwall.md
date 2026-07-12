@@ -11,10 +11,10 @@
 | | |
 |---|---|
 | **Question** | (1) Can individual-request decode sit at **DRAM < 50%**, at sizes as small as B2/L1k? (2) In that regime, do small pages finally lose? |
-| **Answer** | (1) **Yes — constructed and verified in-engine.** Qwen2.5-3B (GQA-2) at **B2/L1024**: decode-attn kernel = **40.5–40.8%** DRAM in the microbench and **in-engine (ncu inside `bench_one_batch`, §1 table)**. The governing variable is total decode work **B·L·kv_heads ≲ ~4k head-tokens** (≈2 MB/layer), not footprint per se: the kernel runs out of CTAs (waves/SM ≤ 0.11, occupancy 8%), so DRAM idles — **L2-hit stays ≤ ~8–17% (cold)**, i.e. off-wall ≠ cache-resident. (2) **Page size still never costs ≥5% where it can be measured reliably**, *but* the off-wall regime exposes a real, reproducible **kernel-level** `ps1` cost that the wall used to hide: **+5.3%/+5.5% (two independent ncu rounds) at the smallest cells**, +1–3% through the transition, ~0 at the wall — with DRAM-read bytes identical (ratio 1.001) → it is per-token **index-walk latency**, the GQA analog of report 11's MLA mechanism. At wall-clock it is invisible (a ~0.13 ms two-kernel launch floor swamps 8–25 µs kernels), and in engine TPOT it is weight-bound-invisible — the 105-run graph-ON TPOT sweep has **`ps1` fastest in every cell** (−1…−3.6% vs ps128, both backends; no page ever ≥5% slower). Worst-case `ps1` fragmentation (random token order): **≤ +3.1%** kernel time off-wall, `sectors/request` identical → DRAM-access latency, not coalescing. |
+| **Answer** | (1) **Yes — constructed and verified in-engine.** Qwen2.5-3B (GQA-2) at **B2/L1024**: decode-attn kernel = **40.5–40.8%** DRAM in the microbench and **in-engine (ncu inside `bench_one_batch`, §1 table)**. The governing variable is total decode work **B·L·kv_heads ≲ ~4k head-tokens** (≈2 MB/layer), not footprint per se: the kernel runs out of CTAs (waves/SM ≤ 0.11, occupancy 8%), so DRAM idles — **L2-hit stays ≤ ~8–17% (cold)**, i.e. off-wall ≠ cache-resident. (2) **Page size still never costs ≥5% where it can be measured reliably**, *but* the off-wall regime exposes a real, reproducible **kernel-level** `ps1` cost that the wall used to hide: **+5.3%/+5.5% (two independent ncu rounds) at the smallest cells**, +1–3% through the transition, ~0 at the wall — with DRAM-read bytes identical (ratio 1.001) → it is per-token **index-walk latency**, the GQA analog of report 11's MLA mechanism. At wall-clock it is invisible (a ~0.13 ms two-kernel launch floor swamps 8–25 µs kernels), and in engine TPOT it is weight-bound-invisible — the 105-run graph-ON TPOT sweep has **`ps1` fastest in every cell** (−1…−3.6% vs ps128, both backends; no page ever ≥5% slower). Worst-case `ps1` fragmentation (random token order): **≤ +3.4%** kernel time (one ±quantum 10 µs corner at +9%), `sectors/request` identical → DRAM-access latency, not coalescing. |
 | **Model shapes** | GQA-8 = Qwen3-VL-2B (16q/8kv/128d, 4096 B/tok/layer) · **GQA-2 = Qwen2.5-3B (16q/2kv/128d, 1024 B/tok/layer)** — the report-5 "most page-vulnerable" real model, whose shape is what makes bs2×1k off-wall |
 | **HW / method** | RTX 5060 Ti (sm120, 16 GB, 32 MB L2, ~448 GB/s) on **phastform** · ncu 2025.3.1 as root, `--cache-control all` (cold = faithful, report 12), `--single`-launch isolation; metric set = report-12 + `launch__grid_size/waves` + sectors/request · CUDA-event ladders ×3 rounds · engine = `sglang.bench_one_batch` (true batch by construction), TPOT graph-ON + **ncu attached to eager decode steps** (new instrument) |
-| **Data** | `offline_batch_results/offwall_profile/` (123 ncu cells + `rep2/` repro pass + ladders) · `offline_batch_results/bench_one_batch_offwall_5060ti/` (TPOT) · [SUDO_CHANGES.md](SUDO_CHANGES.md) |
+| **Data** | `offline_batch_results/offwall_profile/` (~190 ncu cells incl. the `rep2/`+`rep3/` verification passes + ladders) · `offline_batch_results/bench_one_batch_offwall_5060ti/` (TPOT) · [SUDO_CHANGES.md](SUDO_CHANGES.md) |
 | **Figure** | [fig_offwall.png](fig_offwall.png) |
 
 ---
@@ -24,14 +24,14 @@
 Reports 8/12 killed the footprint route: a small *distinct* KV is still cold-streamed at 79–96% DRAM
 (8 MB → 537 MB), because saturation needs only enough in-flight loads. What they did not map is the corner
 where the kernel **cannot issue enough parallel work to saturate HBM**. The (B, L) × {GQA-8, GQA-2} ncu grid
-(cold, distinct, ps128; 123 cells) maps it:
+(cold, distinct; 48 (B,L,arm) cells × ps{1,128}) maps it:
 
 **DRAM % of peak (cold, ps128) — GQA-8 (Qwen3-VL-2B shape):**
 
 | B \ L | 128 | 256 | 512 | 1024 | 2048 | 4096 | 6144 |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | **1** | **15.5** | **28.4** | 53.3 | 66.9 | 78.9 | 86.6 | — |
-| **2** | **29.9** | 51.9 | 67.4 | 79.1 | 86.2 | 93.1 | 86†|
+| **2** | **29.9** | 51.9 | 67.4 | 79.1 | 86.2 | 93.1 | — |
 | **4** | 50.7 | 68.3 | 79.5 | 86.5 | 93.4 | 93.8 | — |
 | **8** | 68.4 | 78.9 | 86.9 | 92.7 | 94.2 | **95.1** | **95.5** |
 | **16/32** | 79/87 | 87/93 | 93/— | — | — | — | — |
@@ -45,12 +45,15 @@ where the kernel **cannot issue enough parallel work to saturate HBM**. The (B, 
 | **4** | **41.9** | 60.2 | 74.6 | 82.5 | — |
 | **8** | 62.2 | 75.7 | 83.3 | 90.1 | 91.7 |
 
-(† B2/L6144 hits FlashInfer's split cap differently; the row trend is unaffected.)
+(All 48 table values audited cell-by-cell against the raw ncu CSVs, ps128 cold, max-duration attention-kernel
+row; "—" = not measured.)
 
 - **The two arms collapse onto one curve in total work `B·L·kv_heads`** (fig panel B): the 50% crossing sits
   at ≈ **4k head-tokens ≈ 2 MB of KV per layer** on this GPU, wherever it comes from. GQA-8 needs
   B·L ≤ ~512 (B2 → L ≤ 256); GQA-2 buys 4× → **B2/L1024 = 40.5–40.8%**, B1/L2048 = 41%, B4/L512 = 42%.
-  18 cold cells land under the 50% bar (min 11.3% at GQA-2 B1/L512).
+  Under the 50% bar (cold): **9 distinct (B,L) configs** across the two CUDA-core arms — at *both* page sizes,
+  18 measurements — plus the same 6 GQA-2 configs again on the tensor-core arm (§2a-tc);
+  min 11.3% at GQA-2 B1/L512.
 - **Mechanism = under-parallelism (latency-bound), not caching.** At B2/L1024-GQA-2 the plan launches
   **32 CTAs on 36 SMs** (waves/SM 0.11, occupancy 8.3%, SM 27%); the kernel takes ~12 µs to stream 2.1 MB
   (178 GB/s of 448). Cold **L2-hit stays 0.1–17%** across every cell (the higher single digits at tiny GQA-2
@@ -116,8 +119,9 @@ block128/scatter values — report 10's real lever), **ncu attribution** for bot
 ### 2a. Native `page_size` ladder — a real, hidden-until-now kernel effect; still < 5% wall-clock everywhere
 
 - **Kernel level (ncu duration, cold; deterministic):** `ps1` costs **+1–5%** vs `ps128` through the
-  off-wall/transition region on GQA-8 — **reproducible**: B1/L512 = **+5.3% / +5.5%** in two fully independent
-  rounds (`rep2/`), B2/L128 +4.7/+9.6%, B2/L1024 +2.3/+1.1%, decaying to **~0 at the wall** (B8/L4096 +0.3/0.0%).
+  off-wall/transition region on GQA-8 (sub-10 µs corner cells range up to ~+10%) — **reproducible**:
+  B1/L512 = **+5.3% / +5.5%** in two fully independent rounds (`rep2/`), B2/L128 +4.7/+9.6%,
+  B2/L1024 +2.3/+1.1%, decaying to **~0 at the wall** (B8/L4096 +0.3/0.0%).
   `dram__bytes_op_read` ps1/ps128 = **1.001–1.005** everywhere → *the bytes are identical*; the cost is the
   **128× longer per-token `kv_indices` walk**, pure extra latency — visible only when the kernel is not
   bandwidth-saturated. This is the **GQA analog of report 11's MLA result** (scatter cost exposed at
@@ -127,7 +131,7 @@ block128/scatter values — report 10's real lever), **ncu attribution** for bot
   (11–16 µs, even fewer CTAs) show sign-mixed ±3–6% ratios rather than a clean trend; and at big-L cells the
   ps1 plan sometimes *wins* ~1–2% by splitting finer (grid 288–320 vs 256 — more CTAs = better waves). Both
   effects are bounded single-digit.
-- **Wall-clock level (CUDA-event, 3 rounds × 8 pages × 45 cells):** the off-wall cells all sit on a
+- **Wall-clock level (CUDA-event, 3 rounds × 8 pages × 48 cells):** the off-wall cells all sit on a
   **~0.128 ms two-kernel launch floor** (decode + split-merge kernel + dispatch ≈ 5–10× the kernel itself), so
   the ladder reads **±4% sign-unstable noise** — median `ps1`-vs-`ps128` spans −3.96%…+3.89% with the best page
   jumping randomly between ps1…ps128 across cells and rounds; at the DRAM-bound anchors it tightens to the
@@ -156,17 +160,19 @@ launch + merge):
 
 | cell (cold ncu) | DRAM% | scatter vs contig (kernel) | sectors/request |
 |---|---:|---:|---|
-| GQA-8 B1/L512 (off-wall) | 49 | **+9.3%**‡ | 12.70 = 12.70 |
-| GQA-8 B2/L1024 | 78 | +1.6% | 12.66 = 12.66 |
-| GQA-2 B2/L1024 (**the case**) | 41 | **+2.5%** | 12.66 = 12.66 |
-| GQA-2 B8/L1024 | 74 | +3.1% | 12.65 = 12.65 |
+| GQA-8 B1/L512 (off-wall) | 49 | **+9.2%**‡ | 12.70 = 12.70 |
+| GQA-8 B2/L1024 | 78 | +1.3% | 12.66 = 12.66 |
+| GQA-2 B2/L1024 (**the case**) | 41 | **+2.2%** | 12.66 = 12.66 |
+| GQA-2 B8/L1024 | 75 | +3.4% | 12.65 = 12.65 |
 | GQA-2 B8/L8192 | 93 | +1.4% | 14.68 = 14.68 |
 | GQA-8 B8/L4096 (wall) | 95 | +1.1% | 15.09 = 15.09 |
+
+(Percentages computed from unrounded kernel durations; audited independently of the analyzer.)
 
 Wall-clock (3 rounds): −1.1%…+1.8%, i.e. floor-noise off-wall, +1.8% consistent at the wall-side anchor.
 `sectors/request` **identical to the second decimal** in every pair → not coalescing; random token order costs
 **DRAM-access latency** (row-buffer/TLB), exposed off the wall but blunted by GQA's **4 KB-per-token burst**
-(vs MLA's 1152 B → +4%; ‡ the +9.3% sits on a 10 µs kernel = one ~1 µs quantum, treat as ≤O(10%) bound, not a
+(vs MLA's 1152 B → +4%; ‡ the +9.2% sits on a 10 µs kernel = one ~1 µs quantum, treat as ≤O(10%) bound, not a
 point estimate). `block128` ≈ contig (±0.5%) everywhere — **realistic paged layouts are free off-wall too.**
 The tensor-core kernel behaves the same: scatter ≈ contig at the constructed cell (11.3 vs 11.6 µs, clean
 repro pass; wall-clock ±0.5%), ≤ +1.6% consistent at its B8/L8192 wall anchor.
@@ -242,11 +248,16 @@ Triton {1,8,32,128} — decode TPOT ms/token, median across rounds:
 - **Reproducibility**: the near-threshold ps1 ratios re-measured in an independent second ncu pass (`rep2/`,
   fresh processes): B1/L512 1.053→1.055, B8/L4096 1.003→1.000. Sub-16 µs cells carry ±1 quantum noise and are
   reported as bounds, not points.
-- **Engine ncu**: eager mode (`--disable-cuda-graph`) so launches are visible; skip = 20×n_layers lands past
-  the warmup run's 15 decode steps (bench_one_batch warms with `min(32, output_len)`); count = 2×n_layers = two
-  full steps; per-launch median over 56–72 launches. Cold `--cache-control all` — in a real multi-layer step
-  the inter-layer traffic evicts L2 anyway (report 8). Graph-ON TPOT tier is measured separately (§2c) — the
-  page comparison itself is graph-ON, per report-5 convention.
+- **Engine ncu**: eager mode (`--disable-cuda-graph`) so launches are visible; skip = 20×n_layers, count =
+  2×n_layers, per-launch median. For Qwen3-VL-2B (1 attention launch/layer) that window lands in the
+  **measured** run's decode steps 4–5 as designed (bench_one_batch warms with `min(32, output_len)` = 15
+  decode steps). For Qwen2.5-3B the tensor-core plan issues **2 launches/layer**, which doubles the warmup's
+  matched-launch count — the window therefore lands in **warmup-decode steps ~10–11** (ctx ≈ 1033), which is
+  **workload-identical** to the measured decode (same B, same ± few tokens of context, same kernels); the
+  captured 72 launches = exactly one full 36-layer step, and the Σbytes accounting closes (§1). Cold
+  `--cache-control all` — in a real multi-layer step the inter-layer traffic evicts L2 anyway (report 8).
+  Graph-ON TPOT tier is measured separately (§2c) — the page comparison itself is graph-ON, per report-5
+  convention.
 - **True batch verified**: `bench_one_batch` synthesizes B independent random sequences (report 5); engine
   logs show `Capture cuda graph bs [B]` (TPOT tier) and per-cell pool fit; no radix path exists in this tool.
 - **Idle-gated, skip-guarded, audit-logged** runners; password never on disk; all root-created files chowned
@@ -257,8 +268,18 @@ Triton {1,8,32,128} — decode TPOT ms/token, median across rounds:
   (the §2b phantom's cause). The runner was fixed (PATH + mem-fraction floor 0.55) and fully re-run; the final
   data set is 105/105 runs with pages back-to-back per round, of which only 4 first-launch Triton JSONLs
   predate the fix (kept — min-across-rounds absorbs any inflation, and their cells were re-measured in 2 clean
-  rounds). All ncu numbers quoted in §1–§2 come from windows with no concurrent process (verified; the one
-  contaminated window is documented and its cells re-measured in `rep2/`).
+  rounds).
+- **Window-exclusivity audit (which ncu numbers ran on an otherwise-idle GPU):** the CUDA-core grids, warm
+  contrasts, and CUDA-core fragmentation cells (§1 tables, §2b upper rows) ran **exclusively** (12:01–12:24,
+  before any engine process existed), as did the `rep2/` reproducibility pass (chained strictly before the
+  engine smoke). The **tensor-core grid and the first engine-ncu pass overlapped the broken TPOT tier's
+  respawn cycle**, so every §1-table engine number and the §2a-tc levels were **re-measured in a final
+  guaranteed-exclusive `rep3/` pass** (GPU verified idle, 0 compute processes): engine Qwen2.5-3B B2/L1024
+  ps128 → **36.7 µs / 8.1% DRAM / 60.1% L2 / Σ92.6 MB** (quoted: 36.7/8.1/59.9/92.5 — exact); engine
+  Qwen3-VL-2B → 26.2 µs / 73.2% (quoted 26.5/72.6, Δ0.6 pp); microbench tensor-core wrapper → 10.9 µs / 44.5%
+  (quoted 11.2–11.4/43.1–43.3); CUDA-core wrapper → 12.0 µs / 40.6% (quoted 11.9/40.8). **Every headline
+  number reproduces in an exclusive window to ≤1.4 pp.** The single contaminated cell that produced a wrong
+  number (the 2.1× scatter phantom, §2b) is documented and was refuted by its clean re-measurement.
 - **Scope**: one consumer GPU (36 SMs, 448 GB/s, 32 MB L2). The 4k-head-token boundary scales with SM count ×
   per-SM bandwidth demand — on an H100 (132 SMs, 3.35 TB/s) the off-wall region is *larger* in B·L (more SMs to
   starve, more bandwidth to saturate); mapping it there is proposal A's roadmap item. Triton engine-kernel
@@ -268,15 +289,17 @@ Triton {1,8,32,128} — decode TPOT ms/token, median across rounds:
 ## 5. Reproduce
 
 ```bash
-# phastform (RTX 5060 Ti, sm120). Latency + fragmentation ladders (user, ~15 min):
+# phastform (RTX 5060 Ti, sm120). Stages must NOT overlap on the GPU (see §2b phantom).
+# Latency + fragmentation ladders (user, ~15 min):
 bash page_size_study/scripts/bench_offwall_lat.sh
-# ncu grid + patterns + warm + GQA-2 arm (root, ~35 min, 123 cells; resumable):
+# ncu: grids (both arms) + patterns + warm + tensor-core arm (root, ~45 min, 165 cells; resumable):
 echo PW | sudo -S -E bash ~/sglang_log/run_offwall_ncu_all.sh
-# repro pass for the near-5% cells:
-echo PW | sudo -S -E OUTDIR=.../offwall_profile/rep2 CACHE=all TOOL=xqa QH=16 KH=8 \
-  CELLS="1 512|2 128|2 1024|1 1024|4 256|8 4096" PAGES="1 128" bash ~/sglang_log/profile_offwall_ncu.sh
-# engine: ncu inside bench_one_batch (root, ~15 min) + TPOT page sweep (user, ~3 h):
+# independent repro pass for the near-5% ps1 cells (fresh OUTDIR => fresh measurements):
+echo PW | sudo -S -E OUTDIR=~/sglang_log/offline_batch_results/offwall_profile/rep2 CACHE=all TOOL=xqa \
+  QH=16 KH=8 CELLS="1 512|2 128|2 1024|1 1024|4 256|8 4096" PAGES="1 128" bash ~/sglang_log/profile_offwall_ncu.sh
+# engine: ncu inside bench_one_batch (root, ~25 min) — run while nothing else uses the GPU:
 echo PW | sudo -S -E bash ~/sglang_log/profile_bob_ncu.sh
+# engine TPOT page sweep (user, ~3 h):
 bash ~/sglang_log/bob_offwall.sh
 # locally:
 python3 page_size_study/scripts/analyze_offwall.py       # tables T1–T7
