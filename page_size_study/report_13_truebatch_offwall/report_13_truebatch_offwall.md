@@ -14,7 +14,7 @@
 | **Answer** | (1) **Yes — constructed and verified in-engine.** Qwen2.5-3B (GQA-2) at **B2/L1024**: decode-attn kernel = **40.5–40.8%** DRAM in the microbench and **in-engine (ncu inside `bench_one_batch`, §1 table)**. The governing variable is total decode work **B·L·kv_heads ≲ ~4k head-tokens** (≈2 MB/layer), not footprint per se: the kernel runs out of CTAs (waves/SM ≤ 0.11, occupancy 8%), so DRAM idles — **L2-hit stays ≤ ~8–17% (cold)**, i.e. off-wall ≠ cache-resident. (2) **Page size still never costs ≥5% where it can be measured reliably**, *but* the off-wall regime exposes a real, reproducible **kernel-level** `ps1` cost that the wall used to hide: **+5.3%/+5.5% (two independent ncu rounds) at the smallest cells**, +1–3% through the transition, ~0 at the wall — with DRAM-read bytes identical (ratio 1.001) → it is per-token **index-walk latency**, the GQA analog of report 11's MLA mechanism. At wall-clock it is invisible (a ~0.13 ms two-kernel launch floor swamps 8–25 µs kernels), and in engine TPOT it is weight-bound-invisible — the 105-run graph-ON TPOT sweep has **`ps1` fastest in every cell** (−1…−3.6% vs ps128, both backends; no page ever ≥5% slower). Worst-case `ps1` fragmentation (random token order): **≤ +3.4%** kernel time (one ±quantum 10 µs corner at +9%), `sectors/request` identical → DRAM-access latency, not coalescing. |
 | **Model shapes** | GQA-8 = Qwen3-VL-2B (16q/8kv/128d, 4096 B/tok/layer) · **GQA-2 = Qwen2.5-3B (16q/2kv/128d, 1024 B/tok/layer)** — the report-5 "most page-vulnerable" real model, whose shape is what makes bs2×1k off-wall |
 | **HW / method** | RTX 5060 Ti (sm120, 16 GB, 32 MB L2, ~448 GB/s) on **phastform** · ncu 2025.3.1 as root, `--cache-control all` (cold = faithful, report 12), `--single`-launch isolation; metric set = report-12 + `launch__grid_size/waves` + sectors/request · CUDA-event ladders ×3 rounds · engine = `sglang.bench_one_batch` (true batch by construction), TPOT graph-ON + **ncu attached to eager decode steps** (new instrument) |
-| **Data** | `offline_batch_results/offwall_profile/` (~190 ncu cells incl. the `rep2/`+`rep3/` verification passes + ladders) · `offline_batch_results/bench_one_batch_offwall_5060ti/` (TPOT) · [SUDO_CHANGES.md](SUDO_CHANGES.md) |
+| **Data** | `offline_batch_results/offwall_profile/` (~190 ncu cells incl. the `rep2/`+`rep3/` verification passes + ladders; `nsys/` + `nsys_vast/` timeline traces, §5) · `offline_batch_results/bench_one_batch_offwall_5060ti/` (TPOT) · [SUDO_CHANGES.md](SUDO_CHANGES.md) |
 | **Figure** | [fig_offwall.png](fig_offwall.png) |
 
 ---
@@ -84,7 +84,7 @@ CUDA-core decode kernel the microbench grid above profiles:
 | **Qwen2.5-3B B2/L1024, ps1** | tensor-core plan | 36.8 med | **8.0** | 59.9 | 35 | 40/72 | 0.78 | byte-identical to ps128 (Σread 92.5 = 92.5 MB) |
 | Qwen3-VL-2B B2/L1024, ps128 | CUDA-core | 26.5 | 72.6 | 2.1 | 320 | 144 | 0.44 | GQA-8 contrast: wall's shoulder; Σread 474.7 MB = 2 steps × 28 × 8.4 MB ✓ |
 | Qwen3-VL-2B B2/L1024, ps1 | CUDA-core | 26.5 | 72.7 | 2.1 | 320 | 144 | 0.44 | counters byte-identical vs ps128 (Σread 474.7 = 474.7) |
-| Qwen2.5-3B B8/L4096, ps128 | tensor-core plan | 38.6 med | 7.7 | 59.9 | 33 | 40/72 | 0.78 | every captured launch off-wall, but Σread (92.6 MB) covers only ~8% of the step's 1.2 GB KV — the plan chunks/persists work across launches, so **per-step attribution is unresolved**; the wall-side tc reference is carried by the microbench tc arm instead (§2a-tc) |
+| Qwen2.5-3B B8/L4096, ps128 | tensor-core plan | 38.6 med | 7.7 | 59.9 | 33 | 40/72 | 0.78 | every captured launch off-wall, but Σread (92.6 MB) covers only ~8% of the step's 1.2 GB KV — the plan chunks/persists work across launches, so **per-step attribution is unresolved on this host**; structure resolved by nsys on a second host (§5.2: the engine's tc decode does scale and rejoins the wall at big work); the wall-side tc reference is carried by the microbench tc arm (§2a-tc) |
 
 **The constructed scenario holds — emphatically — in the literal `bench_one_batch`:** a stock SGLang decode
 of Qwen2.5-3B at batch 2 × 1k context runs its attention kernel at **8% of peak DRAM** (35 GB/s of 448).
@@ -286,7 +286,48 @@ Triton {1,8,32,128} — decode TPOT ms/token, median across rounds:
   counters off-wall not measured (same scope note as reports 7/8: its token-level gather needs the engine
   allocator; TPOT tier covers it and is flat).
 
-## 5. Reproduce
+## 5. nsys cross-check (PI suggestion) — timeline evidence, the open row resolved, and a plan-variance finding
+
+The PI suggested Nsight **Systems**. Verdict: **adopted** — nsys answers what ncu structurally cannot (unserialized
+launch timelines, in-situ wall durations, host-vs-GPU attribution), while ncu keeps the counters (nsys has no
+per-kernel DRAM%/L2). Because phastform was occupied by another user's job, the clean runs were done on a
+**rented same-model RTX 5060 Ti** (vast.ai, exclusive GPU, identical software stack: torch 2.9.1+cu128,
+flashinfer 0.6.6+cubin, sgl-kernel 0.3.21, the same `sglang_CW` checkout, Qwen2.5-3B). Data:
+`offline_batch_results/offwall_profile/nsys/` (phastform, first pass — partially contended) and
+`nsys_vast/` (clean; incl. the setup/run scripts). Three results:
+
+1. **The §2a launch floor, decomposed (Experiment A).** Per benchmark iteration at the constructed cell, the
+   GPU executes **decode 7.8 µs + split-merge 1.5 µs ≈ 9.3 µs (CUDA-core wrapper)** or **4.8 + 1.5 ≈ 6.4 µs
+   (tensor-core wrapper)** and is otherwise **idle ≥ 94%** of the loop period — the wall-clock floor is
+   entirely host-side (Python dispatch → `cudaLaunchKernelExC` → per-iteration event/sync), now measured
+   rather than inferred. (nsys API interception itself inflates the loop to 117–157 µs vs the un-traced
+   0.128 ms CUDA-event floor — report the busy/idle structure, not the traced period.) Bonus calibration:
+   in-situ **warm** wall durations (4.8–7.8 µs) vs the study's **cold** ncu convention (10.9–12.0 µs) ≈ 1.5–2.3×
+   at this cell — the cost of the faithful-cold convention, quantified.
+2. **The §1 open row, resolved in structure (Experiment B).** On the rented host the engine's tensor-core
+   decode is **one launch per layer and scales with work**: B2/L1024 → 36 launches/step × **9.9 µs**
+   (Σ 0.356 ms/step); B8/L4096 → 36 × **86.8 µs** (Σ 3.13 ms/step ≈ 34 MB/layer ≈ **390 GB/s ≈ 87% of peak**) —
+   i.e. the engine's tc decode **does perform the full per-step KV work and rejoins the DRAM wall at big
+   work**, exactly matching the microbench tc-arm (91.6% at B8/L8192). The phastform B8/L4096 ncu window's
+   failure to account for its step is therefore a property of *that host's plan* under per-launch capture,
+   not of the engine's decode — the row stays excluded from claims, now with its structural question answered.
+3. **New finding — the engine's tc plan is host/driver-variant; the off-wall depth is plan-dependent.**
+   Same GPU model, same wheels, same checkout: phastform (driver **580.95.05**) plans **2 launches/layer,
+   fixed grids {40,72}** → deep off-wall at the constructed cell (**8.1% DRAM**, exclusive-window ncu);
+   the rented host (driver **590.48.01**) plans **1 launch/layer, grid 36** → ~2.3 MB / 9.9 µs ≈ 232 GB/s ≈
+   **≲52% of peak** (upper bound — this host gates counters: `ERR_NVGPUCTRPERM` is host-level, so only
+   wall-derived bounds are available; any L2 service pushes it lower). The **microbench wrapper plans are
+   identical across hosts** (grid 32; warm 4.8/7.8 µs on both), so the variance is in the engine-side
+   FlashInfer planning path. Net for the constructed case: the decode-attention kernel at bs2×1k GQA-2
+   measures **40.5–44.5%** (both microbench wrappers, ncu cold), **8.1%** (phastform engine plan), and
+   **≈50% upper-bound** (rented-host engine plan) — at or below the bar in every variant, with the depth
+   set by the plan.
+4. Tooling notes for the record: nsys must match the driver era like ncu (2024.6.2 produced **silently empty**
+   kernel traces on these drivers; `cuda-nsight-systems-13-0` → 2025.3.2 works — phastform install logged in
+   [SUDO_CHANGES.md](SUDO_CHANGES.md)); and CUPTI *tracing* vs *counters* have different permission surfaces
+   (the rented host allowed tracing in-container but gated counters).
+
+## 6. Reproduce
 
 ```bash
 # phastform (RTX 5060 Ti, sm120). Stages must NOT overlap on the GPU (see §2b phantom).

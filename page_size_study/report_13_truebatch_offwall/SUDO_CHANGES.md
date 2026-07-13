@@ -35,3 +35,17 @@ written to disk. Every runner appends its privileged actions to
 - **System config changed: NONE.** Footprint = profiler outputs + JIT caches, all
   returned to user ownership. Model download (Qwen2.5-3B-Instruct, ~5.8 GB into
   `~/hf_models/`) was done **as the user, no sudo**.
+
+### 2026-07-12/13 — nsys cross-check session (report 13 §5)
+- **PERSISTENT SYSTEM CHANGE (sudo, precedented by the report-6 ncu install):**
+  `sudo apt-get install -y cuda-nsight-systems-13-0` → installed
+  `nsight-systems-2025.3.2` at `/opt/nvidia/nsight-systems/2025.3.2/` (the pre-existing
+  2024.6.2 produces **silently empty** kernel traces against driver 580.x).
+  **Undo:** `sudo apt-get remove --purge cuda-nsight-systems-13-0 nsight-systems-2025.3.2`.
+- **nsys profiling runs as root** (CUPTI gated by `RmProfilingAdminOnly=1`): two microbench
+  traces + two engine traces into `offline_batch_results/offwall_profile/nsys/`
+  (first pass — partially overlapped by another user's GPU job; superseded for analysis by
+  the rented-box clean pass in `nsys_vast/`, which needed no phastform sudo). A queued
+  idle-gated rerun script was left detached (root) and may write refreshed traces into
+  `nsys/` whenever the box frees; it chowns its outputs back and makes **no system change**.
+- **Cleanup chown:** all `nsys/` outputs chowned back to `wangcy07`.
