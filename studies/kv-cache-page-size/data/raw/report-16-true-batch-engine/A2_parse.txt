@@ -1,0 +1,16 @@
+
+=== q25_3b  B1  L512 ===
+  trtllm_mha : ps16=17.356(-3.1%) ps32=17.338(-3.2%) ps64=17.906(+0.0%)   [spread 3.3%, 1r]
+  -> trtllm_mha best ps32=17.338
+
+=== q25_3b  B2  L1024 ===
+  flashinfer : ps1=17.431(-4.4%) ps16=17.741(-2.7%) ps128=18.234(+0.0%)   [spread 4.6%, 1r]
+  triton     : ps1=17.484(+0.6%) ps16=17.717(+2.0%) ps128=17.376(+0.0%)   [spread 2.0%, 1r]
+  trtllm_mha : ps16=17.221(+0.4%) ps32=17.854(+4.1%) ps64=17.149(+0.0%)   [spread 4.1%, 1r]
+  -> flashinfer best ps1=17.431 | triton best ps128=17.376 | trtllm_mha best ps64=17.149
+
+=== q3vl_2b  B8  L4096 ===
+  flashinfer : ps1=19.765(-3.8%) ps16=20.086(-2.2%) ps128=20.545(+0.0%)   [spread 3.9%, 1r]
+  triton     : ps1=19.643(-4.0%) ps16=19.959(-2.5%) ps128=20.472(+0.0%)   [spread 4.2%, 1r]
+  trtllm_mha : ps16=19.851(+0.4%) ps32=20.440(+3.4%) ps64=19.765(+0.0%)   [spread 3.4%, 1r]
+  -> flashinfer best ps1=19.765 | triton best ps1=19.643 | trtllm_mha best ps64=19.765

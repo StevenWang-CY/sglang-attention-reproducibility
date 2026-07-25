@@ -1,0 +1,26 @@
+{
+  "32": {
+    "batch_size": 32,
+    "repetitions": 3,
+    "tokens_generated": 96,
+    "tpot_median_ms": 70.57083939251146,
+    "tpot_mean_ms": 70.37615573458504,
+    "tpot_std_ms": 0.3789538863036954,
+    "tpot_min_ms": 69.84639885394196,
+    "tpot_max_ms": 70.7112289573017,
+    "ttft_median_ms": 3157.559249550104,
+    "ttft_mean_ms": 2863.5445833206177,
+    "ttft_std_ms": 531.8635181949626,
+    "decode_time_median_ms": 6704.2297422885895,
+    "decode_time_mean_ms": 6685.734794785579,
+    "decode_time_std_ms": 36.0006191988508,
+    "total_time_median_ms": 9861.788991838694,
+    "total_time_mean_ms": 9549.279378106197,
+    "throughput_tokens_per_sec": 311.50534680292697,
+    "gpu_stats": {},
+    "max_running_req_observed": 0,
+    "concurrency_ok": false,
+    "free_before_mb": 4424,
+    "free_after_mb": 4266
+  }
+}

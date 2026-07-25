@@ -1,0 +1,1 @@
+{"run_name": "bt_q3vl_2b_r1_b8_l4096_triton_ps16", "batch_size": 8, "input_len": 4096, "output_len": 64, "prefill_latency": 2.7779275439679623, "prefill_throughput": 11795.844017297346, "median_decode_latency": 0.019959263503551483, "median_decode_throughput": 400.8163927780455, "total_latency": 4.038040455430746, "overall_throughput": 8241.621243601423}

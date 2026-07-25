@@ -1,0 +1,29 @@
+panel,configuration,batch_size,max_tokens,metric,page_size,value,unit,provenance
+A,matched-prompt9k-ctx12288,8,96,reported_tpot,1,28.13,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,8,96,reported_tpot,128,24.57,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,8,96,steady_decode,1,20.00,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,8,96,steady_decode,128,19.98,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,16,96,reported_tpot,1,40.61,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,16,96,reported_tpot,128,32.67,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,16,96,steady_decode,1,27.27,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,16,96,steady_decode,128,27.29,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,32,96,reported_tpot,1,67.53,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,32,96,reported_tpot,128,51.27,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,32,96,steady_decode,1,43.82,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,32,96,steady_decode,128,43.84,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,48,96,reported_tpot,1,90.99,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,48,96,reported_tpot,128,73.64,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,48,96,steady_decode,1,68.11,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+A,matched-prompt9k-ctx12288,48,96,steady_decode,128,68.57,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+B,matched-prompt9k-ctx12288,32,96,reported_delta,1-vs-128,31.7,percent,report-14-derived-summary; originating exclusive-run per-step logs not retained
+B,matched-prompt9k-ctx12288,32,96,steady_delta,1-vs-128,0.0,percent,report-14-derived-summary; originating exclusive-run per-step logs not retained
+B,matched-prompt9k-ctx12288,32,512,reported_delta,1-vs-128,6.3,percent,report-14-derived-summary; originating exclusive-run per-step logs not retained
+B,matched-prompt9k-ctx12288,32,512,steady_delta,1-vs-128,0.0,percent,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,matched-prompt9k-ctx12288,32,96,reported_tpot,1,67.41,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,matched-prompt9k-ctx12288,32,96,reported_tpot,128,51.27,ms_per_token,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,matched-prompt9k-ctx12288,32,96,steady_decode,1,43.80,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,matched-prompt9k-ctx12288,32,96,steady_decode,128,43.83,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,longer-prompt16k-ctx20480,32,96,reported_tpot,1,68.44,ms_per_token,data/raw/report-14-shared-prefix-page-kernel-rtx5060ti/gray_ps1.json
+C,longer-prompt16k-ctx20480,32,96,reported_tpot,128,70.32,ms_per_token,data/raw/report-14-shared-prefix-page-kernel-rtx5060ti/gray_ps128.json
+C,longer-prompt16k-ctx20480,32,96,steady_decode,1,68.34,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained
+C,longer-prompt16k-ctx20480,32,96,steady_decode,128,68.20,ms_per_step,report-14-derived-summary; originating exclusive-run per-step logs not retained

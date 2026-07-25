@@ -1,0 +1,44 @@
+torch 2.9.1+cu128 flashinfer 0.6.6 gpu NVIDIA GeForce RTX 5060 Ti (12, 0) heads 16q/8kv backend=triton reuse=shared ps=1 splits=dynamic/16
+gather_triton_shared_ps1_contig_bs8_kv4096: N=     4096 fp=0.02GB    contig = 0.2540ms
+gather_triton_shared_ps1_block128_bs8_kv4096: N=     4096 fp=0.02GB  block128 = 0.2518ms
+gather_triton_shared_ps1_scatter_bs8_kv4096: N=     4096 fp=0.02GB   scatter = 0.2505ms
+gather_triton_shared_ps1_contig_bs8_kv6144: N=     6144 fp=0.03GB    contig = 0.2908ms
+gather_triton_shared_ps1_block128_bs8_kv6144: N=     6144 fp=0.03GB  block128 = 0.3032ms
+gather_triton_shared_ps1_scatter_bs8_kv6144: N=     6144 fp=0.03GB   scatter = 0.2932ms
+gather_triton_shared_ps1_contig_bs16_kv4096: N=     4096 fp=0.02GB    contig = 0.3456ms
+gather_triton_shared_ps1_block128_bs16_kv4096: N=     4096 fp=0.02GB  block128 = 0.3433ms
+gather_triton_shared_ps1_scatter_bs16_kv4096: N=     4096 fp=0.02GB   scatter = 0.3422ms
+gather_triton_shared_ps1_contig_bs16_kv6144: N=     6144 fp=0.03GB    contig = 0.4631ms
+gather_triton_shared_ps1_block128_bs16_kv6144: N=     6144 fp=0.03GB  block128 = 0.4634ms
+gather_triton_shared_ps1_scatter_bs16_kv6144: N=     6144 fp=0.03GB   scatter = 0.4635ms
+gather_triton_shared_ps1_contig_bs32_kv4096: N=     4096 fp=0.02GB    contig = 0.5635ms
+gather_triton_shared_ps1_block128_bs32_kv4096: N=     4096 fp=0.02GB  block128 = 0.5646ms
+gather_triton_shared_ps1_scatter_bs32_kv4096: N=     4096 fp=0.02GB   scatter = 0.5665ms
+gather_triton_shared_ps1_contig_bs32_kv6144: N=     6144 fp=0.03GB    contig = 0.7518ms
+gather_triton_shared_ps1_block128_bs32_kv6144: N=     6144 fp=0.03GB  block128 = 0.7553ms
+gather_triton_shared_ps1_scatter_bs32_kv6144: N=     6144 fp=0.03GB   scatter = 0.7508ms
+  B8 L4096  contig vs contig:   +0.00%
+  B8 L4096  block128 vs contig:   -0.87%
+  B8 L4096  scatter vs contig:   -1.41%
+  B8 L4096  scatter vs block128 (== ps1 vs ps128): -0.55%
+  B8 L6144  contig vs contig:   +0.00%
+  B8 L6144  block128 vs contig:   +4.25%
+  B8 L6144  scatter vs contig:   +0.83%
+  B8 L6144  scatter vs block128 (== ps1 vs ps128): -3.28%
+  B16 L4096  contig vs contig:   +0.00%
+  B16 L4096  block128 vs contig:   -0.69%
+  B16 L4096  scatter vs contig:   -0.99%
+  B16 L4096  scatter vs block128 (== ps1 vs ps128): -0.31%
+  B16 L6144  contig vs contig:   +0.00%
+  B16 L6144  block128 vs contig:   +0.08%
+  B16 L6144  scatter vs contig:   +0.09%
+  B16 L6144  scatter vs block128 (== ps1 vs ps128): +0.01%
+  B32 L4096  contig vs contig:   +0.00%
+  B32 L4096  block128 vs contig:   +0.21%
+  B32 L4096  scatter vs contig:   +0.54%
+  B32 L4096  scatter vs block128 (== ps1 vs ps128): +0.33%
+  B32 L6144  contig vs contig:   +0.00%
+  B32 L6144  block128 vs contig:   +0.46%
+  B32 L6144  scatter vs contig:   -0.14%
+  B32 L6144  scatter vs block128 (== ps1 vs ps128): -0.59%
+wrote /tmp/lat_tri_shared.json

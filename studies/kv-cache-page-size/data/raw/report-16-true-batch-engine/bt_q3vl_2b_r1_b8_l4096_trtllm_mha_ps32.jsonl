@@ -1,0 +1,1 @@
+{"run_name": "bt_q3vl_2b_r1_b8_l4096_trtllm_mha_ps32", "batch_size": 8, "input_len": 4096, "output_len": 64, "prefill_latency": 2.514081619679928, "prefill_throughput": 13033.785277095241, "median_decode_latency": 0.02044040709733963, "median_decode_throughput": 391.38163745482444, "total_latency": 3.8028200268745422, "overall_throughput": 8751.400214790636}

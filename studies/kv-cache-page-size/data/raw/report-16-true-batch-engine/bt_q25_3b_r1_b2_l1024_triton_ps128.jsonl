@@ -1,0 +1,1 @@
+{"run_name": "bt_q25_3b_r1_b2_l1024_triton_ps128", "batch_size": 2, "input_len": 1024, "output_len": 64, "prefill_latency": 0.2753474563360214, "prefill_throughput": 7437.875138750926, "median_decode_latency": 0.017375968396663666, "median_decode_throughput": 115.10149848016627, "total_latency": 1.3750262446701527, "overall_throughput": 1582.5152490249293}

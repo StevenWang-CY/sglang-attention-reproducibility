@@ -1,0 +1,98 @@
+{
+  "xqa_shared_contig_ps16_bs32_kv8192": {
+    "backend": "xqa",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 16,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.7578240036964417,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "xqa_shared_contig_ps32_bs32_kv8192": {
+    "backend": "xqa",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 32,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.726527988910675,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "xqa_shared_contig_ps64_bs32_kv8192": {
+    "backend": "xqa",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 64,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.6916800141334534,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "xqa_shared_contig_ps128_bs32_kv8192": {
+    "backend": "xqa",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 128,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.6914880275726318,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "flashinfer_shared_contig_ps16_bs32_kv8192": {
+    "backend": "flashinfer",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 16,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.796671986579895,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "flashinfer_shared_contig_ps32_bs32_kv8192": {
+    "backend": "flashinfer",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 32,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.7960320115089417,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "flashinfer_shared_contig_ps64_bs32_kv8192": {
+    "backend": "flashinfer",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 64,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.7964159846305847,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  },
+  "flashinfer_shared_contig_ps128_bs32_kv8192": {
+    "backend": "flashinfer",
+    "kv_mode": "shared",
+    "page_order": "contig",
+    "page_size": 128,
+    "batch_size": 32,
+    "seq_len": 8192,
+    "latency_ms": 0.9453759789466858,
+    "num_q_heads": 16,
+    "num_kv_heads": 8,
+    "tensor_cores": false
+  }
+}

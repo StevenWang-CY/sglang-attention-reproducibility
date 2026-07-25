@@ -1,0 +1,1 @@
+{"run_name": "bt_q25_3b_r1_b2_l1024_trtllm_mha_ps64", "batch_size": 2, "input_len": 1024, "output_len": 64, "prefill_latency": 0.27202896028757095, "prefill_throughput": 7528.610181191702, "median_decode_latency": 0.017149370163679123, "median_decode_throughput": 116.62235877535761, "total_latency": 1.357765045017004, "overall_throughput": 1602.6336868708745}

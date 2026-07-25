@@ -1,0 +1,919 @@
+/home/wangcy07/venvs/sglang_0b2e/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[2026-07-17 02:45:14] server_args=ServerArgs(model_path='/home/wangcy07/hf_models/Qwen3-VL-2B-Instruct', tokenizer_path='/home/wangcy07/hf_models/Qwen3-VL-2B-Instruct', tokenizer_mode='auto', tokenizer_backend='huggingface', tokenizer_worker_num=1, detokenizer_worker_num=1, skip_tokenizer_init=False, load_format='auto', model_loader_extra_config='{}', trust_remote_code=True, context_length=8192, is_embedding=False, prefill_only_disable_kv_cache=False, enable_multimodal=None, revision=None, model_impl='auto', model_config_parser='auto', host='127.0.0.1', port=30000, fastapi_root_path='', grpc_mode=False, skip_server_warmup=False, warmups=None, nccl_port=None, checkpoint_engine_wait_weights_before_ready=False, ssl_keyfile=None, ssl_certfile=None, ssl_ca_certs=None, ssl_keyfile_password=None, enable_ssl_refresh=False, enable_http2=False, dtype='auto', quantization=None, quantization_param_path=None, kv_cache_dtype='auto', enable_fp32_lm_head=False, modelopt_quant=None, modelopt_checkpoint_restore_path=None, modelopt_checkpoint_save_path=None, modelopt_export_path=None, quantize_and_serve=False, rl_quant_profile=None, mem_fraction_static=0.85, max_running_requests=None, max_queued_requests=None, max_total_tokens=None, chunked_prefill_size=2048, enable_dynamic_chunking=False, max_prefill_tokens=16384, prefill_max_requests=None, schedule_policy='fcfs', enable_priority_scheduling=False, disable_priority_preemption=False, default_priority_value=None, abort_on_priority_when_disabled=False, schedule_low_priority_values_first=False, priority_scheduling_preemption_threshold=10, schedule_conservativeness=1.0, page_size=1, swa_full_tokens_ratio=0.8, disable_hybrid_swa_memory=False, radix_eviction_policy='lru', enable_prefill_delayer=False, prefill_delayer_max_delay_passes=30, prefill_delayer_token_usage_low_watermark=None, prefill_delayer_forward_passes_buckets=None, prefill_delayer_wait_seconds_buckets=None, prefill_delayer_queue_min_ratio=None, prefill_delayer_max_delay_ms=None, device='cuda', tp_size=1, pp_size=1, pp_max_micro_batch_size=None, pp_async_batch_depth=0, stream_interval=1, batch_notify_size=16, stream_response_default_include_usage=False, incremental_streaming_output=False, enable_streaming_session=False, random_seed=325614748, constrained_json_whitespace_pattern=None, constrained_json_disable_any_whitespace=False, watchdog_timeout=300, soft_watchdog_timeout=None, dist_timeout=None, download_dir=None, model_checksum=None, base_gpu_id=0, gpu_id_step=1, sleep_on_idle=False, load_snapshot_publish_interval=15, use_ray=False, custom_sigquit_handler=None, log_level='debug', log_level_http=None, log_requests=False, log_requests_level=2, log_requests_format='text', log_requests_target=None, uvicorn_access_log_exclude_prefixes=[], crash_dump_folder=None, show_time_cost=False, enable_metrics=False, grpc_http_sidecar_port=None, enable_mfu_metrics=False, enable_metrics_for_all_schedulers=False, tokenizer_metrics_custom_labels_header='x-custom-labels', tokenizer_metrics_allowed_custom_labels=None, extra_metric_labels=None, bucket_time_to_first_token=None, bucket_inter_token_latency=None, bucket_e2e_request_latency=None, prompt_tokens_buckets=None, generation_tokens_buckets=None, gc_warning_threshold_secs=0.0, decode_log_interval=1, enable_request_time_stats_logging=False, kv_events_config=None, enable_forward_pass_metrics=False, forward_pass_metrics_worker_id='', forward_pass_metrics_ipc_name=None, enable_trace=False, trace_modules='request', otlp_traces_endpoint='localhost:4317', export_metrics_to_file=False, export_metrics_to_file_dir=None, stat_loggers=None, api_key=None, admin_api_key=None, served_model_name='/home/wangcy07/hf_models/Qwen3-VL-2B-Instruct', weight_version='default', chat_template=None, hf_chat_template_name=None, completion_template=None, file_storage_path='sglang_storage', enable_cache_report=False, reasoning_parser=None, strip_thinking_cache=False, enable_strict_thinking=False, tool_call_parser=None, tool_server=None, sampling_defaults='model', asr_max_buffer_seconds=60, asr_max_concurrent_sessions=32, dp_size=1, load_balance_method='round_robin', attn_cp_size=1, moe_dp_size=1, dist_init_addr=None, nnodes=1, node_rank=0, json_model_override_args='{}', preferred_sampling_params=None, enable_lora=None, enable_lora_overlap_loading=None, max_lora_rank=None, lora_target_modules=None, lora_paths=None, max_loaded_loras=None, max_loras_per_batch=8, lora_eviction_policy='lru', lora_backend='csgmv', max_lora_chunk_size=16, experts_shared_outer_loras=None, lora_use_virtual_experts=False, lora_strict_loading=False, lora_drain_wait_threshold=0.0, attention_backend='flashinfer', decode_attention_backend=None, prefill_attention_backend=None, sampling_backend='flashinfer', grammar_backend='xgrammar', radix_cache_backend=None, mm_attention_backend=None, fp8_gemm_runner_backend='auto', fp4_gemm_runner_backend='auto', dsa_prefill_backend=None, dsa_decode_backend=None, dsa_topk_backend='sgl-kernel', disable_flashinfer_autotune=False, mamba_backend='triton', speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_revision=None, speculative_draft_load_format=None, speculative_num_steps=None, speculative_eagle_topk=None, speculative_num_draft_tokens=None, speculative_dflash_block_size=None, speculative_accept_threshold_single=1.0, speculative_accept_threshold_acc=1.0, speculative_token_map=None, speculative_attention_mode='prefill', speculative_draft_attention_backend=None, speculative_draft_window_size=None, speculative_moe_runner_backend='auto', speculative_moe_a2a_backend=None, speculative_draft_model_quantization=None, speculative_skip_dp_mlp_sync=False, speculative_ngram_min_bfs_breadth=1, speculative_ngram_max_bfs_breadth=10, speculative_ngram_match_type='BFS', speculative_ngram_max_trie_depth=18, speculative_ngram_capacity=10000000, speculative_ngram_external_corpus_path=None, speculative_ngram_external_sam_budget=0, speculative_ngram_external_corpus_max_tokens=10000000, enable_multi_layer_eagle=False, speculative_adaptive=False, speculative_adaptive_config=None, ep_size=1, moe_a2a_backend='none', moe_runner_backend='auto', flashinfer_mxfp4_moe_precision='default', enable_flashinfer_allreduce_fusion=False, enforce_disable_flashinfer_allreduce_fusion=False, flashinfer_allreduce_fusion_backend=None, enable_aiter_allreduce_fusion=False, deepep_mode='auto', deepep_dispatcher_output_dtype='auto', ep_num_redundant_experts=0, ep_dispatch_algorithm=None, init_expert_location='trivial', enable_eplb=False, eplb_algorithm='auto', eplb_rebalance_num_iterations=1000, eplb_rebalance_layers_per_chunk=None, eplb_min_rebalancing_utilization_threshold=1.0, expert_distribution_recorder_mode=None, expert_distribution_recorder_buffer_size=1000, enable_expert_distribution_metrics=False, deepep_config=None, moe_dense_tp_size=None, elastic_ep_backend=None, enable_elastic_expert_backup=False, mooncake_ib_device=None, enable_deepep_waterfill=False, elastic_ep_rejoin=False, max_mamba_cache_size=None, mamba_ssm_dtype=None, mamba_full_memory_ratio=0.9, mamba_scheduler_strategy='no_buffer', mamba_track_interval=256, enable_int8_mamba_checkpoint=False, int8_mamba_ckpt_size=None, linear_attn_backend='triton', linear_attn_decode_backend=None, linear_attn_prefill_backend=None, enable_hierarchical_cache=False, hicache_ratio=2.0, hicache_size=0, hicache_write_policy='write_through', hicache_io_backend='kernel', hicache_mem_layout='page_first', hicache_storage_backend=None, hicache_storage_prefetch_policy='timeout', hicache_storage_backend_extra_config=None, enable_hisparse=False, hisparse_config=None, enable_lmcache=False, lmcache_config_file=None, kt_weight_path=None, kt_method=None, kt_cpuinfer=None, kt_threadpool_count=None, kt_num_gpu_experts=None, kt_max_deferred_experts_per_token=None, dllm_algorithm=None, dllm_algorithm_config=None, cpu_offload_gb=0, offload_group_size=-1, offload_num_in_group=1, offload_prefetch_step=1, offload_mode='cpu', enable_mis=False, disable_radix_cache=False, disable_cuda_graph_padding=False, enable_profile_cuda_graph=False, enable_cudagraph_gc=False, debug_cuda_graph=False, cuda_graph_config=CudaGraphConfig(decode=PhaseConfig(backend='full', max_bs=16, bs=[1, 2, 4, 8, 12, 16], tc_compiler='eager'), prefill=PhaseConfig(backend='disabled', max_bs=2048, bs=[4, 8, 12, 16, 20, 24, 28, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 288, 320, 352, 384, 416, 448, 480, 512, 576, 640, 704, 768, 832, 896, 960, 1024, 1280, 1536, 1792, 2048], tc_compiler='eager')), cuda_graph_backend_decode=None, cuda_graph_backend_prefill=None, cuda_graph_max_bs_decode=16, cuda_graph_max_bs_prefill=None, cuda_graph_bs_decode=None, cuda_graph_bs_prefill=None, cuda_graph_tc_compiler=None, disable_prefill_cuda_graph=False, disable_decode_cuda_graph=False, disable_cuda_graph=False, enable_layerwise_nvtx_marker=False, enable_nccl_nvls=False, enable_symm_mem=False, disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_tokenizer_batch_encode=False, disable_tokenizer_batch_decode=False, disable_outlines_disk_cache=False, disable_custom_all_reduce=False, enable_mscclpp=False, enable_torch_symm_mem=False, pre_warm_nccl=False, disable_overlap_schedule=False, enable_mixed_chunk=False, enable_dp_attention=False, enable_dp_attention_local_control_broadcast=False, enable_dp_lm_head=False, enable_two_batch_overlap=False, enable_single_batch_overlap=False, tbo_token_distribution_threshold=0.48, enable_torch_compile=False, enable_torch_compile_debug_mode=False, torch_compile_max_bs=32, torchao_config='', enable_p2p_check=False, triton_attention_reduce_in_fp32=False, triton_attention_num_kv_splits=8, triton_attention_split_tile_size=None, num_continuous_decode_steps=1, delete_ckpt_after_loading=False, enable_memory_saver=False, enable_weights_cpu_backup=False, enable_draft_weights_cpu_backup=False, allow_auto_truncate=False, enable_custom_logit_processor=False, flashinfer_mla_disable_ragged=False, disable_shared_experts_fusion=False, enforce_shared_experts_fusion=False, disable_chunked_prefix_cache=False, disable_fast_image_processor=False, keep_mm_feature_on_device=False, enable_return_hidden_states=False, enable_return_routed_experts=False, enable_return_indexer_topk=False, enable_deepseek_v4_fp4_indexer=False, scheduler_recv_interval=1, numa_node=None, enable_deterministic_inference=False, rl_on_policy_target=None, enable_attn_tp_input_scattered=False, disable_attn_tp_gather=False, gc_threshold=None, kv_canary='none', kv_canary_real_data='none', kv_canary_sweep_interval=0, enable_fused_qk_norm_rope=False, enable_precise_embedding_interpolation=False, enable_fused_moe_sum_all_reduce=False, enable_prefill_cp=False, cp_strategy=None, enable_dsa_prefill_context_parallel=False, dsa_prefill_cp_mode='round-robin-split', enable_prefill_context_parallel=False, prefill_cp_mode='in-seq-split', enable_dynamic_batch_tokenizer=False, dynamic_batch_tokenizer_batch_size=32, dynamic_batch_tokenizer_batch_timeout=0.002, debug_tensor_dump_output_folder=None, debug_tensor_dump_layers=None, debug_tensor_dump_input_file=None, debug_tensor_dump_inject=False, disaggregation_mode='null', disaggregation_transfer_backend='mooncake', disaggregation_bootstrap_port=8998, disaggregation_ib_device=None, disaggregation_decode_enable_radix_cache=False, disaggregation_decode_enable_offload_kvcache=False, num_reserved_decode_tokens=512, disaggregation_decode_polling_interval=1, optimistic_prefill_retries=0, encoder_only=False, language_only=False, encoder_transfer_backend='zmq_to_scheduler', encoder_urls=[], encoder_bootstrap_port=8997, encoder_register_urls=[], enable_adaptive_dispatch_to_encoder=False, custom_weight_loader=[], weight_loader_disable_mmap=False, weight_loader_prefetch_checkpoints=False, weight_loader_prefetch_num_threads=4, weight_loader_drop_cache_after_load=False, remote_instance_weight_loader_seed_instance_ip=None, remote_instance_weight_loader_seed_instance_service_port=None, remote_instance_weight_loader_send_weights_group_ports=None, remote_instance_weight_loader_backend='nccl', remote_instance_weight_loader_start_seed_via_transfer_engine=False, engine_info_bootstrap_port=6789, modelexpress_config=None, enable_pdmux=False, pdmux_config_path=None, sm_group_num=8, enable_broadcast_mm_inputs_process=False, enable_prefix_mm_cache=False, mm_enable_dp_encoder=False, mm_process_config={}, limit_mm_data_per_request=None, enable_mm_global_cache=False, decrypted_config_file=None, decrypted_draft_config_file=None, forward_hooks=None, enable_quant_communications=False, msprobe_dump_config=None)
+[2026-07-17 02:45:14] numactl command not found, skipping NUMA node configuration for GPU. Install numactl (e.g., apt-get install numactl) to enable automatic NUMA binding.
+[2026-07-17 02:45:15] Detected platform CUDA, using custom triton kernel cache.
+[2026-07-17 02:45:15] Detected platform CUDA, using custom triton kernel cache.
+/home/wangcy07/venvs/sglang_0b2e/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/wangcy07/venvs/sglang_0b2e/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[2026-07-17 02:45:16] Ignore import error when loading sglang.srt.multimodal.processors.midashenglm: No module named 'torchaudio'
+[2026-07-17 02:45:16] torchcodec is not installed; audio inputs will fail at request time
+[2026-07-17 02:45:16] torchaudio is not installed; audio inputs will fail at request time
+[2026-07-17 02:45:16] Ignore import error when loading sglang.srt.multimodal.processors.mimo_v2: No module named 'torchcodec'
+[2026-07-17 02:45:16] Ignore import error when loading sglang.srt.multimodal.processors.mimo_v2_asr: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[transformers] The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+[2026-07-17 02:45:17] tilelang not installed; deepseek_v4_rope pass_configs unset. Triton kernels in this module still run; only downstream tilelang.jit consumers of pass_configs will need to handle the None.
+[2026-07-17 02:45:17] Ignore import error when loading sglang.srt.models.midashenglm: No module named 'torchaudio'
+[2026-07-17 02:45:17] Ignore import error when loading sglang.srt.models.mimo_audio: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:17] Ignore import error when loading sglang.srt.models.mimo_v2: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:17] Ignore import error when loading sglang.srt.models.mimo_v2_asr: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:17] Ignore import error when loading sglang.srt.models.mimo_v2_nextn: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:17] Using default HuggingFace chat template with detected content format: openai
+[transformers] The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvision"` instead of `use_fast=True`, or `backend="pil"` instead of `use_fast=False`.
+[2026-07-17 02:45:32] _fix_v5_add_bos_eos_token: skipping /home/wangcy07/hf_models/Qwen3-VL-2B-Instruct (tokenizer_class=Qwen2Tokenizer did not support add_bos/eos_token in v4)
+[2026-07-17 02:45:34] Detected platform CUDA, using custom triton kernel cache.
+[2026-07-17 02:45:34] Detected platform CUDA, using custom triton kernel cache.
+[2026-07-17 02:45:34] Ignore import error when loading sglang.srt.multimodal.processors.midashenglm: No module named 'torchaudio'
+[2026-07-17 02:45:34] torchcodec is not installed; audio inputs will fail at request time
+[2026-07-17 02:45:34] torchaudio is not installed; audio inputs will fail at request time
+[2026-07-17 02:45:34] Ignore import error when loading sglang.srt.multimodal.processors.mimo_v2: No module named 'torchcodec'
+[2026-07-17 02:45:34] Ignore import error when loading sglang.srt.multimodal.processors.mimo_v2_asr: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:35] Mamba selective_state_update backend initialized: triton
+[2026-07-17 02:45:35] Init torch distributed begin.
+[2026-07-17 02:45:35] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://127.0.0.1:40651 backend=nccl
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[2026-07-17 02:45:35] Init torch distributed ends. elapsed=0.34 s, mem usage=0.02 GB
+[2026-07-17 02:45:35] tilelang not installed; deepseek_v4_rope pass_configs unset. Triton kernels in this module still run; only downstream tilelang.jit consumers of pass_configs will need to handle the None.
+[2026-07-17 02:45:35] Ignore import error when loading sglang.srt.models.midashenglm: No module named 'torchaudio'
+[2026-07-17 02:45:35] Ignore import error when loading sglang.srt.models.mimo_audio: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:35] Ignore import error when loading sglang.srt.models.mimo_v2: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:35] Ignore import error when loading sglang.srt.models.mimo_v2_asr: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:35] Ignore import error when loading sglang.srt.models.mimo_v2_nextn: module 'cutlass._mlir.dialects.nvvm' has no attribute 'RoundingModeKind'
+[2026-07-17 02:45:35] Load weight begin. avail mem=15.16 GB
+[2026-07-17 02:45:35] Multimodal attention backend not set. Use triton_attn.
+[2026-07-17 02:45:35] Using triton_attn as multimodal attention backend.
+[2026-07-17 02:45:36] Peak GPU memory before loading weights: 4.089 GiB
+Multi-thread loading shards:   0% Completed | 0/1 [00:00<?, ?it/s]Multi-thread loading shards: 100% Completed | 1/1 [00:01<00:00,  1.31s/it]Multi-thread loading shards: 100% Completed | 1/1 [00:01<00:00,  1.31s/it]
+[2026-07-17 02:45:37] Memory increase during load_weights: 0.000 GiB
+[2026-07-17 02:45:37] Load weight end. elapsed=1.83 s, type=Qwen3VLForConditionalGeneration, avail mem=10.98 GB, mem usage=4.18 GB.
+[2026-07-17 02:45:38] Max concurrent requests (per dp worker) from the finalized token capacity: max_num_reqs=4096.
+[2026-07-17 02:45:38] KV Cache is allocated. dtype: torch.bfloat16, #tokens: 81431, K size: 4.35 GB, V size: 4.35 GB
+[2026-07-17 02:45:38] Memory pool end. avail mem=2.10 GB
+[2026-07-17 02:45:38] Capture cuda graph begin. This can take up to several minutes. avail mem=1.54 GB
+[2026-07-17 02:45:38] Capture cuda graph bs [1, 2, 4, 8, 12, 16]
+  0%|          | 0/6 [00:00<?, ?it/s]Capturing batches (bs=16 avail_mem=1.54 GB):   0%|          | 0/6 [00:00<?, ?it/s][2026-07-17 02:45:41] Attempting to acquire lock 140453023794992 on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_decode_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False.lock
+[2026-07-17 02:45:41] Lock 140453023794992 acquired on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_decode_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False.lock
+[2026-07-17 02:45:41] Attempting to release lock 140453023794992 on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_decode_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False.lock
+[2026-07-17 02:45:41] Lock 140453023794992 released on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_decode_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False.lock
+[2026-07-17 02:45:41] Reused cached JIT module sgl_kernel_jit_qknorm_128_true_bf16_t_0ef23ea0b99d5ef3
+[2026-07-17 02:45:41] Reused cached JIT module sgl_kernel_jit_kvcache_2048_true_2e2ed212d51e5e27
+[2026-07-17 02:45:41] Reused cached JIT module sgl_kernel_jit_activation_bf16_t_true_f253a083711813b3
+Capturing batches (bs=16 avail_mem=1.54 GB):  17%|█▋        | 1/6 [00:02<00:12,  2.56s/it]Capturing batches (bs=12 avail_mem=1.56 GB):  17%|█▋        | 1/6 [00:02<00:12,  2.56s/it]Capturing batches (bs=12 avail_mem=1.56 GB):  33%|███▎      | 2/6 [00:02<00:04,  1.13s/it]Capturing batches (bs=8 avail_mem=1.54 GB):  33%|███▎      | 2/6 [00:02<00:04,  1.13s/it] Capturing batches (bs=8 avail_mem=1.54 GB):  50%|█████     | 3/6 [00:02<00:02,  1.49it/s]Capturing batches (bs=4 avail_mem=1.53 GB):  50%|█████     | 3/6 [00:02<00:02,  1.49it/s]Capturing batches (bs=4 avail_mem=1.53 GB):  67%|██████▋   | 4/6 [00:02<00:00,  2.20it/s]Capturing batches (bs=2 avail_mem=1.51 GB):  67%|██████▋   | 4/6 [00:02<00:00,  2.20it/s]Capturing batches (bs=2 avail_mem=1.51 GB):  83%|████████▎ | 5/6 [00:03<00:00,  2.97it/s]Capturing batches (bs=1 avail_mem=1.51 GB):  83%|████████▎ | 5/6 [00:03<00:00,  2.97it/s]Capturing batches (bs=1 avail_mem=1.51 GB): 100%|██████████| 6/6 [00:03<00:00,  3.67it/s]Capturing batches (bs=1 avail_mem=1.51 GB): 100%|██████████| 6/6 [00:03<00:00,  1.87it/s]
+[2026-07-17 02:45:42] Capture cuda graph end. Time elapsed: 4.03 s. mem usage=0.04 GB. avail mem=1.49 GB.
+[2026-07-17 02:45:42] Disable prefill CUDA graph because cuda_graph_config resolved prefill.backend='disabled' (e.g. via --cuda-graph-backend-prefill=disabled or auto-disable rules).
+[2026-07-17 02:45:42] max_total_num_tokens=81431, chunked_prefill_size=2048, max_prefill_tokens=16384, max_running_requests=4096, context_len=8192, available_gpu_mem=1.49 GB
+[2026-07-17 02:45:42] Tree cache initialized: source=default impl=RadixCache hybrid_swa=False hybrid_ssm=False hierarchical=False streaming_wrapped=False
+[2026-07-17 02:45:43] routed_dp_rank: None
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Attempting to acquire lock 140454452870688 on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False.lock
+[2026-07-17 02:45:43] Lock 140454452870688 acquired on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False.lock
+[2026-07-17 02:45:43] Attempting to release lock 140454452870688 on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False.lock
+[2026-07-17 02:45:43] Lock 140454452870688 released on /home/wangcy07/.cache/flashinfer/0.6.6/120a/cached_ops/tmp/batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False.lock
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:43] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:44] Prefill batch, #new-seq: 1, #new-token: 2048, #cached-token: 0, token usage: 0.05, #running-req: 0, #queue-req: 15, #pending-token: 4035, cuda graph: False, input throughput (token/s): 1570.16
+[2026-07-17 02:45:44] Prefill batch, #new-seq: 1, #new-token: 2048, #cached-token: 0, token usage: 0.08, #running-req: 0, #queue-req: 14, #pending-token: 93233, cuda graph: False, input throughput (token/s): 11859.12
+[2026-07-17 02:45:44] Prefill batch, #new-seq: 2, #new-token: 2048, #cached-token: 4096, token usage: 0.10, #running-req: 0, #queue-req: 13, #pending-token: 87089, cuda graph: False, input throughput (token/s): 10333.03
+[2026-07-17 02:45:44] Prefill batch, #new-seq: 2, #new-token: 2048, #cached-token: 4157, token usage: 0.10, #running-req: 1, #queue-req: 1, #pending-token: 80884, cuda graph: False, input throughput (token/s): 10333.44
+[2026-07-17 02:45:45] Prefill batch, #new-seq: 13, #new-token: 2048, #cached-token: 72756, token usage: 0.08, #running-req: 2, #queue-req: 0, #pending-token: 6080, cuda graph: False, input throughput (token/s): 9044.03
+[2026-07-17 02:45:45] Reused cached JIT module sgl_kernel_jit_clamp_position_int64_t_39919c30ad2075fc
+[2026-07-17 02:45:45] Prefill batch, #new-seq: 1, #new-token: 17, #cached-token: 6063, token usage: 0.08, #running-req: 15, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 1701.65
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6408, token usage: 0.08, cuda graph: True, gen throughput (token/s): 7.53, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6424, token usage: 0.08, cuda graph: True, gen throughput (token/s): 923.37, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6440, token usage: 0.08, cuda graph: True, gen throughput (token/s): 905.29, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6456, token usage: 0.08, cuda graph: True, gen throughput (token/s): 939.54, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6472, token usage: 0.08, cuda graph: True, gen throughput (token/s): 900.73, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6488, token usage: 0.08, cuda graph: True, gen throughput (token/s): 944.68, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6504, token usage: 0.08, cuda graph: True, gen throughput (token/s): 900.65, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6520, token usage: 0.08, cuda graph: True, gen throughput (token/s): 940.08, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6536, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.12, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6552, token usage: 0.08, cuda graph: True, gen throughput (token/s): 941.39, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6568, token usage: 0.08, cuda graph: True, gen throughput (token/s): 896.85, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6584, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.39, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6600, token usage: 0.08, cuda graph: True, gen throughput (token/s): 898.92, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6616, token usage: 0.08, cuda graph: True, gen throughput (token/s): 948.46, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6632, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.22, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6648, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.12, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6664, token usage: 0.08, cuda graph: True, gen throughput (token/s): 897.73, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6680, token usage: 0.08, cuda graph: True, gen throughput (token/s): 931.44, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6696, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.82, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6712, token usage: 0.08, cuda graph: True, gen throughput (token/s): 944.61, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6728, token usage: 0.08, cuda graph: True, gen throughput (token/s): 898.84, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6744, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.89, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6760, token usage: 0.08, cuda graph: True, gen throughput (token/s): 902.15, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6776, token usage: 0.08, cuda graph: True, gen throughput (token/s): 934.92, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6792, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.26, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6808, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.25, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6824, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.93, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6840, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.54, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6856, token usage: 0.08, cuda graph: True, gen throughput (token/s): 900.72, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6872, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.32, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6888, token usage: 0.08, cuda graph: True, gen throughput (token/s): 897.88, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6904, token usage: 0.08, cuda graph: True, gen throughput (token/s): 933.05, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6920, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.07, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6936, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.09, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6952, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.34, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6968, token usage: 0.09, cuda graph: True, gen throughput (token/s): 931.52, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 6984, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.40, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7000, token usage: 0.09, cuda graph: True, gen throughput (token/s): 938.44, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7016, token usage: 0.09, cuda graph: True, gen throughput (token/s): 899.03, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7032, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.51, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7048, token usage: 0.09, cuda graph: True, gen throughput (token/s): 898.06, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7064, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.49, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7080, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.36, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7096, token usage: 0.09, cuda graph: True, gen throughput (token/s): 931.91, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7112, token usage: 0.09, cuda graph: True, gen throughput (token/s): 900.59, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7128, token usage: 0.09, cuda graph: True, gen throughput (token/s): 948.56, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7144, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.06, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7160, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.71, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7176, token usage: 0.09, cuda graph: True, gen throughput (token/s): 878.81, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7192, token usage: 0.09, cuda graph: True, gen throughput (token/s): 955.11, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7208, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.01, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7224, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.30, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7240, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.52, #queue-req: 0
+[2026-07-17 02:45:45] Decode batch, #running-req: 16, #token: 7256, token usage: 0.09, cuda graph: True, gen throughput (token/s): 939.51, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7272, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.66, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7288, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.76, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7304, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.85, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7320, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.23, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7336, token usage: 0.09, cuda graph: True, gen throughput (token/s): 887.57, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7352, token usage: 0.09, cuda graph: True, gen throughput (token/s): 941.31, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7368, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.48, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7384, token usage: 0.09, cuda graph: True, gen throughput (token/s): 928.62, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7400, token usage: 0.09, cuda graph: True, gen throughput (token/s): 899.32, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7416, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.18, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7432, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.79, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7448, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.17, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7464, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.39, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7480, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.26, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7496, token usage: 0.09, cuda graph: True, gen throughput (token/s): 887.66, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7512, token usage: 0.09, cuda graph: True, gen throughput (token/s): 939.36, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7528, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.46, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7544, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.58, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7560, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.41, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7576, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.66, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7592, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.26, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7608, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.31, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7624, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.21, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7640, token usage: 0.09, cuda graph: True, gen throughput (token/s): 932.97, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7656, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.55, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7672, token usage: 0.09, cuda graph: True, gen throughput (token/s): 939.97, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7688, token usage: 0.09, cuda graph: True, gen throughput (token/s): 888.31, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7704, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.81, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7720, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.50, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7736, token usage: 0.10, cuda graph: True, gen throughput (token/s): 937.07, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7752, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.09, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7768, token usage: 0.10, cuda graph: True, gen throughput (token/s): 937.91, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7784, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.22, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7800, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.19, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7816, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.62, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7832, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.61, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7848, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.76, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7864, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.78, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7880, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.75, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7896, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.95, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7912, token usage: 0.10, cuda graph: True, gen throughput (token/s): 897.08, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7928, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.27, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7944, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.18, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7960, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.78, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7976, token usage: 0.10, cuda graph: True, gen throughput (token/s): 877.43, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 7992, token usage: 0.10, cuda graph: True, gen throughput (token/s): 948.15, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8008, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.82, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8024, token usage: 0.10, cuda graph: True, gen throughput (token/s): 934.83, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8040, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.86, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8056, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.83, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8072, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.96, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8088, token usage: 0.10, cuda graph: True, gen throughput (token/s): 924.63, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8104, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.21, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8120, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.55, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8136, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.73, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8152, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.51, #queue-req: 0
+[2026-07-17 02:45:46] Decode batch, #running-req: 16, #token: 8168, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.68, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8184, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.17, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8200, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.64, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8216, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.58, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8232, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.45, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8248, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.66, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8264, token usage: 0.10, cuda graph: True, gen throughput (token/s): 898.67, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8280, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.60, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8296, token usage: 0.10, cuda graph: True, gen throughput (token/s): 885.89, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8312, token usage: 0.10, cuda graph: True, gen throughput (token/s): 937.64, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8328, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.98, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8344, token usage: 0.10, cuda graph: True, gen throughput (token/s): 920.77, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8360, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.91, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8376, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.53, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8392, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.60, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8408, token usage: 0.10, cuda graph: True, gen throughput (token/s): 927.53, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8424, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.79, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8440, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.54, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8456, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.48, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8472, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.99, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8488, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.31, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8504, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.81, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8520, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.88, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8536, token usage: 0.10, cuda graph: True, gen throughput (token/s): 934.91, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8552, token usage: 0.11, cuda graph: True, gen throughput (token/s): 888.90, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8568, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.20, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8584, token usage: 0.11, cuda graph: True, gen throughput (token/s): 893.24, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8600, token usage: 0.11, cuda graph: True, gen throughput (token/s): 932.01, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8616, token usage: 0.11, cuda graph: True, gen throughput (token/s): 882.23, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8632, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.63, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8648, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.48, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8664, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.24, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8680, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.97, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8696, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.75, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8712, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.64, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8728, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.51, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8744, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.41, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8760, token usage: 0.11, cuda graph: True, gen throughput (token/s): 931.36, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8776, token usage: 0.11, cuda graph: True, gen throughput (token/s): 872.45, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8792, token usage: 0.11, cuda graph: True, gen throughput (token/s): 948.85, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8808, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.24, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8824, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.57, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8840, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.69, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8856, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.03, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8872, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.77, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8888, token usage: 0.11, cuda graph: True, gen throughput (token/s): 922.55, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8904, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.25, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8920, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.80, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8936, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.48, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8952, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.43, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8968, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.82, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 8984, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.95, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9000, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.91, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9016, token usage: 0.11, cuda graph: True, gen throughput (token/s): 930.94, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9032, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.80, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9048, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.82, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9064, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.40, #queue-req: 0
+[2026-07-17 02:45:47] Decode batch, #running-req: 16, #token: 9080, token usage: 0.11, cuda graph: True, gen throughput (token/s): 930.82, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9096, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.93, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9112, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.11, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9128, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.79, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9144, token usage: 0.11, cuda graph: True, gen throughput (token/s): 919.65, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9160, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.03, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9176, token usage: 0.11, cuda graph: True, gen throughput (token/s): 930.12, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9192, token usage: 0.11, cuda graph: True, gen throughput (token/s): 884.54, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9208, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.03, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9224, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.20, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9240, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.15, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9256, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.93, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9272, token usage: 0.11, cuda graph: True, gen throughput (token/s): 923.79, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9288, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.50, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9304, token usage: 0.11, cuda graph: True, gen throughput (token/s): 923.61, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9320, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.38, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9336, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.73, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9352, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.62, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9368, token usage: 0.12, cuda graph: True, gen throughput (token/s): 929.14, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9384, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.58, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9400, token usage: 0.12, cuda graph: True, gen throughput (token/s): 928.04, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9416, token usage: 0.12, cuda graph: True, gen throughput (token/s): 876.66, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9432, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.54, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9448, token usage: 0.12, cuda graph: True, gen throughput (token/s): 887.98, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9464, token usage: 0.12, cuda graph: True, gen throughput (token/s): 920.44, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9480, token usage: 0.12, cuda graph: True, gen throughput (token/s): 886.83, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9496, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.33, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9512, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.16, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9528, token usage: 0.12, cuda graph: True, gen throughput (token/s): 926.44, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9544, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.24, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9560, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.51, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9576, token usage: 0.12, cuda graph: True, gen throughput (token/s): 871.09, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9592, token usage: 0.12, cuda graph: True, gen throughput (token/s): 946.21, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9608, token usage: 0.12, cuda graph: True, gen throughput (token/s): 877.38, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9624, token usage: 0.12, cuda graph: True, gen throughput (token/s): 929.56, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9640, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.54, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9656, token usage: 0.12, cuda graph: True, gen throughput (token/s): 921.88, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9672, token usage: 0.12, cuda graph: True, gen throughput (token/s): 875.31, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9688, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.90, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9704, token usage: 0.12, cuda graph: True, gen throughput (token/s): 880.03, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9720, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.42, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9736, token usage: 0.12, cuda graph: True, gen throughput (token/s): 880.52, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9752, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.75, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9768, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.02, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9784, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.66, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9800, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.30, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9816, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.82, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9832, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.68, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9848, token usage: 0.12, cuda graph: True, gen throughput (token/s): 925.06, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9864, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.98, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9880, token usage: 0.12, cuda graph: True, gen throughput (token/s): 916.88, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9896, token usage: 0.12, cuda graph: True, gen throughput (token/s): 886.03, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9912, token usage: 0.12, cuda graph: True, gen throughput (token/s): 920.39, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9928, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.60, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9944, token usage: 0.12, cuda graph: True, gen throughput (token/s): 915.10, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9960, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.33, #queue-req: 0
+[2026-07-17 02:45:48] Decode batch, #running-req: 16, #token: 9976, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.93, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 9992, token usage: 0.12, cuda graph: True, gen throughput (token/s): 880.06, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10008, token usage: 0.12, cuda graph: True, gen throughput (token/s): 921.41, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10024, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.96, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10040, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.43, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10056, token usage: 0.12, cuda graph: True, gen throughput (token/s): 880.42, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10072, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.03, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10088, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.99, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10104, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.66, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10120, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.77, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10136, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.94, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10152, token usage: 0.12, cuda graph: True, gen throughput (token/s): 878.78, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10168, token usage: 0.12, cuda graph: True, gen throughput (token/s): 920.68, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10184, token usage: 0.13, cuda graph: True, gen throughput (token/s): 881.86, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10200, token usage: 0.13, cuda graph: True, gen throughput (token/s): 916.79, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10216, token usage: 0.13, cuda graph: True, gen throughput (token/s): 877.63, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10232, token usage: 0.13, cuda graph: True, gen throughput (token/s): 919.57, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10248, token usage: 0.13, cuda graph: True, gen throughput (token/s): 882.72, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10264, token usage: 0.13, cuda graph: True, gen throughput (token/s): 919.79, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10280, token usage: 0.13, cuda graph: True, gen throughput (token/s): 883.33, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10296, token usage: 0.13, cuda graph: True, gen throughput (token/s): 918.87, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10312, token usage: 0.13, cuda graph: True, gen throughput (token/s): 879.11, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10328, token usage: 0.13, cuda graph: True, gen throughput (token/s): 920.97, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10344, token usage: 0.13, cuda graph: True, gen throughput (token/s): 880.25, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10360, token usage: 0.13, cuda graph: True, gen throughput (token/s): 849.26, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10376, token usage: 0.13, cuda graph: True, gen throughput (token/s): 935.46, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10392, token usage: 0.13, cuda graph: True, gen throughput (token/s): 949.03, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10408, token usage: 0.13, cuda graph: True, gen throughput (token/s): 876.12, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10424, token usage: 0.13, cuda graph: True, gen throughput (token/s): 920.23, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10440, token usage: 0.13, cuda graph: True, gen throughput (token/s): 884.83, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 10456, token usage: 0.13, cuda graph: True, gen throughput (token/s): 918.33, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 604.55, #queue-req: 0
+[PHASE_B] round 1/3 wall=5.73s bs=16 gen=256
+[2026-07-17 02:45:49] routed_dp_rank: None
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 1781.44, #queue-req: 0
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 1, #new-token: 1, #cached-token: 6082, token usage: 0.07, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 0.22
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 1, #new-token: 1, #cached-token: 6084, token usage: 0.08, #running-req: 1, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 20.30
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18239, token usage: 0.08, #running-req: 2, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 59.51
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18249, token usage: 0.08, #running-req: 5, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 60.00
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18251, token usage: 0.08, #running-req: 8, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 60.47
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 2, #new-token: 2, #cached-token: 12164, token usage: 0.08, #running-req: 11, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 39.96
+[2026-07-17 02:45:49] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18244, token usage: 0.08, #running-req: 13, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 446.86
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 6408, token usage: 0.08, cuda graph: True, gen throughput (token/s): 40.94, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 6424, token usage: 0.08, cuda graph: True, gen throughput (token/s): 933.49, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 6440, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.93, #queue-req: 0
+[2026-07-17 02:45:49] Decode batch, #running-req: 16, #token: 6456, token usage: 0.08, cuda graph: True, gen throughput (token/s): 944.72, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6472, token usage: 0.08, cuda graph: True, gen throughput (token/s): 897.23, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6488, token usage: 0.08, cuda graph: True, gen throughput (token/s): 945.63, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6504, token usage: 0.08, cuda graph: True, gen throughput (token/s): 902.13, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6520, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.27, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6536, token usage: 0.08, cuda graph: True, gen throughput (token/s): 897.44, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6552, token usage: 0.08, cuda graph: True, gen throughput (token/s): 941.41, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6568, token usage: 0.08, cuda graph: True, gen throughput (token/s): 890.63, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6584, token usage: 0.08, cuda graph: True, gen throughput (token/s): 939.00, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6600, token usage: 0.08, cuda graph: True, gen throughput (token/s): 902.72, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6616, token usage: 0.08, cuda graph: True, gen throughput (token/s): 934.82, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6632, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.39, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6648, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.43, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6664, token usage: 0.08, cuda graph: True, gen throughput (token/s): 896.06, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6680, token usage: 0.08, cuda graph: True, gen throughput (token/s): 936.66, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6696, token usage: 0.08, cuda graph: True, gen throughput (token/s): 896.98, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6712, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.44, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6728, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.39, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6744, token usage: 0.08, cuda graph: True, gen throughput (token/s): 944.63, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6760, token usage: 0.08, cuda graph: True, gen throughput (token/s): 898.12, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6776, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.05, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6792, token usage: 0.08, cuda graph: True, gen throughput (token/s): 889.64, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6808, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.21, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6824, token usage: 0.08, cuda graph: True, gen throughput (token/s): 900.40, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6840, token usage: 0.08, cuda graph: True, gen throughput (token/s): 933.55, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6856, token usage: 0.08, cuda graph: True, gen throughput (token/s): 896.59, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6872, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.72, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6888, token usage: 0.08, cuda graph: True, gen throughput (token/s): 893.32, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6904, token usage: 0.08, cuda graph: True, gen throughput (token/s): 942.25, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6920, token usage: 0.08, cuda graph: True, gen throughput (token/s): 893.90, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6936, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.98, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6952, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.26, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6968, token usage: 0.09, cuda graph: True, gen throughput (token/s): 939.10, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 6984, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.04, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7000, token usage: 0.09, cuda graph: True, gen throughput (token/s): 939.57, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7016, token usage: 0.09, cuda graph: True, gen throughput (token/s): 900.24, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7032, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.89, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7048, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.33, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7064, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.26, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7080, token usage: 0.09, cuda graph: True, gen throughput (token/s): 887.11, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7096, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.86, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7112, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.08, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7128, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.65, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7144, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.49, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7160, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.88, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7176, token usage: 0.09, cuda graph: True, gen throughput (token/s): 879.12, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7192, token usage: 0.09, cuda graph: True, gen throughput (token/s): 950.16, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7208, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.65, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7224, token usage: 0.09, cuda graph: True, gen throughput (token/s): 938.37, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7240, token usage: 0.09, cuda graph: True, gen throughput (token/s): 894.69, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7256, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.38, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7272, token usage: 0.09, cuda graph: True, gen throughput (token/s): 902.36, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7288, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.56, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7304, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.33, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7320, token usage: 0.09, cuda graph: True, gen throughput (token/s): 941.00, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7336, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.22, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7352, token usage: 0.09, cuda graph: True, gen throughput (token/s): 927.78, #queue-req: 0
+[2026-07-17 02:45:50] Decode batch, #running-req: 16, #token: 7368, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.91, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7384, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.05, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7400, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.22, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7416, token usage: 0.09, cuda graph: True, gen throughput (token/s): 792.64, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7432, token usage: 0.09, cuda graph: True, gen throughput (token/s): 1079.78, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7448, token usage: 0.09, cuda graph: True, gen throughput (token/s): 930.17, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7464, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.29, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7480, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.53, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7496, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.14, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7512, token usage: 0.09, cuda graph: True, gen throughput (token/s): 937.30, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7528, token usage: 0.09, cuda graph: True, gen throughput (token/s): 891.62, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7544, token usage: 0.09, cuda graph: True, gen throughput (token/s): 940.66, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7560, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.45, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7576, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.53, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7592, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.54, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7608, token usage: 0.09, cuda graph: True, gen throughput (token/s): 931.13, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7624, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.97, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7640, token usage: 0.09, cuda graph: True, gen throughput (token/s): 927.46, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7656, token usage: 0.09, cuda graph: True, gen throughput (token/s): 894.51, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7672, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.01, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7688, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.18, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7704, token usage: 0.09, cuda graph: True, gen throughput (token/s): 930.08, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7720, token usage: 0.09, cuda graph: True, gen throughput (token/s): 894.06, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7736, token usage: 0.10, cuda graph: True, gen throughput (token/s): 934.03, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7752, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.33, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7768, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.65, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7784, token usage: 0.10, cuda graph: True, gen throughput (token/s): 895.62, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7800, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.67, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7816, token usage: 0.10, cuda graph: True, gen throughput (token/s): 898.00, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7832, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.17, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7848, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.37, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7864, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.88, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7880, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.85, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7896, token usage: 0.10, cuda graph: True, gen throughput (token/s): 922.95, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7912, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.95, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7928, token usage: 0.10, cuda graph: True, gen throughput (token/s): 930.08, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7944, token usage: 0.10, cuda graph: True, gen throughput (token/s): 893.31, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7960, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.10, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7976, token usage: 0.10, cuda graph: True, gen throughput (token/s): 872.08, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 7992, token usage: 0.10, cuda graph: True, gen throughput (token/s): 950.51, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8008, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.04, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8024, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.21, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8040, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.20, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8056, token usage: 0.10, cuda graph: True, gen throughput (token/s): 934.07, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8072, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.44, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8088, token usage: 0.10, cuda graph: True, gen throughput (token/s): 935.79, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8104, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.39, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8120, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.42, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8136, token usage: 0.10, cuda graph: True, gen throughput (token/s): 897.65, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8152, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.40, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8168, token usage: 0.10, cuda graph: True, gen throughput (token/s): 881.90, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8184, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.83, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8200, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.40, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8216, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.56, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8232, token usage: 0.10, cuda graph: True, gen throughput (token/s): 886.50, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8248, token usage: 0.10, cuda graph: True, gen throughput (token/s): 923.82, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8264, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.47, #queue-req: 0
+[2026-07-17 02:45:51] Decode batch, #running-req: 16, #token: 8280, token usage: 0.10, cuda graph: True, gen throughput (token/s): 936.93, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8296, token usage: 0.10, cuda graph: True, gen throughput (token/s): 886.62, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8312, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.51, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8328, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.51, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8344, token usage: 0.10, cuda graph: True, gen throughput (token/s): 922.61, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8360, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.14, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8376, token usage: 0.10, cuda graph: True, gen throughput (token/s): 940.16, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8392, token usage: 0.10, cuda graph: True, gen throughput (token/s): 884.80, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8408, token usage: 0.10, cuda graph: True, gen throughput (token/s): 927.81, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8424, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.50, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8440, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.49, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8456, token usage: 0.10, cuda graph: True, gen throughput (token/s): 887.87, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8472, token usage: 0.10, cuda graph: True, gen throughput (token/s): 937.65, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8488, token usage: 0.10, cuda graph: True, gen throughput (token/s): 884.48, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8504, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.35, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8520, token usage: 0.10, cuda graph: True, gen throughput (token/s): 885.06, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8536, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.06, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8552, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.73, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8568, token usage: 0.11, cuda graph: True, gen throughput (token/s): 939.50, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8584, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.98, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8600, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.22, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8616, token usage: 0.11, cuda graph: True, gen throughput (token/s): 893.74, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8632, token usage: 0.11, cuda graph: True, gen throughput (token/s): 921.55, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8648, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.80, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8664, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.65, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8680, token usage: 0.11, cuda graph: True, gen throughput (token/s): 893.80, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8696, token usage: 0.11, cuda graph: True, gen throughput (token/s): 930.09, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8712, token usage: 0.11, cuda graph: True, gen throughput (token/s): 884.18, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8728, token usage: 0.11, cuda graph: True, gen throughput (token/s): 923.09, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8744, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.83, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8760, token usage: 0.11, cuda graph: True, gen throughput (token/s): 932.19, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8776, token usage: 0.11, cuda graph: True, gen throughput (token/s): 863.51, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8792, token usage: 0.11, cuda graph: True, gen throughput (token/s): 955.80, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8808, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.03, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8824, token usage: 0.11, cuda graph: True, gen throughput (token/s): 932.92, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8840, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.71, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8856, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.01, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8872, token usage: 0.11, cuda graph: True, gen throughput (token/s): 893.36, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8888, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.88, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8904, token usage: 0.11, cuda graph: True, gen throughput (token/s): 872.10, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8920, token usage: 0.11, cuda graph: True, gen throughput (token/s): 939.46, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8936, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.56, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8952, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.73, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8968, token usage: 0.11, cuda graph: True, gen throughput (token/s): 881.14, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 8984, token usage: 0.11, cuda graph: True, gen throughput (token/s): 931.11, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9000, token usage: 0.11, cuda graph: True, gen throughput (token/s): 888.98, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9016, token usage: 0.11, cuda graph: True, gen throughput (token/s): 921.65, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9032, token usage: 0.11, cuda graph: True, gen throughput (token/s): 884.90, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9048, token usage: 0.11, cuda graph: True, gen throughput (token/s): 939.58, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9064, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.20, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9080, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.64, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9096, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.08, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9112, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.96, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9128, token usage: 0.11, cuda graph: True, gen throughput (token/s): 891.97, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9144, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.07, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9160, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.44, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9176, token usage: 0.11, cuda graph: True, gen throughput (token/s): 918.20, #queue-req: 0
+[2026-07-17 02:45:52] Decode batch, #running-req: 16, #token: 9192, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.15, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9208, token usage: 0.11, cuda graph: True, gen throughput (token/s): 932.64, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9224, token usage: 0.11, cuda graph: True, gen throughput (token/s): 882.15, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9240, token usage: 0.11, cuda graph: True, gen throughput (token/s): 931.08, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9256, token usage: 0.11, cuda graph: True, gen throughput (token/s): 882.82, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9272, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.20, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9288, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.08, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9304, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.14, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9320, token usage: 0.11, cuda graph: True, gen throughput (token/s): 882.96, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9336, token usage: 0.11, cuda graph: True, gen throughput (token/s): 930.98, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9352, token usage: 0.11, cuda graph: True, gen throughput (token/s): 884.03, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9368, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.52, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9384, token usage: 0.12, cuda graph: True, gen throughput (token/s): 885.96, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9400, token usage: 0.12, cuda graph: True, gen throughput (token/s): 931.36, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9416, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.60, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9432, token usage: 0.12, cuda graph: True, gen throughput (token/s): 926.76, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9448, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.79, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9464, token usage: 0.12, cuda graph: True, gen throughput (token/s): 930.85, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9480, token usage: 0.12, cuda graph: True, gen throughput (token/s): 877.00, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9496, token usage: 0.12, cuda graph: True, gen throughput (token/s): 927.18, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9512, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.96, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9528, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.54, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9544, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.94, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9560, token usage: 0.12, cuda graph: True, gen throughput (token/s): 925.95, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9576, token usage: 0.12, cuda graph: True, gen throughput (token/s): 866.25, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9592, token usage: 0.12, cuda graph: True, gen throughput (token/s): 945.91, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9608, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.54, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9624, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.16, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9640, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.98, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9656, token usage: 0.12, cuda graph: True, gen throughput (token/s): 930.40, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9672, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.61, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9688, token usage: 0.12, cuda graph: True, gen throughput (token/s): 927.94, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9704, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.31, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9720, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.62, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9736, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.70, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9752, token usage: 0.12, cuda graph: True, gen throughput (token/s): 915.54, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9768, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.59, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9784, token usage: 0.12, cuda graph: True, gen throughput (token/s): 928.34, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9800, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.10, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9816, token usage: 0.12, cuda graph: True, gen throughput (token/s): 918.88, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9832, token usage: 0.12, cuda graph: True, gen throughput (token/s): 885.49, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9848, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.55, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9864, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.21, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9880, token usage: 0.12, cuda graph: True, gen throughput (token/s): 925.58, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9896, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.96, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9912, token usage: 0.12, cuda graph: True, gen throughput (token/s): 926.97, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9928, token usage: 0.12, cuda graph: True, gen throughput (token/s): 878.60, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9944, token usage: 0.12, cuda graph: True, gen throughput (token/s): 927.98, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9960, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.59, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9976, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.98, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 9992, token usage: 0.12, cuda graph: True, gen throughput (token/s): 874.11, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10008, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.04, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10024, token usage: 0.12, cuda graph: True, gen throughput (token/s): 885.64, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10040, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.30, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10056, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.66, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10072, token usage: 0.12, cuda graph: True, gen throughput (token/s): 918.20, #queue-req: 0
+[2026-07-17 02:45:53] Decode batch, #running-req: 16, #token: 10088, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.91, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10104, token usage: 0.12, cuda graph: True, gen throughput (token/s): 921.46, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10120, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.51, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10136, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.21, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10152, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.03, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10168, token usage: 0.12, cuda graph: True, gen throughput (token/s): 920.61, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10184, token usage: 0.13, cuda graph: True, gen throughput (token/s): 887.97, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10200, token usage: 0.13, cuda graph: True, gen throughput (token/s): 922.13, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10216, token usage: 0.13, cuda graph: True, gen throughput (token/s): 873.62, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10232, token usage: 0.13, cuda graph: True, gen throughput (token/s): 927.90, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10248, token usage: 0.13, cuda graph: True, gen throughput (token/s): 883.35, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10264, token usage: 0.13, cuda graph: True, gen throughput (token/s): 912.13, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10280, token usage: 0.13, cuda graph: True, gen throughput (token/s): 881.23, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10296, token usage: 0.13, cuda graph: True, gen throughput (token/s): 922.40, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10312, token usage: 0.13, cuda graph: True, gen throughput (token/s): 880.10, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10328, token usage: 0.13, cuda graph: True, gen throughput (token/s): 919.22, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10344, token usage: 0.13, cuda graph: True, gen throughput (token/s): 879.01, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10360, token usage: 0.13, cuda graph: True, gen throughput (token/s): 925.15, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10376, token usage: 0.13, cuda graph: True, gen throughput (token/s): 853.29, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10392, token usage: 0.13, cuda graph: True, gen throughput (token/s): 952.74, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10408, token usage: 0.13, cuda graph: True, gen throughput (token/s): 881.56, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10424, token usage: 0.13, cuda graph: True, gen throughput (token/s): 917.52, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10440, token usage: 0.13, cuda graph: True, gen throughput (token/s): 880.33, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 10456, token usage: 0.13, cuda graph: True, gen throughput (token/s): 927.15, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 602.90, #queue-req: 0
+[PHASE_B] round 2/3 wall=4.88s bs=16 gen=256
+[2026-07-17 02:45:54] routed_dp_rank: None
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 1792.41, #queue-req: 0
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 1, #new-token: 1, #cached-token: 6082, token usage: 0.07, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 0.22
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 1, #new-token: 1, #cached-token: 6084, token usage: 0.08, #running-req: 1, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 20.69
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18239, token usage: 0.08, #running-req: 2, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 60.12
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18249, token usage: 0.08, #running-req: 5, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 61.00
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Using regular tokenizer for 1 inputs
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 2, #new-token: 2, #cached-token: 12166, token usage: 0.08, #running-req: 8, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 41.28
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18249, token usage: 0.08, #running-req: 10, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 61.36
+[2026-07-17 02:45:54] Prefill batch, #new-seq: 3, #new-token: 3, #cached-token: 18244, token usage: 0.08, #running-req: 13, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 454.64
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6408, token usage: 0.08, cuda graph: True, gen throughput (token/s): 42.12, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6424, token usage: 0.08, cuda graph: True, gen throughput (token/s): 934.08, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6440, token usage: 0.08, cuda graph: True, gen throughput (token/s): 898.48, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6456, token usage: 0.08, cuda graph: True, gen throughput (token/s): 939.50, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6472, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.01, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6488, token usage: 0.08, cuda graph: True, gen throughput (token/s): 940.86, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6504, token usage: 0.08, cuda graph: True, gen throughput (token/s): 898.64, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6520, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.84, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6536, token usage: 0.08, cuda graph: True, gen throughput (token/s): 900.58, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6552, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.68, #queue-req: 0
+[2026-07-17 02:45:54] Decode batch, #running-req: 16, #token: 6568, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.81, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6584, token usage: 0.08, cuda graph: True, gen throughput (token/s): 940.48, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6600, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.38, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6616, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.60, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6632, token usage: 0.08, cuda graph: True, gen throughput (token/s): 893.30, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6648, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.96, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6664, token usage: 0.08, cuda graph: True, gen throughput (token/s): 901.27, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6680, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.82, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6696, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.21, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6712, token usage: 0.08, cuda graph: True, gen throughput (token/s): 941.32, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6728, token usage: 0.08, cuda graph: True, gen throughput (token/s): 895.88, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6744, token usage: 0.08, cuda graph: True, gen throughput (token/s): 937.31, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6760, token usage: 0.08, cuda graph: True, gen throughput (token/s): 894.43, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6776, token usage: 0.08, cuda graph: True, gen throughput (token/s): 940.40, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6792, token usage: 0.08, cuda graph: True, gen throughput (token/s): 897.46, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6808, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.97, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6824, token usage: 0.08, cuda graph: True, gen throughput (token/s): 899.07, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6840, token usage: 0.08, cuda graph: True, gen throughput (token/s): 938.76, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6856, token usage: 0.08, cuda graph: True, gen throughput (token/s): 901.42, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6872, token usage: 0.08, cuda graph: True, gen throughput (token/s): 935.55, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6888, token usage: 0.08, cuda graph: True, gen throughput (token/s): 891.71, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6904, token usage: 0.08, cuda graph: True, gen throughput (token/s): 934.83, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6920, token usage: 0.08, cuda graph: True, gen throughput (token/s): 893.41, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6936, token usage: 0.09, cuda graph: True, gen throughput (token/s): 937.90, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6952, token usage: 0.09, cuda graph: True, gen throughput (token/s): 896.88, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6968, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.80, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 6984, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.78, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7000, token usage: 0.09, cuda graph: True, gen throughput (token/s): 937.75, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7016, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.51, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7032, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.04, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7048, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.44, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7064, token usage: 0.09, cuda graph: True, gen throughput (token/s): 937.45, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7080, token usage: 0.09, cuda graph: True, gen throughput (token/s): 900.28, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7096, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.27, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7112, token usage: 0.09, cuda graph: True, gen throughput (token/s): 897.24, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7128, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.51, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7144, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.23, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7160, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.90, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7176, token usage: 0.09, cuda graph: True, gen throughput (token/s): 881.73, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7192, token usage: 0.09, cuda graph: True, gen throughput (token/s): 958.75, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7208, token usage: 0.09, cuda graph: True, gen throughput (token/s): 887.04, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7224, token usage: 0.09, cuda graph: True, gen throughput (token/s): 938.81, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7240, token usage: 0.09, cuda graph: True, gen throughput (token/s): 890.34, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7256, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.73, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7272, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.85, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7288, token usage: 0.09, cuda graph: True, gen throughput (token/s): 936.24, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7304, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.94, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7320, token usage: 0.09, cuda graph: True, gen throughput (token/s): 929.35, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7336, token usage: 0.09, cuda graph: True, gen throughput (token/s): 900.91, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7352, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.78, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7368, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.30, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7384, token usage: 0.09, cuda graph: True, gen throughput (token/s): 940.55, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7400, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.41, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7416, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.45, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7432, token usage: 0.09, cuda graph: True, gen throughput (token/s): 884.19, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7448, token usage: 0.09, cuda graph: True, gen throughput (token/s): 938.46, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7464, token usage: 0.09, cuda graph: True, gen throughput (token/s): 889.57, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7480, token usage: 0.09, cuda graph: True, gen throughput (token/s): 933.13, #queue-req: 0
+[2026-07-17 02:45:55] Decode batch, #running-req: 16, #token: 7496, token usage: 0.09, cuda graph: True, gen throughput (token/s): 895.72, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7512, token usage: 0.09, cuda graph: True, gen throughput (token/s): 930.46, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7528, token usage: 0.09, cuda graph: True, gen throughput (token/s): 898.00, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7544, token usage: 0.09, cuda graph: True, gen throughput (token/s): 931.78, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7560, token usage: 0.09, cuda graph: True, gen throughput (token/s): 890.99, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7576, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.36, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7592, token usage: 0.09, cuda graph: True, gen throughput (token/s): 893.88, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7608, token usage: 0.09, cuda graph: True, gen throughput (token/s): 941.27, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7624, token usage: 0.09, cuda graph: True, gen throughput (token/s): 890.79, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7640, token usage: 0.09, cuda graph: True, gen throughput (token/s): 935.19, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7656, token usage: 0.09, cuda graph: True, gen throughput (token/s): 892.83, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7672, token usage: 0.09, cuda graph: True, gen throughput (token/s): 934.59, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7688, token usage: 0.09, cuda graph: True, gen throughput (token/s): 885.05, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7704, token usage: 0.09, cuda graph: True, gen throughput (token/s): 931.88, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7720, token usage: 0.09, cuda graph: True, gen throughput (token/s): 892.75, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7736, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.61, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7752, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.35, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7768, token usage: 0.10, cuda graph: True, gen throughput (token/s): 938.01, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7784, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.19, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7800, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.20, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7816, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.10, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7832, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.71, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7848, token usage: 0.10, cuda graph: True, gen throughput (token/s): 891.47, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7864, token usage: 0.10, cuda graph: True, gen throughput (token/s): 939.12, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7880, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.71, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7896, token usage: 0.10, cuda graph: True, gen throughput (token/s): 935.60, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7912, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.88, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7928, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.69, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7944, token usage: 0.10, cuda graph: True, gen throughput (token/s): 894.58, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7960, token usage: 0.10, cuda graph: True, gen throughput (token/s): 923.92, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7976, token usage: 0.10, cuda graph: True, gen throughput (token/s): 875.95, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 7992, token usage: 0.10, cuda graph: True, gen throughput (token/s): 950.14, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8008, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.91, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8024, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.72, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8040, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.60, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8056, token usage: 0.10, cuda graph: True, gen throughput (token/s): 932.90, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8072, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.29, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8088, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.28, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8104, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.06, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8120, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.92, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8136, token usage: 0.10, cuda graph: True, gen throughput (token/s): 895.06, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8152, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.38, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8168, token usage: 0.10, cuda graph: True, gen throughput (token/s): 890.05, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8184, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.58, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8200, token usage: 0.10, cuda graph: True, gen throughput (token/s): 892.38, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8216, token usage: 0.10, cuda graph: True, gen throughput (token/s): 921.68, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8232, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.93, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8248, token usage: 0.10, cuda graph: True, gen throughput (token/s): 934.39, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8264, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.61, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8280, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.77, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8296, token usage: 0.10, cuda graph: True, gen throughput (token/s): 886.03, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8312, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.26, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8328, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.59, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8344, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.70, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8360, token usage: 0.10, cuda graph: True, gen throughput (token/s): 888.65, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8376, token usage: 0.10, cuda graph: True, gen throughput (token/s): 926.26, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8392, token usage: 0.10, cuda graph: True, gen throughput (token/s): 895.82, #queue-req: 0
+[2026-07-17 02:45:56] Decode batch, #running-req: 16, #token: 8408, token usage: 0.10, cuda graph: True, gen throughput (token/s): 929.86, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8424, token usage: 0.10, cuda graph: True, gen throughput (token/s): 887.81, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8440, token usage: 0.10, cuda graph: True, gen throughput (token/s): 931.88, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8456, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.98, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8472, token usage: 0.10, cuda graph: True, gen throughput (token/s): 919.41, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8488, token usage: 0.10, cuda graph: True, gen throughput (token/s): 889.86, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8504, token usage: 0.10, cuda graph: True, gen throughput (token/s): 933.77, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8520, token usage: 0.10, cuda graph: True, gen throughput (token/s): 887.43, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8536, token usage: 0.10, cuda graph: True, gen throughput (token/s): 928.94, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8552, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.84, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8568, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.93, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8584, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.14, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8600, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.92, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8616, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.76, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8632, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.13, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8648, token usage: 0.11, cuda graph: True, gen throughput (token/s): 895.41, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8664, token usage: 0.11, cuda graph: True, gen throughput (token/s): 921.24, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8680, token usage: 0.11, cuda graph: True, gen throughput (token/s): 894.37, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8696, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.20, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8712, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.90, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8728, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.86, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8744, token usage: 0.11, cuda graph: True, gen throughput (token/s): 878.93, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8760, token usage: 0.11, cuda graph: True, gen throughput (token/s): 932.37, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8776, token usage: 0.11, cuda graph: True, gen throughput (token/s): 871.44, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8792, token usage: 0.11, cuda graph: True, gen throughput (token/s): 942.76, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8808, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.48, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8824, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.80, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8840, token usage: 0.11, cuda graph: True, gen throughput (token/s): 889.28, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8856, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.81, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8872, token usage: 0.11, cuda graph: True, gen throughput (token/s): 888.42, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8888, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.18, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8904, token usage: 0.11, cuda graph: True, gen throughput (token/s): 893.47, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8920, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.03, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8936, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.46, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8952, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.19, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8968, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.97, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 8984, token usage: 0.11, cuda graph: True, gen throughput (token/s): 927.14, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9000, token usage: 0.11, cuda graph: True, gen throughput (token/s): 876.73, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9016, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.54, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9032, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.56, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9048, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.92, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9064, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.00, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9080, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.03, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9096, token usage: 0.11, cuda graph: True, gen throughput (token/s): 888.97, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9112, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.78, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9128, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.62, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9144, token usage: 0.11, cuda graph: True, gen throughput (token/s): 924.87, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9160, token usage: 0.11, cuda graph: True, gen throughput (token/s): 888.13, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9176, token usage: 0.11, cuda graph: True, gen throughput (token/s): 929.73, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9192, token usage: 0.11, cuda graph: True, gen throughput (token/s): 886.01, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9208, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.04, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9224, token usage: 0.11, cuda graph: True, gen throughput (token/s): 883.97, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9240, token usage: 0.11, cuda graph: True, gen throughput (token/s): 928.65, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9256, token usage: 0.11, cuda graph: True, gen throughput (token/s): 877.22, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9272, token usage: 0.11, cuda graph: True, gen throughput (token/s): 926.05, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9288, token usage: 0.11, cuda graph: True, gen throughput (token/s): 883.27, #queue-req: 0
+[2026-07-17 02:45:57] Decode batch, #running-req: 16, #token: 9304, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.15, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9320, token usage: 0.11, cuda graph: True, gen throughput (token/s): 887.01, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9336, token usage: 0.11, cuda graph: True, gen throughput (token/s): 925.52, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9352, token usage: 0.11, cuda graph: True, gen throughput (token/s): 885.58, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9368, token usage: 0.12, cuda graph: True, gen throughput (token/s): 926.82, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9384, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.35, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9400, token usage: 0.12, cuda graph: True, gen throughput (token/s): 928.56, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9416, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.90, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9432, token usage: 0.12, cuda graph: True, gen throughput (token/s): 929.62, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9448, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.52, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9464, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.71, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9480, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.65, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9496, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.73, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9512, token usage: 0.12, cuda graph: True, gen throughput (token/s): 876.51, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9528, token usage: 0.12, cuda graph: True, gen throughput (token/s): 925.55, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9544, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.66, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9560, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.07, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9576, token usage: 0.12, cuda graph: True, gen throughput (token/s): 871.74, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9592, token usage: 0.12, cuda graph: True, gen throughput (token/s): 942.46, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9608, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.50, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9624, token usage: 0.12, cuda graph: True, gen throughput (token/s): 928.38, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9640, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.35, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9656, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.77, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9672, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.24, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9688, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.33, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9704, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.11, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9720, token usage: 0.12, cuda graph: True, gen throughput (token/s): 927.67, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9736, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.77, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9752, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.21, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9768, token usage: 0.12, cuda graph: True, gen throughput (token/s): 874.58, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9784, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.62, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9800, token usage: 0.12, cuda graph: True, gen throughput (token/s): 884.15, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9816, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.65, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9832, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.72, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9848, token usage: 0.12, cuda graph: True, gen throughput (token/s): 926.83, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9864, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.11, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9880, token usage: 0.12, cuda graph: True, gen throughput (token/s): 922.63, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9896, token usage: 0.12, cuda graph: True, gen throughput (token/s): 885.12, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9912, token usage: 0.12, cuda graph: True, gen throughput (token/s): 920.73, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9928, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.50, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9944, token usage: 0.12, cuda graph: True, gen throughput (token/s): 929.86, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9960, token usage: 0.12, cuda graph: True, gen throughput (token/s): 880.42, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9976, token usage: 0.12, cuda graph: True, gen throughput (token/s): 917.77, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 9992, token usage: 0.12, cuda graph: True, gen throughput (token/s): 886.13, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10008, token usage: 0.12, cuda graph: True, gen throughput (token/s): 924.34, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10024, token usage: 0.12, cuda graph: True, gen throughput (token/s): 879.67, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10040, token usage: 0.12, cuda graph: True, gen throughput (token/s): 913.68, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10056, token usage: 0.12, cuda graph: True, gen throughput (token/s): 881.84, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10072, token usage: 0.12, cuda graph: True, gen throughput (token/s): 923.60, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10088, token usage: 0.12, cuda graph: True, gen throughput (token/s): 883.63, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10104, token usage: 0.12, cuda graph: True, gen throughput (token/s): 919.34, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10120, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.61, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10136, token usage: 0.12, cuda graph: True, gen throughput (token/s): 921.67, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10152, token usage: 0.12, cuda graph: True, gen throughput (token/s): 882.87, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10168, token usage: 0.12, cuda graph: True, gen throughput (token/s): 921.55, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10184, token usage: 0.13, cuda graph: True, gen throughput (token/s): 878.28, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10200, token usage: 0.13, cuda graph: True, gen throughput (token/s): 921.27, #queue-req: 0
+[2026-07-17 02:45:58] Decode batch, #running-req: 16, #token: 10216, token usage: 0.13, cuda graph: True, gen throughput (token/s): 889.40, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10232, token usage: 0.13, cuda graph: True, gen throughput (token/s): 915.29, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10248, token usage: 0.13, cuda graph: True, gen throughput (token/s): 885.23, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10264, token usage: 0.13, cuda graph: True, gen throughput (token/s): 920.78, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10280, token usage: 0.13, cuda graph: True, gen throughput (token/s): 873.28, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10296, token usage: 0.13, cuda graph: True, gen throughput (token/s): 919.17, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10312, token usage: 0.13, cuda graph: True, gen throughput (token/s): 883.92, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10328, token usage: 0.13, cuda graph: True, gen throughput (token/s): 917.25, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10344, token usage: 0.13, cuda graph: True, gen throughput (token/s): 880.86, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10360, token usage: 0.13, cuda graph: True, gen throughput (token/s): 920.20, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10376, token usage: 0.13, cuda graph: True, gen throughput (token/s): 864.39, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10392, token usage: 0.13, cuda graph: True, gen throughput (token/s): 936.91, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10408, token usage: 0.13, cuda graph: True, gen throughput (token/s): 880.49, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10424, token usage: 0.13, cuda graph: True, gen throughput (token/s): 919.98, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10440, token usage: 0.13, cuda graph: True, gen throughput (token/s): 878.01, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 10456, token usage: 0.13, cuda graph: True, gen throughput (token/s): 925.00, #queue-req: 0
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 621.10, #queue-req: 0
+[PHASE_B] round 3/3 wall=4.87s bs=16 gen=256
+[2026-07-17 02:45:59] kill_process_tree called: parent_pid=1045661, include_parent=False, pid=1045661
+[2026-07-17 02:45:59] Decode batch, #running-req: 16, #token: 0, token usage: 0.00, cuda graph: True, gen throughput (token/s): 1661.86, #queue-req: 0
+[DONE]
+[2026-07-17 02:45:59] kill_process_tree called: parent_pid=1045661, include_parent=False, pid=1045661

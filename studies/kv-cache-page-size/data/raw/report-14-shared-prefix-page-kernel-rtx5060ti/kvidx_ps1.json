@@ -1,0 +1,76 @@
+{
+ "per_batch": {
+  "1": {
+   "bs": 1,
+   "seq_len": 4657,
+   "frac_contig": 1.0,
+   "n_runs": 1,
+   "max_run": 4657,
+   "pages128": 37,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 4657,
+   "all_B_identical_slots": true
+  },
+  "2": {
+   "bs": 2,
+   "seq_len": 4650,
+   "frac_contig": 1.0,
+   "n_runs": 1,
+   "max_run": 4650,
+   "pages128": 37,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 4650,
+   "all_B_identical_slots": true
+  },
+  "8": {
+   "bs": 8,
+   "seq_len": 4657,
+   "frac_contig": 0.998711,
+   "n_runs": 7,
+   "max_run": 4651,
+   "pages128": 37,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 4706,
+   "all_B_identical_slots": false
+  },
+  "3": {
+   "bs": 3,
+   "seq_len": 4650,
+   "frac_contig": 1.0,
+   "n_runs": 1,
+   "max_run": 4650,
+   "pages128": 37,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 4650,
+   "all_B_identical_slots": true
+  },
+  "16": {
+   "bs": 16,
+   "seq_len": 4657,
+   "frac_contig": 0.998711,
+   "n_runs": 7,
+   "max_run": 4651,
+   "pages128": 38,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 4810,
+   "all_B_identical_slots": false
+  },
+  "32": {
+   "bs": 32,
+   "seq_len": 4657,
+   "frac_contig": 0.998711,
+   "n_runs": 7,
+   "max_run": 4651,
+   "pages128": 40,
+   "expected_pages128": 37,
+   "slot_min": 1,
+   "slot_max": 5018,
+   "all_B_identical_slots": false
+  }
+ }
+}

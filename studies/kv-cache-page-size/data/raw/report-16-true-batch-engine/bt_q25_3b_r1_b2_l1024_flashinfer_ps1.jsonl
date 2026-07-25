@@ -1,0 +1,1 @@
+{"run_name": "bt_q25_3b_r1_b2_l1024_flashinfer_ps1", "batch_size": 2, "input_len": 1024, "output_len": 64, "prefill_latency": 0.2715074345469475, "prefill_throughput": 7543.071531051839, "median_decode_latency": 0.017430514097213745, "median_decode_throughput": 114.74130876723244, "total_latency": 1.376075379550457, "overall_throughput": 1581.3087221361857}

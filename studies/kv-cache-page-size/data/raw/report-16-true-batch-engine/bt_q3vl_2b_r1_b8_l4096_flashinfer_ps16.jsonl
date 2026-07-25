@@ -1,0 +1,1 @@
+{"run_name": "bt_q3vl_2b_r1_b8_l4096_flashinfer_ps16", "batch_size": 8, "input_len": 4096, "output_len": 64, "prefill_latency": 2.5117423683404922, "prefill_throughput": 13045.92398210403, "median_decode_latency": 0.020086470991373062, "median_decode_throughput": 398.2780252158739, "total_latency": 3.782962903380394, "overall_throughput": 8797.337127007388}

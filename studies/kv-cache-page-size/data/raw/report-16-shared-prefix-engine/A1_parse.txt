@@ -1,0 +1,46 @@
+arm                        steady ms/step (n)    B                walls s
+FI_ps128_bs16_r1                  17.58 (765)   16        [5.6, 4.9, 4.9]
+FI_ps128_bs32_r1                  24.99 (765)   32        [7.7, 7.1, 7.1]
+FI_ps128_bs8_r1                   12.94 (765)    8        [4.5, 3.5, 3.6]
+FI_ps16_bs16_r1                   17.48 (765)   16        [5.8, 4.9, 4.9]
+FI_ps16_bs32_r1                   24.98 (765)   32        [7.7, 7.0, 7.1]
+FI_ps16_bs8_r1                    12.95 (767)    8        [4.6, 3.5, 3.5]
+FI_ps1_bs16_r1                    17.51 (765)   16        [5.7, 4.9, 4.9]
+FI_ps1_bs32_r1                    24.96 (765)   32        [7.6, 7.0, 7.0]
+FI_ps1_bs8_r1                     12.94 (766)    8        [4.5, 3.5, 3.6]
+T_ps128_bs16_r1                   21.36 (765)   16        [6.8, 5.9, 5.9]
+T_ps128_bs32_r1                   33.90 (765)   32       [10.2, 9.4, 9.4]
+T_ps128_bs8_r1                    15.57 (765)    8        [5.2, 4.2, 4.2]
+T_ps16_bs16_r1                    21.29 (765)   16        [7.6, 5.9, 5.8]
+T_ps16_bs32_r1                    33.70 (765)   32       [10.9, 9.3, 9.3]
+T_ps16_bs8_r1                     15.54 (767)    8        [6.1, 4.2, 4.2]
+T_ps1_bs16_r1                     21.31 (765)   16        [8.3, 5.8, 5.8]
+T_ps1_bs32_r1                     33.42 (765)   32       [11.5, 9.3, 9.3]
+T_ps1_bs8_r1                      15.55 (767)    8        [6.0, 4.2, 4.2]
+trtllm_ps16_bs16_r1               16.80 (765)   16        [6.0, 5.0, 4.7]
+trtllm_ps16_bs32_r1               24.04 (765)   32        [8.0, 6.9, 6.9]
+trtllm_ps16_bs8_r1                13.18 (766)    8        [4.7, 4.0, 3.6]
+trtllm_ps32_bs16_r1               16.44 (765)   16        [6.0, 4.6, 4.6]
+trtllm_ps32_bs32_r1               23.35 (765)   32        [7.7, 6.7, 6.7]
+trtllm_ps32_bs8_r1                12.94 (765)    8        [4.6, 4.0, 3.6]
+trtllm_ps64_bs16_r1               16.20 (765)   16        [5.8, 5.0, 4.8]
+trtllm_ps64_bs32_r1               22.93 (765)   32        [7.6, 6.6, 6.6]
+trtllm_ps64_bs8_r1                12.83 (765)    8        [5.2, 4.3, 3.9]
+
+== page-flatness per (backend, bs): baseline=ps128 ==
+  FI bs8: ps1=12.94(-0.0%) ps16=12.95(+0.0%) ps128=12.94(+0.0%)   [max spread 0.1%]
+  FI bs16: ps1=17.51(-0.4%) ps16=17.48(-0.6%) ps128=17.58(+0.0%)   [max spread 0.6%]
+  FI bs32: ps1=24.96(-0.1%) ps16=24.98(-0.0%) ps128=24.99(+0.0%)   [max spread 0.1%]
+  T bs8: ps1=15.55(-0.1%) ps16=15.54(-0.2%) ps128=15.57(+0.0%)   [max spread 0.2%]
+  T bs16: ps1=21.31(-0.3%) ps16=21.29(-0.4%) ps128=21.36(+0.0%)   [max spread 0.4%]
+  T bs32: ps1=33.42(-1.4%) ps16=33.70(-0.6%) ps128=33.90(+0.0%)   [max spread 1.5%]
+  trtllm bs8: ps16=13.18(+0.0%) ps32=12.94(-1.8%) ps64=12.83(-2.7%)   [max spread 2.8%]
+  trtllm bs16: ps16=16.80(+0.0%) ps32=16.44(-2.2%) ps64=16.20(-3.6%)   [max spread 3.7%]
+  trtllm bs32: ps16=24.04(+0.0%) ps32=23.35(-2.9%) ps64=22.93(-4.6%)   [max spread 4.8%]
+
+== cross-backend at matched bs (ms/step) ==
+  bs8: FI: best ps1=12.94 | T: best ps16=15.54 | trtllm: best ps64=12.83
+  bs16: FI: best ps16=17.48 | T: best ps16=21.29 | trtllm: best ps64=16.20
+  bs32: FI: best ps1=24.96 | T: best ps1=33.42 | trtllm: best ps64=22.93
+fr_kvidx_frag.json {"per_batch": {"15": {"bs": 15, "seq_len": 1108, "frac_contig": 0.0, "n_runs": 1108, "max_run": 1, "pages128": 134, "expected_pages128": 9, "slot_min": 95, "slot_max": 17279, "all_B_identical_slots": false}, "1": {"bs": 1, "seq_len": 2048, "frac_contig": 0.000489, "n_runs": 2047, "max_run": 2, "pages128": 135, "expected_pages128": 16, "slot_min": 10, "slot_max": 17280, "all_B_identical_slots": tru
+fr_kvidx_fresh.json {"per_batch": {"1": {"bs": 1, "seq_len": 2048, "frac_contig": 1.0, "n_runs": 1, "max_run": 2048, "pages128": 17, "expected_pages128": 16, "slot_min": 1, "slot_max": 2048, "all_B_identical_slots": true}, "2": {"bs": 2, "seq_len": 4157, "frac_contig": 0.999759, "n_runs": 2, "max_run": 4096, "pages128": 35, "expected_pages128": 33, "slot_min": 1, "slot_max": 6144, "all_B_identical_slots": true}, "13"
