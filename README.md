@@ -5,10 +5,18 @@ scripts from experiments on SGLang attention and serving behavior. It is organiz
 repository: current claims live with their supporting evidence, while older experiments are retained in a
 clearly marked archive.
 
+## Featured technical note
+
+**[When KV-cache page size actually matters in LLM decode](TECHNICAL_NOTE.md)** presents the study as a
+standalone technical essay. It explains why page sensitivity depends on backend lowering and memory regime,
+how a whole-call timing window produced a convincing but incorrect decode conclusion, and how source tracing
+plus profiler counters isolated XQA as the measured page-aware path.
+
 ## Repository map
 
 | Path | Purpose |
 |---|---|
+| [`TECHNICAL_NOTE.md`](TECHNICAL_NOTE.md) | Reader-oriented technical essay synthesizing the study's mechanism and methodology |
 | [`studies/kv-cache-page-size/`](studies/kv-cache-page-size/) | Active, report-oriented study of KV-cache page size and decode latency |
 | [`archive/legacy-sglang-experiments/`](archive/legacy-sglang-experiments/) | Historical attention, sparse-attention, profiling, and latency material preserved for provenance |
 | [`ARTIFACT_POLICY.md`](ARTIFACT_POLICY.md) | Inclusion, exclusion, provenance, and data-integrity rules |
